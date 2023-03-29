@@ -32,7 +32,9 @@ btnStart = Button(root, text = 'START', bd = '7') #needs to bring user to the ne
 btnExit = Button(root, text = 'EXIT', bd = '7', command = root.destroy)
  
 # Set the position of button at the top of window.  
-btnStart.pack(side = 'top')
-btnExit.pack(side = 'top')   
+buttonStartCanvas = canvas1.create_window( 200, 150, anchor = "nw", window = btnStart)
+buttonExitCanvas = canvas1.create_window( 200, 190, anchor = "nw", window = btnExit)
+# btnStart.pack(side = 'top')
+# btnExit.pack(side = 'top')   
  
 root.mainloop()
