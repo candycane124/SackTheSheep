@@ -1,3 +1,5 @@
+import pygame
+
 class Player():
     '''
     Object that represents the player's character
@@ -10,7 +12,8 @@ class Player():
         speed of player
     map : int [ ]
         bounds of player movement
-    size
+    size : int
+        object side length
 
     Methods
     -----
@@ -22,6 +25,12 @@ class Player():
         attempts to increases Y co-ordinate by player speed
     moveRight
         attempts to increases X co-ordinate by player speed
+    getPos
+        returns current position
+    getMid
+        returns x and y position of middle of player
+    setPos
+        sets player's x and y position
     '''
     def __init__(self, pos, speed, map, size, levelRestrictions=[]) -> None:
         '''
@@ -44,22 +53,22 @@ class Player():
 
     def moveUp(self):
         self.pos[1] -= self.speed
-        if checkPos(self.pos, self.map, self.levelRestrictions):
+        if checkPos(self.pos, self.map, self.levelRestrictions, self.size):
             self.pos[1] += self.speed
 
     def moveLeft(self):
         self.pos[0] -= self.speed
-        if checkPos(self.pos, self.map, self.levelRestrictions):
+        if checkPos(self.pos, self.map, self.levelRestrictions, self.size):
             self.pos[0] += self.speed
 
     def moveDown(self):
         self.pos[1] += self.speed
-        if checkPos(self.pos, self.map, self.levelRestrictions):
+        if checkPos(self.pos, self.map, self.levelRestrictions, self.size):
             self.pos[1] -= self.speed
 
     def moveRight(self):
         self.pos[0] += self.speed
-        if checkPos(self.pos, self.map, self.levelRestrictions):
+        if checkPos(self.pos, self.map, self.levelRestrictions, self.size):
             self.pos[0] -= self.speed
 
     def getPos(self):
@@ -84,7 +93,7 @@ def checkPos(pos,bounds=[],zones=None,size=30):
     zones : int [x1, y1, width, height] [ ]
         restricted areas
     size : int
-        rectangle side length, default 20
+        rectangle side length, default 30
 
     Returns
     -----
@@ -94,8 +103,14 @@ def checkPos(pos,bounds=[],zones=None,size=30):
     if bounds != []:
         if pos[0] >= bounds[0]-size or pos[0] <= 0 or pos[1] >= bounds[1]-size or pos[1] <= 0:
             return True
+    # for i in zones:
+    #     if pos[0]+size >= i[0] and pos[0] <= i[0]+i[2] and pos[1]+size >= i[1] and pos[1] <= i[1]+i[3]:
+    #         return True
+    for i in range(len(zones)):
+        zones[i] = pygame.Rect(zones[i][0],zones[i][1],zones[i][2],zones[i][3])
+    currentRect = pygame.Rect(pos[0], pos[1], size, size)
     for i in zones:
-        if pos[0]+size >= i[0] and pos[0] <= i[0]+i[2] and pos[1]+size >= i[1] and pos[1] <= i[1]+i[3]:
+        if i.colliderect(currentRect):
             return True
     return False
     
@@ -103,27 +118,5 @@ def checkPos(pos,bounds=[],zones=None,size=30):
 class Sheep():
     '''
     Object that represent's a sheep
-    
-    Parameters
-    -----
-    pos : int [ ]
-        the x and y position of the sheep
-    claimed : boolean
-        if the sheep has been caught, deafult False
     '''
-    def __init__(self,pos,claimed=False) -> None:
-        self.pos = pos
-        self.claimed = claimed
-        pass
-
-    def getPos(self):
-        return self.pos
-    
-    def claim(self, pos):
-        xDiff = abs(self.pos[0]-pos[0])
-        yDiff = abs(self.pos[1]-pos[1])
-        if xDiff <= 15 and yDiff <= 15:
-            self.claimed = True
-
-    def getState(self):
-        return self.claimed
+    pass
