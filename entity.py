@@ -6,7 +6,7 @@ class Player():
 
     Parameters
     -----
-    pos : int [ ]
+    pos : float [ ]
         X & Y position of player
     speed : float
         speed of player
