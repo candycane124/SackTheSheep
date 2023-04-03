@@ -13,7 +13,36 @@ clock = pygame.time.Clock()
 pygame.display.set_caption('Sack The Sheep')
 
 font = pygame.font.Font('freesansbold.ttf', 18)
-
+def genText(txt, colour, pos, posType):
+  '''
+  Blit's text to screen
+  Parameters
+  -----
+  txt : Str
+    Text that will be displayed
+  colour : int ( )
+    RGB colour of text
+  pos : int [ ]
+    x and y position of text
+  posType : Str
+    "top-right", "bottom-left", "bottom-right", or "top-left"
+  '''
+  rendered = font.render(txt, True, colour)
+  rendRect = rendered.get_rect()
+  if posType == "top-right":
+    rendRect.top = pos[0]
+    rendRect.right = pos[1]
+  elif posType == "bottom-left":
+    rendRect.bottom = pos[0]
+    rendRect.left = pos[1]
+  elif posType == "bottom-right":
+    rendRect.bottom = pos[0]
+    rendRect.right = pos[1]
+  elif posType == "top-left":
+    rendRect.top = pos[0]
+    rendRect.left = pos[1]
+  screen.blit(rendered,rendRect)
+  
 #grass
 grass = pygame.image.load('SackTheSheep/assets/grass-588.jpg')
 grass = pygame.transform.scale(grass, (width, height))
@@ -61,8 +90,8 @@ sheeps, coins = reset()
 #farmer
 userSizeX = 38
 userSizeY = 49
-defaultSpeed = 0.15
-sprintSpeed = 0.25
+defaultSpeed = 0.2
+sprintSpeed = 0.8
 spawnX = 50
 spawnY = 50
 farmerImage = pygame.image.load('SackTheSheep/assets/char.png')
@@ -109,12 +138,12 @@ while running:
   if pressed[K_RIGHT] or pressed[K_d]:
     faceRight = True
     user.moveRight()
-  elif pressed[K_LEFT] or pressed[K_a]:
+  if pressed[K_LEFT] or pressed[K_a]:
     faceRight = False
     user.moveLeft()
-  elif pressed[K_DOWN] or pressed[K_s]:
+  if pressed[K_DOWN] or pressed[K_s]:
     user.moveDown()
-  elif pressed[K_UP] or pressed[K_w]:
+  if pressed[K_UP] or pressed[K_w]:
     user.moveUp()
   if pressed[K_LCTRL]:
     user.setSpeed(sprintSpeed)
@@ -164,14 +193,9 @@ while running:
   else:
     screen.blit(farmerLeft, (user.getPos()[0],user.getPos()[1]))
   #text
-  sackTxt = font.render("Sheep in Sack: " + str(sacked) + " / " + str(sackMax), True, (0,0,0))
-  sacTxtRect = sackTxt.get_rect()
-  sacTxtRect.center = (100, 480)
-  screen.blit(sackTxt, sacTxtRect)
-  leftTxt = font.render("Sheep left: " + str(len(sheeps)), True, (255,255,255))
-  leftTxtRect = leftTxt.get_rect()
-  leftTxtRect.center = (430, 20)
-  screen.blit(leftTxt, leftTxtRect)
+  genText("Current Sheep in Sack: " + str(sacked) + "/" + str(sackMax), (50,50,50), [490,10], "bottom-left")
+  genText("Sheep Left: " + str(len(sheeps)), (250,250,250), [10,490], "top-right")
+  genText("Coins: " + str(money),(250,250,0),[40,490], "top-right")
 
   #update display
   pygame.display.update()
