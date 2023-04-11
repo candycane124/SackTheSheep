@@ -26,14 +26,13 @@ lbl = tk.Label(frameB, image=img)
 lbl.place(relx=0.5, rely=0.5,anchor='center')  # Place label in center of parent.
 
 # Add Image
-login_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/test_red.png")
 start_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/potentialStart.png")
 settings_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/settingsPot.png")
 exit_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/exitPot.png")
 
-btnStart = ttk.Button(frameB, image=start_btn) #needs to bring user to the next screen; levels or level 1
-btnSetting = ttk.Button(frameB, image=settings_btn) #settings
-btnExit = ttk.Button(frameB, image=exit_btn,  command = root.destroy) #exit
+btnStart = ttk.Button(frameB, image=start_btn, cursor="target") #needs to bring user to the next screen; levels or level 1
+btnSetting = ttk.Button(frameB, image=settings_btn, cursor="target") #settings
+btnExit = ttk.Button(frameB, image=exit_btn,  cursor="target", command = root.destroy) #exit
 
 style.theme_use('alt')
 style.configure('TButton', background='#232323', foreground='white')
