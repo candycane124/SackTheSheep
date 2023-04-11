@@ -4,6 +4,9 @@ from tkinter import ttk
 # loading Python Imaging Library
 from PIL import ImageTk, Image
 
+def startGame():
+    pass
+
 root = tk.Tk()
 root.geometry('500x500')
 style = ttk.Style()
@@ -40,6 +43,5 @@ style.map('TButton', background=[('active', '#008000')])
 btnStart.pack(side="top", pady=(50,10))
 btnSetting.pack(side="top", pady=10)
 btnExit.pack(side="top", pady=10)
-
 
 root.mainloop()
