@@ -42,18 +42,59 @@ def genText(txt, colour, pos, posType):
     rendRect.top = pos[0]
     rendRect.left = pos[1]
   screen.blit(rendered,rendRect)
+
+def reset(level):
+  match level:
+    case 1:
+      sheeps = [
+        [100,100,False],
+        [300,400,True],
+        [50,300,False]
+      ]
+      coins = [
+        pygame.Rect(450,350,coinSize,coinSize),
+        pygame.Rect(350,50,coinSize,coinSize)
+      ]
+    case 2:
+      sheeps = [
+        [210,220,True],
+        [60,320,False],
+        [410,120,False],
+        [360,440,True]
+      ]
+      coins = [
+        pygame.Rect(450,390,coinSize,coinSize),
+        pygame.Rect(300,50,coinSize,coinSize),
+        pygame.Rect(140,440,coinSize,coinSize),
+        pygame.Rect(20,250,coinSize,coinSize),
+        pygame.Rect(300,300,coinSize,coinSize)
+      ]
+  return sheeps, coins
   
 #grass
 grass = pygame.image.load('SackTheSheep/assets/grass-588.jpg')
 grass = pygame.transform.scale(grass, (width, height))
 
-
-#modifiable data for each level
+#modifiable user data from text file
+with open('SackTheSheep\main\stats.txt','r') as textFile:
+  file_content = textFile.readlines()
+  info = list(map(float,file_content[0].split()))
+  level = info[0]
+  walkSpeed = info[1]
+  sprintSpeed = info[2]
+  money = int(info[3])
+  sackMax = int(info[4])
 
 #map
-obstacles = [
-   [0,100,50,50],[250,0,50,50],[250,150,50,50],[50,200,50,50],[150,300,50,50],[400,150,50,50],[350,400,50,50]
-]
+match level:
+  case 1:
+    obstacles = [
+      [0,100,50,50],[250,0,50,50],[250,150,50,50],[50,200,50,50],[150,300,50,50],[400,150,50,50],[350,400,50,50]
+    ]
+  case 2:
+    obstacles = [
+      [0,300,50,50],[0,450,50,50],[50,250,50,50],[150,0,50,50],[200,400,50,50],[250,150,50,50],[350,300,50,50],[350,100,50,50],[450,50,50,50]
+    ]
 obstImages = []
 imageLinks = ["SackTheSheep/assets/obstacles/0.png","SackTheSheep/assets/obstacles/1.png","SackTheSheep/assets/obstacles/3.png","SackTheSheep/assets/obstacles/4.png"]
 for i in imageLinks:
@@ -63,52 +104,39 @@ for i in imageLinks:
 for i in obstacles:
   i.append(random.randint(0,3))
 
-def reset():
-    sheeps = [
-       pygame.Rect(100,100,sheepSzX,sheepSzY),
-       pygame.Rect(300,400,sheepSzX,sheepSzY),
-       pygame.Rect(50,300,sheepSzX,sheepSzY)
-    ]
-    coins = [
-       pygame.Rect(450,350,coinSize,coinSize),
-       pygame.Rect(350,50,coinSize,coinSize)
-    ]
-    return sheeps, coins
-
-#sheep 
-sheepSzX = 30
-sheepSzY = 24
-sheepImage = pygame.image.load('SackTheSheep/assets/sheep.png')
-sheepImage = pygame.transform.scale(sheepImage, (sheepSzX, sheepSzY))
-#coins
-coinSize = 20
-coinImage = pygame.image.load('SackTheSheep/assets/coin.png')
-coinImage = pygame.transform.scale(coinImage, (coinSize, coinSize))
-
-sheeps, coins = reset()
-
 #farmer
 userSizeX = 38
 userSizeY = 49
-defaultSpeed = 0.2
-sprintSpeed = 0.8
 spawnX = 50
 spawnY = 50
 farmerImage = pygame.image.load('SackTheSheep/assets/char.png')
 farmerImage = pygame.transform.scale(farmerImage, (userSizeX, userSizeY))
 farmerLeft = farmerImage.copy()
 farmerLeft = pygame.transform.flip(farmerLeft, True, False)
-user = entity.Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,obstacles)
+user = entity.Player([spawnX,spawnY],walkSpeed,[width,height],userSizeX,userSizeY,obstacles)
+
+#sheep 
+sheepSzX = 30
+sheepSzY = 24
+sheepImage = pygame.image.load('SackTheSheep/assets/sheep.png')
+sheepImage = pygame.transform.scale(sheepImage, (sheepSzX, sheepSzY))
+sheepFlipped = sheepImage.copy()
+sheepFlipped = pygame.transform.flip(sheepFlipped, True, False)
+#coins
+coinSize = 20
+coinImage = pygame.image.load('SackTheSheep/assets/coin.png')
+coinImage = pygame.transform.scale(coinImage, (coinSize, coinSize))
+
+sheeps, coins = reset(level)
 
 #home
 homeImg = pygame.image.load("SackTheSheep/assets/house.png")
 homeImg = pygame.transform.scale(homeImg, (40,40))
 homeRect = pygame.Rect(10,10,40,40)
 
+#main
 home = False
 score = 0
-money = 0 #read from file
-sackMax = 1 #read from file
 sacked = 0
 faceRight = True
 running = True
@@ -148,7 +176,7 @@ while running:
   if pressed[K_LCTRL]:
     user.setSpeed(sprintSpeed)
   else:
-    user.setSpeed(defaultSpeed)
+    user.setSpeed(walkSpeed)
 
   if not sheeps and home:
     #you win message
@@ -164,9 +192,13 @@ while running:
   farmerRect = pygame.Rect(user.getPos()[0], user.getPos()[1], userSizeX, userSizeY)
   #sheep
   for s in sheeps:
-    screen.blit(sheepImage,(s[0],s[1]))
+    current = pygame.Rect(s[0],s[1],sheepSzX,sheepSzY)
+    if s[2]:
+      screen.blit(sheepFlipped,(current[0],current[1]))
+    else:
+      screen.blit(sheepImage,(current[0],current[1]))
     #see if sheep have been sacked
-    if s.colliderect(farmerRect) and sacked < sackMax:
+    if current.colliderect(farmerRect) and sacked < sackMax:
       sheeps.remove(s)
       sacked += 1
       score +=1
@@ -199,3 +231,4 @@ while running:
 
   #update display
   pygame.display.update()
+
