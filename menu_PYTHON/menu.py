@@ -3,9 +3,8 @@ import tkinter as tk
 from tkinter import ttk
 # loading Python Imaging Library
 from PIL import ImageTk, Image
-
-def startGame():
-    pass
+# importing level 1
+from ..levels import levels_page
 
 root = tk.Tk()
 root.geometry('500x500')
@@ -24,7 +23,7 @@ title = ImageTk.PhotoImage( Image.open('menu_PYTHON/menuAssets/titlePot.png'), I
 labelTitle = tk.Label(frameA, image=title)
 labelTitle.place(relx=0.5, rely=0.5, anchor='center')
 
-img = ImageTk.PhotoImage(Image.open('menu_PYTHON/menuAssets/grass-588.jpg'), Image.ANTIALIAS)
+img = ImageTk.PhotoImage(Image.open('assets/grass-588.jpg'), Image.ANTIALIAS)
 lbl = tk.Label(frameB, image=img)
 lbl.place(relx=0.5, rely=0.5,anchor='center')  # Place label in center of parent.
 
