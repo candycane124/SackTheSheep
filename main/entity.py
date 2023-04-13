@@ -79,6 +79,9 @@ class Player():
     def setPos(self, newPos):
         self.pos = newPos
 
+    def setSpeed(self, newSpeed):
+        self.speed = newSpeed
+
 # def returnRect(x):
 #     return pygame.Rect(x[0],x[1],x[2],x[3])
     
@@ -111,10 +114,11 @@ def checkPos(pos,sizeX,sizeY,bounds=[],zones=None):
     if bounds != []:
         if pos[0] >= bounds[0]-sizeX or pos[0] <= 0 or pos[1] >= bounds[1]-sizeY or pos[1] <= 0:
             return True
-    for i in range(len(zones)):
-        zones[i] = pygame.Rect(zones[i][0],zones[i][1],zones[i][2],zones[i][3])
+    obstacles = zones.copy()
+    for i in range(len(obstacles)):
+        obstacles[i] = pygame.Rect(obstacles[i][0],obstacles[i][1],obstacles[i][2],obstacles[i][3])
     currentRect = pygame.Rect(pos[0], pos[1], sizeX, sizeY)
-    for i in zones:
+    for i in obstacles:
         if i.colliderect(currentRect):
             return True
     return False
