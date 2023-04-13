@@ -44,7 +44,7 @@ def genText(txt, colour, pos, posType):
   screen.blit(rendered,rendRect)
   
 #grass
-grass = pygame.image.load('SackTheSheep/assets/grass-588.jpg')
+grass = pygame.image.load('assets/grass-588.jpg')
 grass = pygame.transform.scale(grass, (width, height))
 
 
@@ -55,7 +55,7 @@ obstacles = [
    [0,100,50,50],[250,0,50,50],[250,150,50,50],[50,200,50,50],[150,300,50,50],[400,150,50,50],[350,400,50,50]
 ]
 obstImages = []
-imageLinks = ["SackTheSheep/assets/obstacles/0.png","SackTheSheep/assets/obstacles/1.png","SackTheSheep/assets/obstacles/3.png","SackTheSheep/assets/obstacles/4.png"]
+imageLinks = ["assets/obstacles/0.png","assets/obstacles/1.png","assets/obstacles/3.png","assets/obstacles/4.png"]
 for i in imageLinks:
   obstImage = pygame.image.load(i)
   obstImage = pygame.transform.scale(obstImage, (50,50))
@@ -78,11 +78,11 @@ def reset():
 #sheep 
 sheepSzX = 30
 sheepSzY = 24
-sheepImage = pygame.image.load('SackTheSheep/assets/sheep.png')
+sheepImage = pygame.image.load('assets/sheep.png')
 sheepImage = pygame.transform.scale(sheepImage, (sheepSzX, sheepSzY))
 #coins
 coinSize = 20
-coinImage = pygame.image.load('SackTheSheep/assets/coin.png')
+coinImage = pygame.image.load('assets/coin.png')
 coinImage = pygame.transform.scale(coinImage, (coinSize, coinSize))
 
 sheeps, coins = reset()
@@ -94,14 +94,14 @@ defaultSpeed = 0.2
 sprintSpeed = 0.8
 spawnX = 50
 spawnY = 50
-farmerImage = pygame.image.load('SackTheSheep/assets/char.png')
+farmerImage = pygame.image.load('assets/char.png')
 farmerImage = pygame.transform.scale(farmerImage, (userSizeX, userSizeY))
 farmerLeft = farmerImage.copy()
 farmerLeft = pygame.transform.flip(farmerLeft, True, False)
 user = entity.Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,obstacles)
 
 #home
-homeImg = pygame.image.load("SackTheSheep/assets/house.png")
+homeImg = pygame.image.load("assets/house.png")
 homeImg = pygame.transform.scale(homeImg, (40,40))
 homeRect = pygame.Rect(10,10,40,40)
 
