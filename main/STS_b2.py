@@ -12,6 +12,7 @@ screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
 pygame.display.set_caption('Sack The Sheep')
 
+#easier text generation
 font = pygame.font.Font('freesansbold.ttf', 18)
 def genText(txt, colour, pos, posType):
   '''
@@ -23,9 +24,9 @@ def genText(txt, colour, pos, posType):
   colour : int ( )
     RGB colour of text
   pos : int [ ]
-    x and y position of text
+    y, x position of text
   posType : Str
-    "top-right", "bottom-left", "bottom-right", or "top-left"
+    "top-right", "bottom-left", "bottom-right", "top-left", or "middle"
   '''
   rendered = font.render(txt, True, colour)
   rendRect = rendered.get_rect()
@@ -41,8 +42,12 @@ def genText(txt, colour, pos, posType):
   elif posType == "top-left":
     rendRect.top = pos[0]
     rendRect.left = pos[1]
+  elif posType == "middle":
+    rendRect.center = (pos[0], pos[1])
   screen.blit(rendered,rendRect)
 
+
+#reset level function
 def reset(level):
   match level:
     case 1:
@@ -69,14 +74,38 @@ def reset(level):
         pygame.Rect(20,250,coinSize,coinSize),
         pygame.Rect(300,300,coinSize,coinSize)
       ]
+    case 3:
+      sheeps = [
+        [210,220,True],
+        # [60,320,False],
+        # [410,120,False],
+        # [360,440,True]
+      ]
+      coins = [
+        pygame.Rect(450,390,coinSize,coinSize),
+        pygame.Rect(300,50,coinSize,coinSize),
+        pygame.Rect(140,440,coinSize,coinSize),
+        pygame.Rect(20,250,coinSize,coinSize),
+        pygame.Rect(300,300,coinSize,coinSize)
+      ]
   return sheeps, coins
   
+def abduct(n,raySize,maxMap):
+    areas = []
+    secX = maxMap[0]//raySize
+    secY = maxMap[1]//raySize
+    for i in range(n):
+        nX = random.randint(0,secX-1)
+        nY = random.randint(0,secY-1)
+        areas.append(pygame.Rect(nX*raySize,nY*raySize,raySize,raySize))
+    return areas
+
 #grass
-grass = pygame.image.load('SackTheSheep/assets/grass-588.jpg')
+grass = pygame.image.load('assets/grass-588.jpg')
 grass = pygame.transform.scale(grass, (width, height))
 
 #modifiable user data from text file
-with open('SackTheSheep\main\stats.txt','r') as textFile:
+with open('main\stats.txt','r') as textFile:
   file_content = textFile.readlines()
   info = list(map(float,file_content[0].split()))
   level = info[0]
@@ -95,8 +124,12 @@ match level:
     obstacles = [
       [0,300,50,50],[0,450,50,50],[50,250,50,50],[150,0,50,50],[200,400,50,50],[250,150,50,50],[350,300,50,50],[350,100,50,50],[450,50,50,50]
     ]
+  case 3:
+    obstacles = [
+      [0,300,50,50],[0,450,50,50],[50,250,50,50],[150,0,50,50],[200,400,50,50],[250,150,50,50],[350,300,50,50],[350,100,50,50],[450,50,50,50]
+    ]
 obstImages = []
-imageLinks = ["SackTheSheep/assets/obstacles/0.png","SackTheSheep/assets/obstacles/1.png","SackTheSheep/assets/obstacles/3.png","SackTheSheep/assets/obstacles/4.png"]
+imageLinks = ["assets/obstacles/0.png","assets/obstacles/1.png","assets/obstacles/3.png","assets/obstacles/4.png","assets/obstacles/5.png"]
 for i in imageLinks:
   obstImage = pygame.image.load(i)
   obstImage = pygame.transform.scale(obstImage, (50,50))
@@ -109,7 +142,7 @@ userSizeX = 38
 userSizeY = 49
 spawnX = 50
 spawnY = 50
-farmerImage = pygame.image.load('SackTheSheep/assets/char.png')
+farmerImage = pygame.image.load('assets/char.png')
 farmerImage = pygame.transform.scale(farmerImage, (userSizeX, userSizeY))
 farmerLeft = farmerImage.copy()
 farmerLeft = pygame.transform.flip(farmerLeft, True, False)
@@ -118,28 +151,42 @@ user = entity.Player([spawnX,spawnY],walkSpeed,[width,height],userSizeX,userSize
 #sheep 
 sheepSzX = 30
 sheepSzY = 24
-sheepImage = pygame.image.load('SackTheSheep/assets/sheep.png')
+sheepImage = pygame.image.load('assets/sheep.png')
 sheepImage = pygame.transform.scale(sheepImage, (sheepSzX, sheepSzY))
 sheepFlipped = sheepImage.copy()
 sheepFlipped = pygame.transform.flip(sheepFlipped, True, False)
 #coins
 coinSize = 20
-coinImage = pygame.image.load('SackTheSheep/assets/coin.png')
+coinImage = pygame.image.load('assets/coin.png')
 coinImage = pygame.transform.scale(coinImage, (coinSize, coinSize))
 
 sheeps, coins = reset(level)
 
 #home
-homeImg = pygame.image.load("SackTheSheep/assets/house.png")
+homeImg = pygame.image.load("assets/house.png")
 homeImg = pygame.transform.scale(homeImg, (40,40))
 homeRect = pygame.Rect(10,10,40,40)
 
+#alien rays
+if level == 3:
+  rayImg = pygame.image.load("assets/red.png")
+  rayImg = pygame.transform.scale(rayImg, (50,50))
+  alienEvent = pygame.USEREVENT+1
+  pygame.time.set_timer(alienEvent, 4000)
+
+#
+winImg = pygame.image.load('assets/win.jpg')
+winImg = pygame.transform.scale(winImg, (width, height))
+
 #main
+win = False
 home = False
 score = 0
 sacked = 0
+health = 800
 faceRight = True
 running = True
+rays = []
 while running: 
   #------------
   #INPUT
@@ -157,10 +204,13 @@ while running:
             score = 0
             money = 0
             sacked = 0
-            sheeps, coins = reset()
+            health = 800
+            sheeps, coins = reset(level)
           elif event.key == K_ESCAPE:
             #send to pause or menu screen
             pass
+      if event.type == alienEvent:
+        rays = abduct(4,50,[width,height])
   #keyboard input for character movement
   pressed = pygame.key.get_pressed()
   if pressed[K_RIGHT] or pressed[K_d]:
@@ -179,10 +229,15 @@ while running:
     user.setSpeed(walkSpeed)
 
   if not sheeps and home:
-    #you win message
-    #send user to success page/choose levels page
+    win = True
     running = False
-    print("Level Cleared!")
+  if health <= 0:
+    user.setPos([spawnX,spawnY])
+    score = 0
+    money = 0
+    sacked = 0
+    health = 800
+    sheeps, coins = reset(level)
 
   #------------
   #OUTPUT
@@ -190,6 +245,7 @@ while running:
   #background
   screen.blit(grass, (0,0))
   farmerRect = pygame.Rect(user.getPos()[0], user.getPos()[1], userSizeX, userSizeY)
+
   #sheep
   for s in sheeps:
     current = pygame.Rect(s[0],s[1],sheepSzX,sheepSzY)
@@ -211,14 +267,17 @@ while running:
   for i in obstacles:
     toBlit = obstImages[i[4]]
     screen.blit(toBlit,(i[0],i[1]))
-    # obst = pygame.Rect(i[0],i[1],i[2],i[3])
-    # pygame.draw.rect(screen,(80,40,10),obst)
   screen.blit(homeImg,(10,10))
   if homeRect.colliderect(farmerRect):
     sacked = 0
     home = True
   else:
     home = False
+  #rays
+  for i in rays:
+    screen.blit(rayImg, (i[0],i[1]))
+    if i.colliderect(farmerRect):
+      health -= 1
   #farmer
   if faceRight:
     screen.blit(farmerImage, (user.getPos()[0],user.getPos()[1]))
@@ -228,7 +287,18 @@ while running:
   genText("Current Sheep in Sack: " + str(sacked) + "/" + str(sackMax), (50,50,50), [490,10], "bottom-left")
   genText("Sheep Left: " + str(len(sheeps)), (250,250,250), [10,490], "top-right")
   genText("Coins: " + str(money),(250,250,0),[40,490], "top-right")
+  genText("Health: " + str(health//80), (200,20,60), [70,490], "top-right")
 
   #update display
   pygame.display.update()
 
+#level cleared
+while win:
+  for event in pygame.event.get():
+    if event.type == QUIT:
+      #quit game
+      pygame.quit()
+      sys.exit()
+  screen.blit(winImg, (0,0))
+  pygame.display.update()
+  #send user to success page/choose levels page
