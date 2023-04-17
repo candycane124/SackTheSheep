@@ -130,6 +130,7 @@ match level:
     ]
 obstImages = []
 imageLinks = ["assets/obstacles/0.png","assets/obstacles/1.png","assets/obstacles/3.png","assets/obstacles/4.png","assets/obstacles/5.png"]
+
 for i in imageLinks:
   obstImage = pygame.image.load(i)
   obstImage = pygame.transform.scale(obstImage, (50,50))
@@ -243,7 +244,6 @@ while running:
     rays = []
     timeSince = 0
     
-
   #keyboard input for character movement
   pressed = pygame.key.get_pressed()
   if pressed[K_RIGHT] or pressed[K_d]:
@@ -287,7 +287,6 @@ while running:
   #background
   screen.blit(grass, (0,0))
   farmerRect = pygame.Rect(user.getPos()[0], user.getPos()[1], userSizeX, userSizeY)
-
   #sheep
   for s in sheeps:
     current = pygame.Rect(s[0],s[1],sheepSzX,sheepSzY)
