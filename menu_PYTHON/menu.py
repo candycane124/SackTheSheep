@@ -3,8 +3,6 @@ import tkinter as tk
 from tkinter import ttk
 # loading Python Imaging Library
 from PIL import ImageTk, Image
-# importing level 1
-from ..levels import levels_page
 
 root = tk.Tk()
 root.geometry('500x500')

@@ -13,7 +13,7 @@ clock = pygame.time.Clock()
 pygame.display.set_caption('Sack The Sheep')
 
 #easier text generation
-font = pygame.font.Font('freesansbold.ttf', 18)
+font = pygame.font.Font('freesansbold.ttf', 14)
 def genText(txt, colour, pos, posType):
   '''
   Blit's text to screen
@@ -77,9 +77,9 @@ def reset(level):
     case 3:
       sheeps = [
         [210,220,True],
-        # [60,320,False],
-        # [410,120,False],
-        # [360,440,True]
+        [60,320,False],
+        [410,120,False],
+        [360,440,True]
       ]
       coins = [
         pygame.Rect(450,390,coinSize,coinSize),
@@ -148,6 +148,10 @@ farmerLeft = farmerImage.copy()
 farmerLeft = pygame.transform.flip(farmerLeft, True, False)
 user = entity.Player([spawnX,spawnY],walkSpeed,[width,height],userSizeX,userSizeY,obstacles)
 
+#health
+healthImg = pygame.image.load("assets/heart.png")
+healthImg = pygame.transform.scale(healthImg, (13,11))
+
 #sheep 
 sheepSzX = 30
 sheepSzY = 24
@@ -169,12 +173,14 @@ homeRect = pygame.Rect(10,10,40,40)
 
 #alien rays
 if level == 3:
-  rayImg = pygame.image.load("assets/red.png")
+  rayImg = pygame.image.load("assets/flame.png")
   rayImg = pygame.transform.scale(rayImg, (50,50))
+  buildImg = pygame.image.load("assets/caution.png")
+  buildImg = pygame.transform.scale(buildImg, (50,50))
   alienEvent = pygame.USEREVENT+1
-  pygame.time.set_timer(alienEvent, 4000)
+  pygame.time.set_timer(alienEvent, 3000)
 
-#
+#win
 winImg = pygame.image.load('assets/win.jpg')
 winImg = pygame.transform.scale(winImg, (width, height))
 
@@ -186,8 +192,13 @@ sacked = 0
 health = 800
 faceRight = True
 running = True
+timeSince = 0
+numRay = 1
+nRI = 0
 rays = []
-while running: 
+buildUp = []
+while running:
+  clock.tick()
   #------------
   #INPUT
   #------------
@@ -206,11 +217,33 @@ while running:
             sacked = 0
             health = 800
             sheeps, coins = reset(level)
+            numRay = 1
+            nRI = 0
+            timeSince = 0
+            pygame.time.set_timer(alienEvent, 0)
+            pygame.time.set_timer(alienEvent, 3000)
+            rays = []
+            buildUp = []
           elif event.key == K_ESCAPE:
             #send to pause or menu screen
             pass
       if event.type == alienEvent:
-        rays = abduct(4,50,[width,height])
+        buildUp = abduct(numRay,50,[width,height])
+  if buildUp or rays:
+    timeSince += clock.get_rawtime()
+  if buildUp and timeSince >= 800:
+    rays = buildUp
+    buildUp = []
+    timeSince = 0
+  if rays and timeSince >= 1500:
+    nRI += 1
+    if nRI == 3:
+      nRI = 0
+      numRay += 1
+    rays = []
+    timeSince = 0
+    
+
   #keyboard input for character movement
   pressed = pygame.key.get_pressed()
   if pressed[K_RIGHT] or pressed[K_d]:
@@ -228,6 +261,8 @@ while running:
   else:
     user.setSpeed(walkSpeed)
 
+
+
   if not sheeps and home:
     win = True
     running = False
@@ -238,6 +273,13 @@ while running:
     sacked = 0
     health = 800
     sheeps, coins = reset(level)
+    numRay = 1
+    nRI = 0
+    timeSince = 0
+    pygame.time.set_timer(alienEvent, 0)
+    pygame.time.set_timer(alienEvent, 3000)
+    rays = []
+    buildUp = []
 
   #------------
   #OUTPUT
@@ -274,6 +316,8 @@ while running:
   else:
     home = False
   #rays
+  for i in buildUp:
+    screen.blit(buildImg, (i[0],i[1]))
   for i in rays:
     screen.blit(rayImg, (i[0],i[1]))
     if i.colliderect(farmerRect):
@@ -284,10 +328,13 @@ while running:
   else:
     screen.blit(farmerLeft, (user.getPos()[0],user.getPos()[1]))
   #text
-  genText("Current Sheep in Sack: " + str(sacked) + "/" + str(sackMax), (50,50,50), [490,10], "bottom-left")
-  genText("Sheep Left: " + str(len(sheeps)), (250,250,250), [10,490], "top-right")
-  genText("Coins: " + str(money),(250,250,0),[40,490], "top-right")
-  genText("Health: " + str(health//80), (200,20,60), [70,490], "top-right")
+  # genText("Current Sheep in Sack: " + str(sacked) + "/" + str(sackMax), (50,50,50), [490,10], "bottom-left")
+  genText("Sheep Left: " + str(len(sheeps)), (250,250,250), [5,496], "top-right")
+  genText("Coins: " + str(money),(250,250,0), [30,496], "top-right")
+  genText("Sacked: " + str(sacked) + "/" + str(sackMax), (50,50,50), [55,496], "top-right")
+  # genText("Health: " + str(health//80), (200,20,60), [70,490], "top-right")
+  for i in range(health//80+1):
+    screen.blit(healthImg, (500-i*15,485))
 
   #update display
   pygame.display.update()
