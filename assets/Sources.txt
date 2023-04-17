@@ -13,6 +13,8 @@ https://s3.amazonaws.com/spoonflower/public/design_thumbnails/0424/5908/14316056
 
 char:
 ?
+wolf
+https://finalbossblues.itch.io/wolf-pack
 
 sheep:
 ?
