@@ -129,3 +129,6 @@ class Sheep():
     Object that represent's a sheep
     '''
     pass
+
+class Wolf():
+    pass
