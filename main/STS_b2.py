@@ -4,6 +4,7 @@ from pygame.locals import *
 import random
 import entity
 import animate
+import sound
 
 #initial game/screen setup
 pygame.init()
@@ -161,48 +162,14 @@ wolfVH = 35
 wolfX = 150
 wolfY = 90
 
-#wolf animation running right
-wolfAnimation = animate.Animate([
-  pygame.transform.scale(pygame.image.load('assets/wolfRunRight/wolfFrame1.png'), (wolfW,wolfH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfRunRight/wolfFrame2.png'), (wolfW,wolfH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfRunRight/wolfFrame3.png'), (wolfW,wolfH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfRunRight/wolfFrame4.png'), (wolfW,wolfH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfRunRight/wolfFrame5.png'), (wolfW,wolfH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfRunRight/wolfFrame6.png'), (wolfW,wolfH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfRunRight/wolfFrame7.png'), (wolfW,wolfH))
-  
-])
-wolfLeftAnimation = animate.Animate([
-  pygame.transform.scale(pygame.image.load('assets/wolfRunLeft/wolfLeft1.png'), (wolfW,wolfH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfRunLeft/wolfLeft2.png'), (wolfW,wolfH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfRunLeft/wolfLeft3.png'), (wolfW,wolfH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfRunLeft/wolfLeft4.png'), (wolfW,wolfH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfRunLeft/wolfLeft5.png'), (wolfW,wolfH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfRunLeft/wolfLeft6.png'), (wolfW,wolfH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfRunLeft/wolfLeft7.png'), (wolfW,wolfH))
-])
-wolfFrontAnimation = animate.Animate([
-  pygame.transform.scale(pygame.image.load('assets/wolfForward/wolfFront1.png'), (wolfVW,wolfVH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfForward/wolfFront2.png'), (wolfVW,wolfVH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfForward/wolfFront3.png'), (wolfVW,wolfVH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfForward/wolfFront4.png'), (wolfVW,wolfVH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfForward/wolfFront5.png'), (wolfVW,wolfVH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfForward/wolfFront6.png'), (wolfVW,wolfVH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfForward/wolfFront7.png'), (wolfVW,wolfVH))
-])
-wolfBackAnimation = animate.Animate([
-  pygame.transform.scale(pygame.image.load('assets/wolfBack/wolfBack1.png'), (wolfVW,wolfVH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfBack/wolfBack2.png'), (wolfVW,wolfVH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfBack/wolfBack3.png'), (wolfVW,wolfVH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfBack/wolfBack4.png'), (wolfVW,wolfVH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfBack/wolfBack5.png'), (wolfVW,wolfVH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfBack/wolfBack6.png'), (wolfVW,wolfVH)),
-  pygame.transform.scale(pygame.image.load('assets/wolfBack/wolfBack7.png'), (wolfVW,wolfVH))
-  
-])
+#Horizontal Wolves
+wolfR = animate.Animate('wolfR')
 wolfHorz = [
   pygame.Rect(wolfX,wolfY,wolfW,wolfH)
 ]
+#Vertical Wolves
+wolfF = animate.Animate('wolfF')
+wolfB = animate.Animate('wolfB')
 wolfVert = [
   pygame.Rect(wolfX+100,wolfY+70,wolfVW,wolfVH)
 ]
@@ -212,100 +179,27 @@ wolfMaskVert = pygame.mask.from_surface(pygame.transform.scale(pygame.image.load
 
 #coins
 coinSize = 20
-coinAnimation = animate.Animate([
-  pygame.image.load('assets/coinAnimate/sprite_0.png'),
-  pygame.image.load('assets/coinAnimate/sprite_1.png'),
-  pygame.image.load('assets/coinAnimate/sprite_2.png'),
-  pygame.image.load('assets/coinAnimate/sprite_3.png'),
-  pygame.image.load('assets/coinAnimate/sprite_4.png'),
-  pygame.image.load('assets/coinAnimate/sprite_5.png'),
-  pygame.image.load('assets/coinAnimate/sprite_6.png'),
-  pygame.image.load('assets/coinAnimate/sprite_7.png'),
-  pygame.image.load('assets/coinAnimate/sprite_8.png')
-])
-guiCoin = pygame.image.load('assets/coinAnimate/sprite_0.png')
-guiCoin = pygame.transform.scale(guiCoin, (14, 14))
+coinAnimate = animate.Animate('coin')
 
 sheeps, coins = reset(level)
-
+guiCoin = pygame.image.load('assets\coin.png')
 guiSack = pygame.image.load('assets\sack.png')
 guiSack = pygame.transform.scale(guiSack, (14,14))
 
-#farmer
+#-------------------------
+#       FARMER
+#-------------------------
 userSizeX = 38
 userSizeY = 38
 defaultSpeed = 1
 sprintSpeed = 1
 spawnX = 50
 spawnY = 50
-farmerRightAnimation = animate.Animate([
-  pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run1.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run2.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run3.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run4.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run5.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run6.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run7.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run8.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run9.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run10.png'),(userSizeX, userSizeY))
-])
-farmerLeftAnimation = animate.Animate([
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run1.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run2.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run3.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run4.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run5.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run6.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run7.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run8.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run9.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerRun/Hobbit - run10.png'),(userSizeX, userSizeY)),True, False)
-])
-farmerStopRightAnimation = animate.Animate([
-  pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle1.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle1.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle2.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle2.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle2.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle2.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle3.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle3.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle3.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle4.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle4.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle4.png'),(userSizeX, userSizeY))
-])
-farmerStopLeftAnimation = animate.Animate([
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle1.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle1.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle2.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle2.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle2.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle2.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle3.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle3.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle3.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle4.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle4.png'),(userSizeX, userSizeY)),True, False),
-  pygame.transform.flip(pygame.transform.scale(pygame.image.load('assets/farmerStop/Hobbit - Idle4.png'),(userSizeX, userSizeY)),True, False)
-])
-farmerDeadAnimation = animate.Animate([
-  pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death1.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death2.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death3.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death4.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death5.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death6.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death7.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death8.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death9.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death10.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death11.png'),(userSizeX, userSizeY)),
-  pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death12.png'),(userSizeX, userSizeY)),
-])
 user = entity.Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,3,obstImages,obstacles)
 userMask = pygame.mask.from_surface(pygame.transform.scale(pygame.image.load("assets/farmerRun/Hobbit - run7.png"),(38,38)))
+farmDie = animate.Animate('farmDie')
+farmRun = animate.Animate('farmRun')
+farmStop = animate.Animate('farmStop')
 
 #home
 homeImg = pygame.image.load("assets/house.png")
@@ -320,10 +214,23 @@ if level == 3:
   buildImg = pygame.transform.scale(buildImg, (50,50))
   alienEvent = pygame.USEREVENT+1
   pygame.time.set_timer(alienEvent, 3000)
+#alien 
+smokeW = 50
+smokeH=50
+smoke = animate.Animate('smoke')
 
 #win/lose
 winImg = pygame.image.load('assets/win.jpg')
 winImg = pygame.transform.scale(winImg, (width, height))
+#---------------------------------
+#              SOUND
+#---------------------------------
+coinSound = pygame.mixer.Sound('assets/sounds/coin.mp3')
+coinSound.set_volume(0.2)
+packSheepSound = pygame.mixer.Sound('assets/sounds/sheep_baa.ogg')
+music = pygame.mixer.music.load('assets/sounds/backtrack.wav')
+pygame.mixer.music.play(-1)
+#coinSound = sound.SoundPlay('coin')
 loseImg = pygame.image.load('assets/gameover.jpg')
 loseImg = pygame.transform.scale(loseImg, (width, height))
 
@@ -331,9 +238,9 @@ loseImg = pygame.transform.scale(loseImg, (width, height))
 
 
 
-
-
-#main
+#---------------------------------
+#              MAIN
+#---------------------------------
 win = False
 home = False
 score = 0
@@ -353,10 +260,9 @@ sprint = 1000
 timer = 0
 while running:
   clock.tick(100)
-  timer += 1
-  # ------
-  # EVENTS
-  # ------
+  #------------
+  #INPUT
+  #------------
   for event in pygame.event.get():
       if event.type == QUIT:
           #quit game
@@ -454,19 +360,21 @@ while running:
       screen.blit(sheepImage,(current[0],current[1]))
     #see if sheep have been sacked
     if current.colliderect(farmerRect) and sacked < sackMax:
+      packSheepSound.play()
       sheeps.remove(s)
       sacked += 1
       score += 50
   # COINS
   for c in coins:
-    coinAnimation.draw(screen,c[0],c[1])
-    coinAnimation.update()
+    coinAnimate.draw(screen,c[0],c[1], coinSize, coinSize,False, False)
+    coinAnimate.update()
     if c.colliderect(farmerRect):
-       coins.remove(c)
-       money += 1
-       score += 10
-  # WOLVES
-  if level != 1:
+      coinSound.play()
+      #coinSound.playSound()
+      coins.remove(c)
+      money += 1
+      score += 10
+  if level != 2:
     #horizontal wolves
     for w in wolfHorz:
       if w[0] >= 450:
@@ -474,16 +382,18 @@ while running:
       if w[0] <= 150:
         horzDirection = "right"
       if horzDirection == "right":
-        wolfAnimation.draw(screen, w[0], w[1])
+        wolfR.draw(screen, w[0], w[1],wolfW, wolfH, False, False)
         w[0]+= 1
-        wolfAnimation.update()
+        wolfR.update()
+      #Wolf run left
       else:
-        wolfLeftAnimation.draw(screen, w[0], w[1])
+        wolfR.draw(screen, w[0], w[1], wolfW, wolfH, True, False)
         w[0]-= 1
-        wolfLeftAnimation.update()
+        wolfR.update()
       if wolfMaskHorz.overlap(userMask, (w[0]-user.getPos()[0],w[1]-user.getPos()[1])) and lifeStatus:
         user.changeHealth()
         lifeStatus = False
+
     #vertical wolves
     for w in wolfVert:
       if w[1] >= 450:
@@ -491,17 +401,17 @@ while running:
       if w[1] <= 180:
         vertDirection = "down"
       if vertDirection == "down":
-        wolfFrontAnimation.draw(screen, w[0], w[1])
+        wolfF.draw(screen, w[0], w[1], wolfVW, wolfVH, False,False)
         w[1]+= 1
-        # pygame.time.delay(8)
-        wolfFrontAnimation.update()
+        wolfF.update()
       else:
-        wolfBackAnimation.draw(screen, w[0], w[1])
+        wolfB.draw(screen, w[0], w[1], wolfVW, wolfVH, False, False)
         w[1]-= 1
-        wolfBackAnimation.update()
+        wolfB.update()
       if wolfMaskVert.overlap(userMask, (w[0]-user.getPos()[0],w[1]-user.getPos()[1])) and lifeStatus:
         user.changeHealth()
         lifeStatus = False
+    
   # OBSTACLES
   for i in obstacles:
     toBlit = obstImages[i[4]]
@@ -517,33 +427,35 @@ while running:
   for i in buildUp:
     screen.blit(buildImg, (i[0],i[1]))
   for i in rays:
-    screen.blit(rayImg, (i[0],i[1]))
+    smoke.draw(screen, i[0],i[1], smokeW, smokeH, False, False)
+    smoke.update()
     if i.colliderect(farmerRect) and lifeStatus:
       user.changeHealth()
       lifeStatus = False
   # CHARACTER
   if faceRight==True  and stop == False and lifeStatus == True:
-    farmerRightAnimation.draw(screen, user.getPos()[0],user.getPos()[1])
-    farmerRightAnimation.update()
+    farmRun.draw(screen, user.getPos()[0],user.getPos()[1],userSizeX, userSizeY, False, False)
+    farmRun.update()
+  #Farmer running left
   if faceRight == False and stop == False and lifeStatus == True:
-    farmerLeftAnimation.draw(screen, user.getPos()[0],user.getPos()[1])
-    farmerLeftAnimation.update()
+    farmRun.draw(screen, user.getPos()[0],user.getPos()[1], userSizeX, userSizeY,True, False)
+    farmRun.update()
+  #Farmer stop right facing
   if faceRight == True and stop == True and lifeStatus == True:
-    farmerStopRightAnimation.draw(screen, user.getPos()[0],user.getPos()[1])
-    farmerStopRightAnimation.update()
+    farmStop.draw(screen, user.getPos()[0],user.getPos()[1], userSizeX, userSizeY,False, False)
+    farmStop.update()
   if faceRight == False and stop == True and lifeStatus == True:
-    farmerStopLeftAnimation.draw(screen, user.getPos()[0],user.getPos()[1])
-    farmerStopLeftAnimation.update()
-  # DEATH
+    farmStop.draw(screen, user.getPos()[0],user.getPos()[1],userSizeX, userSizeY,True, False)
+    farmStop.update()
   if lifeStatus == False:
-    farmerDeadAnimation.draw(screen, user.getPos()[0],user.getPos()[1])
-    farmerDeadAnimation.update()
-    if farmerDeadAnimation.getIndex() == 11:
+    farmDie.draw(screen, user.getPos()[0],user.getPos()[1],userSizeX, userSizeY,False, False)
+    farmDie.update()
+    if farmDie.getIndex() == 11:
       lifeStatus = True
       user.setPos([spawnX,spawnY])
       sacked = 0
       sheep, x = reset(level)
-      farmerDeadAnimation.resetIndex()
+      farmDie.resetIndex()
       if level == 3:
         nRI = 0
         timeSince = 0
