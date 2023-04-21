@@ -55,7 +55,8 @@ def reset(level):
       sheeps = [
         [100,100,False],
         [300,400,True],
-        [50,300,False]
+        [50,300,True],
+        [20,470,False]
       ]
       coins = [
         pygame.Rect(450,350,coinSize,coinSize),
@@ -120,7 +121,7 @@ with open('main\stats.txt','r') as textFile:
 match level:
   case 1:
     obstacles = [
-      [0,100,50,50],[250,0,50,50],[250,150,50,50],[50,200,50,50],[150,300,50,50],[400,150,50,50],[350,400,50,50]
+      [0,100,50,50],[250,0,50,50],[250,150,50,50],[50,200,50,50],[150,300,50,50],[400,150,50,50],[350,400,50,50],[0,400,50,50]
     ]
   case 2:
     obstacles = [
@@ -138,17 +139,6 @@ for i in imageLinks:
   obstImages.append(obstImage)
 for i in obstacles:
   i.append(random.randint(0,len(imageLinks)-1))
-
-#farmer
-userSizeX = 38
-userSizeY = 49
-spawnX = 50
-spawnY = 50
-farmerImage = pygame.image.load('assets/char.png')
-farmerImage = pygame.transform.scale(farmerImage, (userSizeX, userSizeY))
-farmerLeft = farmerImage.copy()
-farmerLeft = pygame.transform.flip(farmerLeft, True, False)
-user = entity.Player([spawnX,spawnY],walkSpeed,[width,height],userSizeX,userSizeY,obstacles)
 
 #health
 healthImg = pygame.image.load("assets/heart.png")
@@ -216,6 +206,9 @@ wolfHorz = [
 wolfVert = [
   pygame.Rect(wolfX+100,wolfY+70,wolfVW,wolfVH)
 ]
+wolfMaskHorz = pygame.mask.from_surface(pygame.transform.scale(pygame.image.load("assets\wolfRunRight\wolfFrame6.png"),(wolfW,wolfH)))
+wolfMaskVert = pygame.mask.from_surface(pygame.transform.scale(pygame.image.load("assets\wolfForward\wolfFront4.png"),(wolfW,wolfH))) 
+
 
 #coins
 coinSize = 20
@@ -311,7 +304,8 @@ farmerDeadAnimation = animate.Animate([
   pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death11.png'),(userSizeX, userSizeY)),
   pygame.transform.scale(pygame.image.load('assets/farmerDie/Hobbit - death12.png'),(userSizeX, userSizeY)),
 ])
-user = entity.Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,obstacles)
+user = entity.Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,3,obstImages,obstacles)
+userMask = pygame.mask.from_surface(pygame.transform.scale(pygame.image.load("assets/farmerRun/Hobbit - run7.png"),(38,38)))
 
 #home
 homeImg = pygame.image.load("assets/house.png")
@@ -344,7 +338,6 @@ win = False
 home = False
 score = 0
 sacked = 0
-health = 3
 faceRight = True
 running = True
 stop = False
@@ -357,8 +350,10 @@ nRI = 0
 rays = []
 buildUp = []
 sprint = 1000
+timer = 0
 while running:
-  clock.tick()
+  clock.tick(100)
+  timer += 1
   # ------
   # EVENTS
   # ------
@@ -375,7 +370,7 @@ while running:
             score = 0
             money = 0
             sacked = 0
-            health = 3
+            user.changeHealth([3])
             sheeps, coins = reset(level)
             if level == 3:
               numRay = 1
@@ -395,13 +390,13 @@ while running:
   # ----------
   if buildUp or rays:
     timeSince += clock.get_rawtime()
-  if buildUp and timeSince >= 800:
+  if buildUp and timeSince >= 1000:
     rays = buildUp
     buildUp = []
     timeSince = 0
-  if rays and timeSince >= 1500:
+  if rays and timeSince >= 1600:
     nRI += 1
-    if nRI == rays*2:
+    if nRI == numRay*2:
       nRI = 0
       numRay += 1
     rays = []
@@ -425,12 +420,15 @@ while running:
   if pressed[K_UP] or pressed[K_w]:
     stop= False
     user.moveUp()
-  if pressed[K_LCTRL] and sprint > 10:
+  if pressed[K_LSHIFT] and sprint > 10:
     user.setSpeed(sprintSpeed)
     sprint -= 5
     stop = False
   else:
     user.setSpeed(walkSpeed)
+  if pressed[K_h]:
+    user.setSpeed(2)
+    sackMax = 3
   if not pressed[K_RIGHT] and not pressed[K_d] and not pressed[K_LEFT] and not pressed[K_a] and not pressed[K_DOWN] and not pressed[K_s] and not pressed[K_UP] and not pressed[K_w]:
     stop = True
   if sprint < 1000:
@@ -438,7 +436,6 @@ while running:
 
   #win conditions
   if not sheeps and home:
-    score += health*100
     win = True
     running = False
 
@@ -467,7 +464,7 @@ while running:
     if c.colliderect(farmerRect):
        coins.remove(c)
        money += 1
-       score += 5
+       score += 10
   # WOLVES
   if level != 1:
     #horizontal wolves
@@ -484,8 +481,8 @@ while running:
         wolfLeftAnimation.draw(screen, w[0], w[1])
         w[0]-= 1
         wolfLeftAnimation.update()
-      if w.colliderect(farmerRect) and lifeStatus:
-        health -= 1
+      if wolfMaskHorz.overlap(userMask, (w[0]-user.getPos()[0],w[1]-user.getPos()[1])) and lifeStatus:
+        user.changeHealth()
         lifeStatus = False
     #vertical wolves
     for w in wolfVert:
@@ -496,16 +493,14 @@ while running:
       if vertDirection == "down":
         wolfFrontAnimation.draw(screen, w[0], w[1])
         w[1]+= 1
-        pygame.time.delay(8)
+        # pygame.time.delay(8)
         wolfFrontAnimation.update()
       else:
         wolfBackAnimation.draw(screen, w[0], w[1])
         w[1]-= 1
-        pygame.time.delay(8)
         wolfBackAnimation.update()
-      #wolf collision
-      if w.colliderect(farmerRect) and lifeStatus:
-        health -= 1
+      if wolfMaskVert.overlap(userMask, (w[0]-user.getPos()[0],w[1]-user.getPos()[1])) and lifeStatus:
+        user.changeHealth()
         lifeStatus = False
   # OBSTACLES
   for i in obstacles:
@@ -524,7 +519,7 @@ while running:
   for i in rays:
     screen.blit(rayImg, (i[0],i[1]))
     if i.colliderect(farmerRect) and lifeStatus:
-      health -= 1
+      user.changeHealth()
       lifeStatus = False
   # CHARACTER
   if faceRight==True  and stop == False and lifeStatus == True:
@@ -556,15 +551,15 @@ while running:
         pygame.time.set_timer(alienEvent, 3000)
         rays = []
         buildUp = []
-      if health == 0:
-        if score >= 100:
-          score -= 100
+      if user.getHealth() == 0:
+        if score >= 150:
+          score -= 150
         running = False
   # SPRINT
   pygame.draw.rect(screen,(40,40,40),(200,5,100,10))
   pygame.draw.rect(screen,(20,100,250),(200,5,sprint/10,10))
   # HEALTH
-  for i in range(health):
+  for i in range(user.getHealth()):
     screen.blit(healthImg, (220+i*22,20))
 
   # ----
@@ -578,12 +573,33 @@ while running:
   genText(str(money),(255,195,0), [31,478], "top-right")
   #sack
   screen.blit(guiSack, (482, 55))
-  genText(str(sacked) + "/" + str(sackMax), (50,50,50), [55,478], "top-right")
+  genText(str(sacked) + "/" + str(sackMax), (0,0,0), [55,478], "top-right")
 
   # UPDATE DISPLAY
   pygame.display.update()
 
-
+starImg = pygame.transform.scale(pygame.image.load("assets\star.png"),(20,20))
+score += user.getHealth()*100
+timePenalty = timer//100
+if score >= timePenalty:
+  score -= timePenalty
+elif win:
+  score = 10
+else:
+  score = 0
+if win:
+  with open('main/stats.txt','r') as textFile:
+    file_content = textFile.readlines()
+    infoLine = list(map(float,file_content[0].split()))
+    infoLine[3] += money
+    if level != 3:
+      infoLine[0] += 1
+  with open('main/stats.txt','w') as outFile:
+    outText = ""
+    for i in infoLine:
+      outText += str(i) + " "
+    outText += "\nlevel walkSpeed sprintSpeed money sackMax sprintGen"
+    outFile.write(outText) 
 
 #level cleared
 while win:
@@ -594,6 +610,16 @@ while win:
       sys.exit()
   screen.blit(winImg, (0,0))
   genText("Score: " + str(score), (0,0,0), [250,400], "middle")
+  if score >= 470: # need to test values
+    stars = 3
+  elif score >= 410:
+    stars = 2
+  elif score >= 300:
+    stars = 1
+  else:
+    stars = 0
+  for i in range(stars):
+    screen.blit(starImg, (200+i*50,420))
   pygame.display.update()
   #send user to success page/choose levels page
 
