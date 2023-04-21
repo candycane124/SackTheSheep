@@ -56,7 +56,8 @@ def reset(level):
       sheeps = [
         [100,100,False],
         [300,400,True],
-        [50,300,False]
+        [50,300,True],
+        [20,470,False]
       ]
       coins = [
         pygame.Rect(450,350,coinSize,coinSize),
@@ -115,12 +116,13 @@ with open('main\stats.txt','r') as textFile:
   sprintSpeed = info[2]
   money = int(info[3])
   sackMax = int(info[4])
+  sprintGen = info[5]
 
 #map
 match level:
   case 1:
     obstacles = [
-      [0,100,50,50],[250,0,50,50],[250,150,50,50],[50,200,50,50],[150,300,50,50],[400,150,50,50],[350,400,50,50]
+      [0,100,50,50],[250,0,50,50],[250,150,50,50],[50,200,50,50],[150,300,50,50],[400,150,50,50],[350,400,50,50],[0,400,50,50]
     ]
   case 2:
     obstacles = [
@@ -131,26 +133,17 @@ match level:
       [0,300,50,50],[0,450,50,50],[50,250,50,50],[150,0,50,50],[200,400,50,50],[250,150,50,50],[350,300,50,50],[350,100,50,50],[450,50,50,50]
     ]
 obstImages = []
-imageLinks = ["assets/obstacles/0.png","assets/obstacles/1.png","assets/obstacles/3.png","assets/obstacles/4.png","assets/obstacles/5.png"]
-
-
+imageLinks = ["assets/obstacles/x0.png","assets/obstacles/x1.png","assets/obstacles/x2.png","assets/obstacles/3.png","assets/obstacles/4.png","assets/obstacles/5.png"]
 for i in imageLinks:
   obstImage = pygame.image.load(i)
   obstImage = pygame.transform.scale(obstImage, (50,50))
   obstImages.append(obstImage)
 for i in obstacles:
-  i.append(random.randint(0,3))
-
-#farmer
-userSizeX = 38
-userSizeY = 49
-spawnX = 50
-spawnY = 50
-user = entity.Player([spawnX,spawnY],walkSpeed,[width,height],userSizeX,userSizeY,obstacles)
+  i.append(random.randint(0,len(imageLinks)-1))
 
 #health
 healthImg = pygame.image.load("assets/heart.png")
-healthImg = pygame.transform.scale(healthImg, (13,11))
+healthImg = pygame.transform.scale(healthImg, (20,17))
 
 #sheep 
 sheepSzX = 30
@@ -159,12 +152,13 @@ sheepImage = pygame.image.load('assets/sheep.png')
 sheepImage = pygame.transform.scale(sheepImage, (sheepSzX, sheepSzY))
 sheepFlipped = sheepImage.copy()
 sheepFlipped = pygame.transform.flip(sheepFlipped, True, False)
+guiSheep = pygame.transform.scale(sheepImage, (14,11))
 
 #wolf 
 wolfW = 35
-wolfH=27
+wolfH = 27
 wolfVW = 22
-wolfVH=35
+wolfVH = 35
 wolfX = 150
 wolfY = 90
 
@@ -179,12 +173,18 @@ wolfB = animate.Animate('wolfB')
 wolfVert = [
   pygame.Rect(wolfX+100,wolfY+70,wolfVW,wolfVH)
 ]
+wolfMaskHorz = pygame.mask.from_surface(pygame.transform.scale(pygame.image.load("assets\wolfRunRight\wolfFrame6.png"),(wolfW,wolfH)))
+wolfMaskVert = pygame.mask.from_surface(pygame.transform.scale(pygame.image.load("assets\wolfForward\wolfFront4.png"),(wolfW,wolfH))) 
+
 
 #coins
 coinSize = 20
 coinAnimate = animate.Animate('coin')
 
 sheeps, coins = reset(level)
+guiCoin = pygame.image.load('assets\coin.png')
+guiSack = pygame.image.load('assets\sack.png')
+guiSack = pygame.transform.scale(guiSack, (14,14))
 
 #-------------------------
 #       FARMER
@@ -195,7 +195,8 @@ defaultSpeed = 1
 sprintSpeed = 1
 spawnX = 50
 spawnY = 50
-user = entity.Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,obstacles)
+user = entity.Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,3,obstImages,obstacles)
+userMask = pygame.mask.from_surface(pygame.transform.scale(pygame.image.load("assets/farmerRun/Hobbit - run7.png"),(38,38)))
 farmDie = animate.Animate('farmDie')
 farmRun = animate.Animate('farmRun')
 farmStop = animate.Animate('farmStop')
@@ -209,7 +210,7 @@ homeRect = pygame.Rect(10,10,40,40)
 if level == 3:
   rayImg = pygame.image.load("assets/flame.png")
   rayImg = pygame.transform.scale(rayImg, (50,50))
-  buildImg = pygame.image.load("assets/caution.png")
+  buildImg = pygame.image.load("assets/caution1.png")
   buildImg = pygame.transform.scale(buildImg, (50,50))
   alienEvent = pygame.USEREVENT+1
   pygame.time.set_timer(alienEvent, 3000)
@@ -218,7 +219,7 @@ smokeW = 50
 smokeH=50
 smoke = animate.Animate('smoke')
 
-#win
+#win/lose
 winImg = pygame.image.load('assets/win.jpg')
 winImg = pygame.transform.scale(winImg, (width, height))
 #---------------------------------
@@ -230,6 +231,12 @@ packSheepSound = pygame.mixer.Sound('assets/sounds/sheep_baa.ogg')
 music = pygame.mixer.music.load('assets/sounds/backtrack.wav')
 pygame.mixer.music.play(-1)
 #coinSound = sound.SoundPlay('coin')
+loseImg = pygame.image.load('assets/gameover.jpg')
+loseImg = pygame.transform.scale(loseImg, (width, height))
+
+
+
+
 
 #---------------------------------
 #              MAIN
@@ -238,7 +245,6 @@ win = False
 home = False
 score = 0
 sacked = 0
-health = 800
 faceRight = True
 running = True
 stop = False
@@ -250,6 +256,8 @@ numRay = 1
 nRI = 0
 rays = []
 buildUp = []
+sprint = 1000
+timer = 0
 while running:
   clock.tick(100)
   #------------
@@ -268,35 +276,41 @@ while running:
             score = 0
             money = 0
             sacked = 0
-            health = 800
+            user.changeHealth([3])
             sheeps, coins = reset(level)
-            numRay = 1
-            nRI = 0
-            timeSince = 0
-            pygame.time.set_timer(alienEvent, 0)
-            pygame.time.set_timer(alienEvent, 3000)
-            rays = []
-            buildUp = []
+            if level == 3:
+              numRay = 1
+              nRI = 0
+              timeSince = 0
+              pygame.time.set_timer(alienEvent, 0)
+              pygame.time.set_timer(alienEvent, 3000)
+              rays = []
+              buildUp = []
           elif event.key == K_ESCAPE:
             #send to pause or menu screen
             pass
-      if event.type == alienEvent:
+      if level == 3 and event.type == alienEvent:
         buildUp = abduct(numRay,50,[width,height])
+  # ----------
+  # ALIEN RAYS
+  # ----------
   if buildUp or rays:
     timeSince += clock.get_rawtime()
-  if buildUp and timeSince >= 800:
+  if buildUp and timeSince >= 1000:
     rays = buildUp
     buildUp = []
     timeSince = 0
-  if rays and timeSince >= 1500:
+  if rays and timeSince >= 1600:
     nRI += 1
-    if nRI == 3:
+    if nRI == numRay*2:
       nRI = 0
       numRay += 1
     rays = []
     timeSince = 0
     
-  #keyboard input for character movement
+  # ------------------
+  # CHARACTER MOVEMENT
+  # ------------------
   pressed = pygame.key.get_pressed()
   if pressed[K_RIGHT] or pressed[K_d]:
     faceRight = True
@@ -312,39 +326,32 @@ while running:
   if pressed[K_UP] or pressed[K_w]:
     stop= False
     user.moveUp()
-  if pressed[K_LCTRL]:
+  if pressed[K_LSHIFT] and sprint > 10:
     user.setSpeed(sprintSpeed)
+    sprint -= 5
     stop = False
   else:
     user.setSpeed(walkSpeed)
+  if pressed[K_h]:
+    user.setSpeed(2)
+    sackMax = 3
   if not pressed[K_RIGHT] and not pressed[K_d] and not pressed[K_LEFT] and not pressed[K_a] and not pressed[K_DOWN] and not pressed[K_s] and not pressed[K_UP] and not pressed[K_w]:
     stop = True
+  if sprint < 1000:
+    sprint += sprintGen
 
+  #win conditions
   if not sheeps and home:
     win = True
     running = False
-  if health <= 0:
-    user.setPos([spawnX,spawnY])
-    score = 0
-    money = 0
-    sacked = 0
-    health = 800
-    sheeps, coins = reset(level)
-    numRay = 1
-    nRI = 0
-    timeSince = 0
-    pygame.time.set_timer(alienEvent, 0)
-    pygame.time.set_timer(alienEvent, 3000)
-    rays = []
-    buildUp = []
 
-  #------------
-  #OUTPUT
-  #------------ 
-  #background
+  # ------
+  # OUTPUT
+  # ------
+  # BACKGROUND
   screen.blit(grass, (0,0))
   farmerRect = pygame.Rect(user.getPos()[0], user.getPos()[1], userSizeX, userSizeY)
-  #sheep
+  # SHEEP
   for s in sheeps:
     current = pygame.Rect(s[0],s[1],sheepSzX,sheepSzY)
     if s[2]:
@@ -356,8 +363,8 @@ while running:
       packSheepSound.play()
       sheeps.remove(s)
       sacked += 1
-      score +=1
-  #coins
+      score += 50
+  # COINS
   for c in coins:
     coinAnimate.draw(screen,c[0],c[1], coinSize, coinSize,False, False)
     coinAnimate.update()
@@ -366,62 +373,66 @@ while running:
       #coinSound.playSound()
       coins.remove(c)
       money += 1
+      score += 10
+  if level != 2:
+    #horizontal wolves
+    for w in wolfHorz:
+      if w[0] >= 450:
+        horzDirection = "left"
+      if w[0] <= 150:
+        horzDirection = "right"
+      if horzDirection == "right":
+        wolfR.draw(screen, w[0], w[1],wolfW, wolfH, False, False)
+        w[0]+= 1
+        wolfR.update()
+      #Wolf run left
+      else:
+        wolfR.draw(screen, w[0], w[1], wolfW, wolfH, True, False)
+        w[0]-= 1
+        wolfR.update()
+      if wolfMaskHorz.overlap(userMask, (w[0]-user.getPos()[0],w[1]-user.getPos()[1])) and lifeStatus:
+        user.changeHealth()
+        lifeStatus = False
 
-  #horizontal wolves
-  for w in wolfHorz:
-    if w[0] >= 450:
-      horzDirection = "left"
-    if w[0] <= 150:
-      horzDirection = "right"
-    if horzDirection == "right":
-      wolfR.draw(screen, w[0], w[1],wolfW, wolfH, False, False)
-      w[0]+= 1
-      wolfR.update()
-    #Wolf run left
-    else:
-      wolfR.draw(screen, w[0], w[1], wolfW, wolfH, True, False)
-      w[0]-= 1
-      wolfR.update()
-    if w.colliderect(farmerRect) and lifeStatus:
-      health -= 80
-      lifeStatus = False
-
-  #vertical wolves
-  for w in wolfVert:
-    if w[1] >= 450:
-      vertDirection = "up"
-    if w[1] <= 180:
-      vertDirection = "down"
-    if vertDirection == "down":
-      wolfF.draw(screen, w[0], w[1], wolfVW, wolfVH, False,False)
-      w[1]+= 1
-      wolfF.update()
-    else:
-      wolfB.draw(screen, w[0], w[1], wolfVW, wolfVH, False, False)
-      w[1]-= 1
-      wolfB.update()
-    if w.colliderect(farmerRect) and lifeStatus:
-      health -= 80
-      lifeStatus = False
-  # #obstacles
+    #vertical wolves
+    for w in wolfVert:
+      if w[1] >= 450:
+        vertDirection = "up"
+      if w[1] <= 180:
+        vertDirection = "down"
+      if vertDirection == "down":
+        wolfF.draw(screen, w[0], w[1], wolfVW, wolfVH, False,False)
+        w[1]+= 1
+        wolfF.update()
+      else:
+        wolfB.draw(screen, w[0], w[1], wolfVW, wolfVH, False, False)
+        w[1]-= 1
+        wolfB.update()
+      if wolfMaskVert.overlap(userMask, (w[0]-user.getPos()[0],w[1]-user.getPos()[1])) and lifeStatus:
+        user.changeHealth()
+        lifeStatus = False
+    
+  # OBSTACLES
   for i in obstacles:
     toBlit = obstImages[i[4]]
     screen.blit(toBlit,(i[0],i[1]))
+  # HOUSE
   screen.blit(homeImg,(10,10))
   if homeRect.colliderect(farmerRect):
     sacked = 0
     home = True
   else:
     home = False
-  #rays
+  # RAYS
   for i in buildUp:
     screen.blit(buildImg, (i[0],i[1]))
   for i in rays:
     smoke.draw(screen, i[0],i[1], smokeW, smokeH, False, False)
     smoke.update()
-    if i.colliderect(farmerRect):
-      health -= 1
-  #farmer
+    if i.colliderect(farmerRect) and lifeStatus:
+      user.changeHealth()
+      lifeStatus = False
+  # CHARACTER
   if faceRight==True  and stop == False and lifeStatus == True:
     farmRun.draw(screen, user.getPos()[0],user.getPos()[1],userSizeX, userSizeY, False, False)
     farmRun.update()
@@ -442,22 +453,65 @@ while running:
     if farmDie.getIndex() == 11:
       lifeStatus = True
       user.setPos([spawnX,spawnY])
-      score = 0
-      money = 0
       sacked = 0
-      sheeps, coins = reset(level)
+      sheep, x = reset(level)
       farmDie.resetIndex()
-  #text
-  # genText("Current Sheep in Sack: " + str(sacked) + "/" + str(sackMax), (50,50,50), [490,10], "bottom-left")
-  genText("Sheep Left: " + str(len(sheeps)), (250,250,250), [5,496], "top-right")
-  genText("Coins: " + str(money),(250,250,0), [30,496], "top-right")
-  genText("Sacked: " + str(sacked) + "/" + str(sackMax), (50,50,50), [55,496], "top-right")
-  # genText("Health: " + str(health//80), (200,20,60), [70,490], "top-right")
-  for i in range(health//80+1):
-    screen.blit(healthImg, (500-i*15,485))
+      if level == 3:
+        nRI = 0
+        timeSince = 0
+        pygame.time.set_timer(alienEvent, 0)
+        pygame.time.set_timer(alienEvent, 3000)
+        rays = []
+        buildUp = []
+      if user.getHealth() == 0:
+        if score >= 150:
+          score -= 150
+        running = False
+  # SPRINT
+  pygame.draw.rect(screen,(40,40,40),(200,5,100,10))
+  pygame.draw.rect(screen,(20,100,250),(200,5,sprint/10,10))
+  # HEALTH
+  for i in range(user.getHealth()):
+    screen.blit(healthImg, (220+i*22,20))
 
-  #update display
+  # ----
+  # TEXT
+  # ----
+  #sheep
+  screen.blit(guiSheep,(482,7))
+  genText(str(len(sheeps)), (40,40,40), [6,478], "top-right")
+  #coin
+  screen.blit(guiCoin, (482,30))
+  genText(str(money),(255,195,0), [31,478], "top-right")
+  #sack
+  screen.blit(guiSack, (482, 55))
+  genText(str(sacked) + "/" + str(sackMax), (0,0,0), [55,478], "top-right")
+
+  # UPDATE DISPLAY
   pygame.display.update()
+
+starImg = pygame.transform.scale(pygame.image.load("assets\star.png"),(20,20))
+score += user.getHealth()*100
+timePenalty = timer//100
+if score >= timePenalty:
+  score -= timePenalty
+elif win:
+  score = 10
+else:
+  score = 0
+if win:
+  with open('main/stats.txt','r') as textFile:
+    file_content = textFile.readlines()
+    infoLine = list(map(float,file_content[0].split()))
+    infoLine[3] += money
+    if level != 3:
+      infoLine[0] += 1
+  with open('main/stats.txt','w') as outFile:
+    outText = ""
+    for i in infoLine:
+      outText += str(i) + " "
+    outText += "\nlevel walkSpeed sprintSpeed money sackMax sprintGen"
+    outFile.write(outText) 
 
 #level cleared
 while win:
@@ -467,5 +521,26 @@ while win:
       pygame.quit()
       sys.exit()
   screen.blit(winImg, (0,0))
+  genText("Score: " + str(score), (0,0,0), [250,400], "middle")
+  if score >= 470: # need to test values
+    stars = 3
+  elif score >= 410:
+    stars = 2
+  elif score >= 300:
+    stars = 1
+  else:
+    stars = 0
+  for i in range(stars):
+    screen.blit(starImg, (200+i*50,420))
   pygame.display.update()
   #send user to success page/choose levels page
+
+while not win:
+  for event in pygame.event.get():
+    if event.type == QUIT:
+      #quit game
+      pygame.quit()
+      sys.exit()
+  screen.blit(loseImg, (0,0))
+  genText("Score: " + str(score), (250,250,250), [250,400], "middle")
+  pygame.display.update()
