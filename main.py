@@ -41,6 +41,10 @@ class SampleApp(tk.Tk):
     def exit(self):
         return self.destroy()
 
+    def changeOnHover(self, button, colourHover, colourLeave):
+        button.bind("<Enter>", func=lambda e: button.config(background=colourHover))
+        button.bind("<Leave>", func=lambda e: button.config(background=colourLeave))
+
 
 class Shop(tk.Frame):
 
@@ -50,10 +54,11 @@ class Shop(tk.Frame):
         label = tk.Label(self, text="This is the store page", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
 
-        button1 = tk.Button(self, text="Back",
+        button1 = tk.Button(self, text="Back", cursor="target",
                             command=lambda: controller.show_frame("Menu"))
 
         button1.pack()
+        controller.changeOnHover(button1, "green", "white")
 
 
 class Menu(tk.Frame):
@@ -117,9 +122,22 @@ class LevelSelect(tk.Frame):
         # labelTitle.pack()
         labelTitle.place(bordermode="inside", anchor="n", relx=0.5)
 
-        button = tk.Button(self, text="Back",
+        button = tk.Button(self, text="Back", cursor="target",
                            command=lambda: controller.show_frame("Menu"))
         button.pack(side="bottom")
+
+        btn1 = tk.Button(self, text="Level 1", cursor="target", ) #bring user to level 1
+        btn2 = tk.Button(self, text="Level 2", cursor="target") #bring user to level 2; should be locked
+        btn3 = tk.Button(self, text="Level 3",  cursor="target") #bring user to level 3; should be locked
+
+        btn1.place(relx=0.25, rely=0.6, anchor="center")
+        btn2.place(relx=0.5, rely=0.6, anchor="center")
+        btn3.place(relx=0.75, rely=0.6, anchor="center")
+
+        controller.changeOnHover(btn1, "green", "white")
+        controller.changeOnHover(btn2, "green", "white")
+        controller.changeOnHover(btn3, "green", "white")
+        controller.changeOnHover(button, "green", "white")
 
 
 if __name__ == "__main__":
