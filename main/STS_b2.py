@@ -6,16 +6,7 @@ import entity
 import animate
 import sound
 
-#initial game/screen setup
-pygame.init()
-width = 500
-height = 500
-screen = pygame.display.set_mode((width, height))
-clock = pygame.time.Clock()
-pygame.display.set_caption('Sack The Sheep')
-
 #easier text generation
-font = pygame.font.Font('freesansbold.ttf', 14)
 def genText(txt, colour, pos, posType):
   '''
   Blit's text to screen
@@ -30,6 +21,7 @@ def genText(txt, colour, pos, posType):
   posType : Str
     "top-right", "bottom-left", "bottom-right", "top-left", or "middle"
   '''
+  font = pygame.font.Font('freesansbold.ttf', 14)
   rendered = font.render(txt, True, colour)
   rendRect = rendered.get_rect()
   if posType == "top-right":
@@ -47,7 +39,6 @@ def genText(txt, colour, pos, posType):
   elif posType == "middle":
     rendRect.center = (pos[1], pos[0])
   screen.blit(rendered,rendRect)
-
 
 #reset level function
 def reset(level):
@@ -106,6 +97,14 @@ def abduct(n,raySize,maxMap):
     return areas
 
 def startLevel(level):
+  #initial game/screen setup
+  pygame.init()
+  width = 500
+  height = 500
+  screen = pygame.display.set_mode((width, height))
+  clock = pygame.time.Clock()
+  pygame.display.set_caption('Sack The Sheep')
+
   #grass
   grass = pygame.image.load('assets/grass-588.jpg')
   grass = pygame.transform.scale(grass, (width, height))

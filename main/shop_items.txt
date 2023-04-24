@@ -1,2 +1,3 @@
-1.0 0.5 0.0 1.0 1.0
-level walkSpeed money sackMax sprintGen
+assets/shop/sack.png,False,70,70,120,210,3,Better Sack: Carry up to 2 sheeps at a time!,3,1
+assets/shop/shoe.png,False,78,64,220,310,2,Speedy Spurs: Increases your walking and running speed!,1,0.1
+assets/shop/temp_pot.png,True,60,60,410,230,2,Magic Mana: Improve your sprint regeneration!,4,0.5
