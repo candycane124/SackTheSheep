@@ -1,10 +1,12 @@
 import pygame, sys
-from pygame.locals import QUIT
 from pygame.locals import *
 import random
-import entity
-import animate
-import sound
+# import entity
+from game.entity import *
+# import animate
+from game.animate import Animate
+# import sound
+from game.sound import Sound
 
 #initial game/screen setup
 pygame.init()
@@ -13,9 +15,10 @@ height = 500
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
 pygame.display.set_caption('Sack The Sheep')
-
+  
 #easier text generation
 font = pygame.font.Font('freesansbold.ttf', 14)
+
 def genText(txt, colour, pos, posType):
   '''
   Blit's text to screen
@@ -111,7 +114,7 @@ def startLevel(level):
   grass = pygame.transform.scale(grass, (width, height))
 
   #modifiable user data from text file
-  with open('main\stats.txt','r') as textFile:
+  with open('game\stats.txt','r') as textFile:
     file_content = textFile.readlines()
     info = list(map(float,file_content[0].split()))
     # level = info[0]
@@ -167,11 +170,11 @@ def startLevel(level):
   wolfY = 90
 
   #Horizontal Wolves
-  wolfR = animate.Animate('wolfR')
+  wolfR = Animate('wolfR') #animate.
 
   #Vertical Wolves
-  wolfF = animate.Animate('wolfF')
-  wolfB = animate.Animate('wolfB')
+  wolfF = Animate('wolfF') #animate.
+  wolfB = Animate('wolfB') #animate.
   if level == 2:
     wolfHorz = [
       [pygame.Rect(wolfX,wolfY,wolfW,wolfH),[wolfX,465]]
@@ -192,7 +195,7 @@ def startLevel(level):
 
   #coins
   coinSize = 20
-  coinAnimate = animate.Animate('coin')
+  coinAnimate = Animate('coin') #animate.
 
   sheeps, coins = reset(level)
   guiCoin = pygame.image.load('assets\coin.png')
@@ -208,11 +211,11 @@ def startLevel(level):
   sprintSpeed = 1
   spawnX = 50
   spawnY = 50
-  user = entity.Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,3,obstImages,obstacles)
+  user = Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,3,obstImages,obstacles) #entity.
   userMask = pygame.mask.from_surface(pygame.transform.scale(pygame.image.load("assets/farmerRun/Hobbit - run7.png"),(38,38)))
-  farmDie = animate.Animate('farmDie')
-  farmRun = animate.Animate('farmRun')
-  farmStop = animate.Animate('farmStop')
+  farmDie = Animate('farmDie') #animate.
+  farmRun = Animate('farmRun') #animate.
+  farmStop = Animate('farmStop') #animate.
 
   #home
   homeImg = pygame.image.load("assets/house.png")
@@ -228,7 +231,7 @@ def startLevel(level):
   #alien 
   smokeW = 50
   smokeH = 50
-  smoke = animate.Animate('smoke')
+  smoke = Animate('smoke') #animate.
 
   #win/lose
   winImg = pygame.image.load('assets/win.jpg')
@@ -303,7 +306,7 @@ def startLevel(level):
                 rays = []
                 buildUp = []
             elif event.key == K_ESCAPE:
-              #send to pause or menu screen
+              #send to pause screen
               pass
         if level == 3 and event.type == alienEvent:
           buildUp = abduct(numRay,50,[width,height])
@@ -521,19 +524,19 @@ def startLevel(level):
   else:
     score = 0
   if win:
-    with open('main/stats.txt','r') as textFile:
+    with open('game/stats.txt','r') as textFile:
       file_content = textFile.readlines()
       infoLine = list(map(float,file_content[0].split()))
       infoLine[3] = money
       # if level != 3:
       #   infoLine[0] += 1
-    with open('main/stats.txt','w') as outFile:
+    with open('game/stats.txt','w') as outFile:
       outText = ""
       for i in infoLine:
         outText += str(i) + " "
       outText += "\nlevel walkSpeed money sackMax sprintGen"
       outFile.write(outText) 
-    with open('main/scores.txt','a') as outFile:
+    with open('game/scores.txt','a') as outFile:
       outText = f"{score} (level {level})\n"
       outFile.write(outText)
 
@@ -590,4 +593,4 @@ def startLevel(level):
     genText("Score: " + str(score), (250,250,250), [250,400], "middle")
     pygame.display.update()
 
-startLevel(3)
+# startLevel(3)
