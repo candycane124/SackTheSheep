@@ -7,7 +7,7 @@ import animate
 import sound
 
 #easier text generation
-def genText(txt, colour, pos, posType):
+def genText(screen, txt, colour, pos, posType):
   '''
   Blit's text to screen
   Parameters
@@ -230,7 +230,7 @@ def startLevel(level):
   smoke = animate.Animate('smoke')
 
   #win/lose
-  winImg = pygame.image.load('assets/win.jpg')
+  winImg = pygame.image.load('assets/win.png')
   winImg = pygame.transform.scale(winImg, (width, height))
 
 
@@ -488,7 +488,7 @@ def startLevel(level):
           running = False
     # SPRINT
     pygame.draw.rect(screen,(40,40,40),(200,5,100,10))
-    pygame.draw.rect(screen,(20,100,250),(200,5,sprint/10,10))
+    pygame.draw.rect(screen,(140,100,250),(200,5,sprint/10,10))
     # HEALTH
     for i in range(user.getHealth()):
       screen.blit(healthImg, (220+i*22,20))
@@ -498,18 +498,18 @@ def startLevel(level):
     # ----
     #sheep
     screen.blit(guiSheep,(482,7))
-    genText(str(len(sheeps)), (40,40,40), [6,478], "top-right")
+    genText(screen,str(len(sheeps)), (40,40,40), [6,478], "top-right")
     #coin
     screen.blit(guiCoin, (482,30))
-    genText(str(money),(255,195,0), [31,478], "top-right")
+    genText(screen,str(money),(255,195,0), [31,478], "top-right")
     #sack
     screen.blit(guiSack, (482, 55))
-    genText(str(sacked) + "/" + str(sackMax), (0,0,0), [55,478], "top-right")
+    genText(screen,str(sacked) + "/" + str(sackMax), (0,0,0), [55,478], "top-right")
 
     # UPDATE DISPLAY
     pygame.display.update()
 
-  starImg = pygame.transform.scale(pygame.image.load("assets\star.png"),(20,20))
+  starImg = pygame.transform.scale(pygame.image.load("assets\star.png"),(30,30))
   score += user.getHealth()*100
   timePenalty = timer//100
   print(timePenalty)
@@ -523,7 +523,7 @@ def startLevel(level):
     with open('main/stats.txt','r') as textFile:
       file_content = textFile.readlines()
       infoLine = list(map(float,file_content[0].split()))
-      infoLine[3] = money
+      infoLine[2] = money
       # if level != 3:
       #   infoLine[0] += 1
     with open('main/stats.txt','w') as outFile:
@@ -544,7 +544,7 @@ def startLevel(level):
         pygame.quit()
         sys.exit()
     screen.blit(winImg, (0,0))
-    genText("Score: " + str(score), (0,0,0), [400,250], "middle")
+    genText(screen,"Score: " + str(score), (0,0,0), [400,250], "middle")
     match level:
       case 1:
         if score >= 442: # need to test values
@@ -575,7 +575,7 @@ def startLevel(level):
           stars = 0
     
     for i in range(stars):
-      screen.blit(starImg, (200+i*50,420))
+      screen.blit(starImg, (190+i*45,420))
     pygame.display.update()
     #send user to success page/choose levels page
 
@@ -586,7 +586,7 @@ def startLevel(level):
         pygame.quit()
         sys.exit()
     screen.blit(loseImg, (0,0))
-    genText("Score: " + str(score), (250,250,250), [250,400], "middle")
+    genText(screen,"Score: " + str(score), (250,250,250), [250,400], "middle")
     pygame.display.update()
 
-startLevel(3)
+startLevel(2)

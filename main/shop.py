@@ -61,11 +61,6 @@ def shop():
   with open('main\stats.txt','r') as textFile:
     file_content = textFile.readlines()
     info = list(map(float,file_content[0].split()))
-    # level = info[0]
-    # walkSpeed = info[1]
-    # money = int(info[2])
-    # sackMax = int(info[3])
-    # sprintGen = info[4]
 
   shop = []
   raw = []
@@ -82,39 +77,45 @@ def shop():
   #     Item("assets/shop/temp_pot.png",True,(60,60),(410,230),2,"Magic Mana: Improve your sprint regeneration!",[4,0.5])
   # ]
 
+  #back
   backPos = 15
   backSize = 30
-  backImg = pygame.transform.scale(pygame.image.load("assets/red.png"),(backSize,backSize))
+  backImg = pygame.transform.scale(pygame.image.load("assets/shop/back.png"),(backSize,backSize))
   backRect = pygame.Rect(backPos,backPos,backSize,backSize)
+
+  #cursor
+  cursorImg = pygame.transform.scale(pygame.image.load("assets/shop/cursor.png"),(15,16))
+  grabImg = pygame.transform.scale(pygame.image.load("assets/shop/cursor_grab.png"),(15,16))
+  pygame.mouse.set_visible(False)
 
   guiCoin = pygame.image.load('assets\coin.png')
 
+  background = pygame.image.load('assets/shop/cart.png')
 
-  buyEvent = pygame.USEREVENT+1
   black = (10,10,10)
   white = (250,250,250)
-  gold = (240,200,20)
   timer = 0
-  startTimer = False
+  timer2 = 0
+  buyTimer = False
+  errTimer = False
   running = True
   while running:
     clock.tick(100)
-    screen.fill((white))
+    screen.blit(background,(0,0))
 
     for event in pygame.event.get():
       if event.type == QUIT:
         #quit game
         pygame.quit()
         sys.exit()
-      elif event.type == buyEvent:
-        pass
 
+    currentCursor = cursorImg
     mousePos = pygame.mouse.get_pos()
     for i in shop:
       posInMask = (mousePos[0]-i.rect.x,mousePos[1]-i.rect.y)
       if i.rect.collidepoint(*mousePos) and i.mask.get_at(posInMask):
-        genText(screen,i.description,black,(i.rect.y+i.rect.height+10,i.rect.x),"top-left",11)
-        genText(screen,str(i.cost),gold,(i.rect.y-10,i.rect.x),"top-left",11)
+        currentCursor = grabImg
+        genText(screen,str(i.cost) + " coin(s) | " + i.description,black,(490,10),"bottom-left",12)
         if pygame.mouse.get_pressed()[0]:
           if info[2] >= i.cost:
             info[2] -= i.cost
@@ -125,38 +126,49 @@ def shop():
               newStats = ""
               for j in info:
                 newStats += str(j)
-                if j != info[-1]:
-                  newStats += " "
+                # if j != info[-1]:
+                newStats += " "
               newStats += "\nlevel walkSpeed money sackMax sprintGen"
               outFile.write(newStats)
-            startTimer = True
+            buyTimer = True
+          else:
+            errTimer = True
       screen.blit(i.image, i.rect)
     
-    if startTimer:
+    if buyTimer:
       timer += clock.get_rawtime()
-    if startTimer and timer <= 2000:
-      font = pygame.font.Font('freesansbold.ttf', 36)
-      genText(screen,"Purchase Successful!",gold,(250,250),"middle",30)
-      font = pygame.font.Font('freesansbold.ttf', 11)
-    elif startTimer and timer > 2000:
-      startTimer = False
+    if buyTimer and timer <= 1500:
+      genText(screen,"Purchase Successful!",black,(250,250),"middle",24)
+    elif buyTimer and timer > 1500:
+      buyTimer = False
       timer = 0
 
+    if errTimer:
+      timer2 += clock.get_rawtime()
+    if errTimer and timer2 <= 1200:
+      pygame.draw.rect(screen,(245,245,245),(345,40,145,35))
+      genText(screen,"Error: Not enough coins",(160,40,25),(45,350),"top-left")
+      genText(screen,"to purchase this item.",(160,40,25),(60,350),"top-left")
+    elif errTimer and timer2 > 1200:
+      errTimer = False
+      timer2 = 0
+
+    #back button
     screen.blit(backImg,(backPos,backPos))
     if pygame.mouse.get_pressed()[0] and backRect.collidepoint(pygame.mouse.get_pos()):
       running = False
 
+    #coin
     screen.blit(guiCoin, (472,14))
-    genText(screen,str(int(info[2])),(255,195,0), [23,457], "middle",20)
+    genText(screen,str(int(info[2])),(255,195,0), [25,456], "middle",20)
 
+    #mouse
+    screen.blit(currentCursor,mousePos)
+    
     pygame.display.update()
 
   with open('main/shop_items.txt','w') as outFile:
-    remainingItems = ""
     for i in raw:
-      remainingItems += i
-      if i != raw[-1]:
-        remainingItems += "\n"
-    outFile.write(remainingItems)
+      outFile.write(i)
 
 shop()
