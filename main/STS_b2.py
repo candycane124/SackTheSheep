@@ -257,7 +257,7 @@ rays = []
 buildUp = []
 while running:
   clock.tick(100)
-
+  
   #------------
   #INPUT
   #------------
