@@ -11,10 +11,25 @@ https://opengameart.org/sites/default/files/styles/medium/public/grass03.png
 grass-588:
 https://s3.amazonaws.com/spoonflower/public/design_thumbnails/0424/5908/1431605648965_shop_thumb.png
 
-char:
-?
+farmer/player:
+https://oisougabo.itch.io/gap-i
+
 wolf
 https://finalbossblues.itch.io/wolf-pack
 
+smoke puff:
+https://nyknck.itch.io/fx062
+
+originals (made by us):
+win.png, star.png, sheep.png, sack.png, house.png, heart.png, coin.png, caution1.png
+All images used in the shop (pot_I,pot_II,sack,shoe_dia,shoe_gold,shoe_leather) (shoes inspired by minecraft textures)
+
+## Sounds:
+coin:
+https://opengameart.org/content/10-8bit-coin-sounds
+
 sheep:
-?
+https://opengameart.org/content/sheep-baa
+
+backtracks:
+https://tallbeard.itch.io/music-loop-bundle
