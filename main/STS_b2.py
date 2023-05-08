@@ -233,20 +233,18 @@ def startLevel(level):
   winImg = pygame.image.load('assets/win.png')
   winImg = pygame.transform.scale(winImg, (width, height))
 
-
-  #---------------------------------
-  #              SOUND
-  #---------------------------------
-  coinSound = pygame.mixer.Sound('assets/sounds/coin.mp3')
-  coinSound.set_volume(0.2)
-  packSheepSound = pygame.mixer.Sound('assets/sounds/sheep_baa.ogg')
-  music = pygame.mixer.music.load('assets/sounds/backtrack.wav')
-  pygame.mixer.music.play(-1)
-  #coinSound = sound.SoundPlay('coin')
   loseImg = pygame.image.load('assets/gameover.jpg')
   loseImg = pygame.transform.scale(loseImg, (width, height))
 
-
+  #---------------------------------
+  #          SOUND/MUSIC
+  #---------------------------------
+  coinSound = sound.Sound('coin')
+  packSheepSound = sound.Sound('sheep')
+  alarmSound = sound.Sound('alarm')
+  alienSmoke = sound.Sound('alienSmoke')
+  level1M = sound.Music('level1')
+  level1M.playMusic()
 
 
 
@@ -384,8 +382,7 @@ def startLevel(level):
       coinAnimate.draw(screen,c[0],c[1], coinSize, coinSize,False, False)
       coinAnimate.update()
       if c.colliderect(farmerRect):
-        coinSound.play()
-        #coinSound.playSound()
+        coinSound.playSound()
         coins.remove(c)
         money += 1
         score += 10
@@ -441,12 +438,14 @@ def startLevel(level):
     # RAYS
     for i in buildUp:
       screen.blit(buildImg, (i[0],i[1]))
+      alarmSound.playSound()
     for i in rays:
       smoke.draw(screen, i[0],i[1], smokeW, smokeH, False, False)
       smoke.update()
       if i.colliderect(farmerRect) and lifeStatus:
+        alienSmoke.playSound()
         user.changeHealth()
-        lifeStatus = False
+        lifeStatus = False        
     # CHARACTER
     if faceRight==True  and stop == False and lifeStatus == True:
       farmRun.draw(screen, user.getPos()[0],user.getPos()[1],userSizeX, userSizeY, False, False)

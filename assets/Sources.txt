@@ -31,5 +31,13 @@ https://opengameart.org/content/10-8bit-coin-sounds
 sheep:
 https://opengameart.org/content/sheep-baa
 
-backtracks:
+Backtracks:
 https://tallbeard.itch.io/music-loop-bundle
+
+Intro Track:
+https://opengameart.org/content/dodedo
+
+Warning Sound:
+https://opengameart.org/content/short-alarma
+Laser Sound:
+https://opengameart.org/content/theremin-laser-sfx
