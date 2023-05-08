@@ -4,42 +4,47 @@ from tkinter import ttk
 # loading Python Imaging Library
 from PIL import ImageTk, Image
 
-def startMenu():
-    root = tk.Tk()
-    root.geometry('500x500')
-    style = ttk.Style()
+class Menu(tk.Frame):
 
-    frameA = tk.Frame(width=500, height = 150, background="light blue")
-    frameB = tk.Frame(width=500, height = 350)
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        
+        #Background
+        img = ImageTk.PhotoImage(Image.open('assets/grass-588.jpg'))
+        lbl = tk.Label(self, image=img)
+        
+        lbl.image = img #keeping a reference, so the image will appear properly
+        # lbl.pack()
+        lbl.place(relx=0.5, rely=0.5, anchor="center")  # Place label in center of parent.
 
-    frameA.pack(side="top")
-    frameB.pack(side='top')
+        #Title image
+        title = ImageTk.PhotoImage(Image.open('menu_PYTHON/menuAssets/titlePot.png'))
+        labelTitle = tk.Label(self, image=title)
 
-    frameA.pack_propagate(False)
-    frameB.pack_propagate(False)
+        labelTitle.image = title #keeping a reference, so the iamge shows up
+        # labelTitle.pack()
+        labelTitle.place(bordermode="inside", anchor="n", relx=0.5)
 
-    title = ImageTk.PhotoImage( Image.open('menu_PYTHON/menuAssets/titlePot.png'))
-    labelTitle = tk.Label(frameA, image=title)
-    labelTitle.place(relx=0.5, rely=0.5, anchor='center')
+        # Add Images to buttons
+        start_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/potentialStart.png") #220 pi x 60 pi
+        shop_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/settingsPot.png")
+        exit_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/exitPot.png")
 
-    img = ImageTk.PhotoImage(Image.open('assets/grass-588.jpg'))
-    lbl = tk.Label(frameB, image=img)
-    lbl.place(relx=0.5, rely=0.5,anchor='center')  # Place label in center of parent.
+        style = ttk.Style()
 
-    # Add Image
-    start_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/potentialStart.png")
-    settings_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/settingsPot.png")
-    exit_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/exitPot.png")
+        btnStart = ttk.Button(self, image=start_btn, cursor="target", command=lambda: controller.show_frame("LevelSelect")) #needs to bring user to the next screen; levels or level 1 ; command=lambda:parent.switchFrame(LevelSelect)
+        btnShop = ttk.Button(self, image=shop_btn, cursor="target", command=lambda: controller.show_frame("Shop")) #shop
+        btnExit = ttk.Button(self, image=exit_btn,  cursor="target", command = exit) #exit
 
-    btnStart = ttk.Button(frameB, image=start_btn, cursor="target", command=openLevels) #needs to bring user to the next screen; levels or level 1
-    btnSetting = ttk.Button(frameB, image=settings_btn, cursor="target") #settings
-    btnExit = ttk.Button(frameB, image=exit_btn,  cursor="target", command = root.destroy) #exit
+        btnStart.image = start_btn #keeping a reference
+        btnShop.image = shop_btn #keeping a reference
+        btnExit.image = exit_btn #keeping a reference
 
-    style.theme_use('alt')
-    style.configure('TButton', background='#232323', foreground='white')
-    style.map('TButton', background=[('active', '#008000')])
-    btnStart.pack(side="top", pady=(50,10))
-    btnSetting.pack(side="top", pady=10)
-    btnExit.pack(side="top", pady=10)
+        style.theme_use('alt')
+        style.configure('TButton', background='#232323', foreground='white')
+        style.map('TButton', background=[('active', '#008000')])
 
-    root.mainloop()
+        btnStart.place(relx=0.5, rely=0.5, anchor="center")
+        btnShop.place(relx=0.5, rely=0.65, anchor="center")
+        btnExit.place(relx=0.5, rely=0.8, anchor="center")

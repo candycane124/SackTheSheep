@@ -11,23 +11,20 @@ https://opengameart.org/sites/default/files/styles/medium/public/grass03.png
 grass-588:
 https://s3.amazonaws.com/spoonflower/public/design_thumbnails/0424/5908/1431605648965_shop_thumb.png
 
-star:
-https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ea231e53-e17c-4265-83b5-552457fc0505/d8uejr1-6fa24e3b-d69b-4764-b47a-5a19d1ca1970.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2VhMjMxZTUzLWUxN2MtNDI2NS04M2I1LTU1MjQ1N2ZjMDUwNVwvZDh1ZWpyMS02ZmEyNGUzYi1kNjliLTQ3NjQtYjQ3YS01YTE5ZDFjYTE5NzAucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.AbPfSKZBqtZV1DYH5F0jSwo-miFDXjAQDtIR2PddJjk
-
 farmer/player:
 https://oisougabo.itch.io/gap-i
 
 wolf
 https://finalbossblues.itch.io/wolf-pack
 
-sheep:
-angela
-
 smoke puff:
 https://nyknck.itch.io/fx062
 
-Sounds:
+originals (made by us):
+win.png, star.png, sheep.png, sack.png, house.png, heart.png, coin.png, caution1.png
+All images used in the shop (pot_I,pot_II,sack,shoe_dia,shoe_gold,shoe_leather) (shoes inspired by minecraft textures)
 
+## Sounds:
 coin:
 https://opengameart.org/content/10-8bit-coin-sounds
 
@@ -44,5 +41,3 @@ Warning Sound:
 https://opengameart.org/content/short-alarma
 Laser Sound:
 https://opengameart.org/content/theremin-laser-sfx
-
-
