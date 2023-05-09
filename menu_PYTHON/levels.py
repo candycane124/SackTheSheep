@@ -2,11 +2,6 @@
 import tkinter as tk
 import tkinter.font as tkFont
 from PIL import ImageTk, Image
-import sys
-
-# sys.path.append("..")
-# from ..game.STS_b2 import startLevel
-# sys.path.insert(0, 'SackTheSheep/game/')
 
 from game.STS_b2 import *
 

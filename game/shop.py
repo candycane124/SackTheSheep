@@ -53,7 +53,7 @@ def genText(txt, colour, pos, posType):
     rendRect.center = (pos[1], pos[0])
   screen.blit(rendered,rendRect)
 
-with open('main\stats.txt','r') as textFile:
+with open('game/stats.txt','r') as textFile:
   file_content = textFile.readlines()
   info = list(map(float,file_content[0].split()))
   # level = info[0]
@@ -64,7 +64,7 @@ with open('main\stats.txt','r') as textFile:
 
 shop = []
 raw = []
-with open('main/shop_items.txt','r') as textFile:
+with open('game/shop_items.txt','r') as textFile:
   file_content = textFile.readlines()
   for i in file_content:
     raw.append(i)
@@ -114,7 +114,7 @@ while running:
                   raw.pop(shop.index(i))
                   shop.remove(i)
                   info[i.ability[0]] += i.ability[1]
-                  with open('main\stats.txt','w') as outFile:
+                  with open('game\stats.txt','w') as outFile:
                       newStats = ""
                       for j in info:
                           newStats += str(j)
@@ -148,7 +148,7 @@ while running:
     pygame.display.update()
 
 
-with open('main/shop_items.txt','w') as outFile:
+with open('game/shop_items.txt','w') as outFile:
     remainingItems = ""
     for i in raw:
       remainingItems += i
