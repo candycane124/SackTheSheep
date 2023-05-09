@@ -1,11 +1,10 @@
 import tkinter as tk              
 from tkinter import font as tkfont
 # loading Python Imaging Library
-from PIL import ImageTk, Image
-from tkinter import ttk
-from tkinter import font as tkFont
 from menu_PYTHON.levels import LevelSelect
 from menu_PYTHON.menu import Menu
+from game.STS_b2 import *
+# from main.shop import shop
 
 class SampleApp(tk.Tk):
 
@@ -48,6 +47,14 @@ class SampleApp(tk.Tk):
         button.bind("<Enter>", func=lambda e: button.config(background=colourHover))
         button.bind("<Leave>", func=lambda e: button.config(background=colourLeave))
 
+    def minWindowPlay(self, level):
+        self.state(newstate='iconic') # minimize the menu
+        status = startLevel(level) # start the level; store in variable
+        return status
+
+    def normalWindow(self):
+        self.state(newstate='normal')
+
 
 class Shop(tk.Frame):
 
@@ -65,4 +72,17 @@ class Shop(tk.Frame):
 
 if __name__ == "__main__":
     app = SampleApp()
+    app.title("Sack The Sheep")
+    # define window dimensions width and height
+    window_width = 500
+    window_height = 500
+    # get the screen size of your computer [width and height using the root object as foolows]
+    screen_width = app.winfo_screenwidth()
+    screen_height = app.winfo_screenheight()
+    # Get the window position from the top dynamically as well as position from left or right as follows
+    position_top = int(screen_height/2 -window_height/2) -30
+    position_right = int(screen_width / 2 - window_width/2)-8
+    # to cover the pygame window
+    app.geometry(f'{window_width}x{window_height}+{position_right}+{position_top}')
+    # initialise the window
     app.mainloop()
