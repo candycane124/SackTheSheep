@@ -49,8 +49,7 @@ class SampleApp(tk.Tk):
 
     def minWindowPlay(self, level):
         self.state(newstate='iconic') # minimize the menu
-        status = startLevel(level) # start the level; store in variable
-        return status
+        return startLevel(level) # start the level; store in variable
 
     def normalWindow(self):
         self.state(newstate='normal')
