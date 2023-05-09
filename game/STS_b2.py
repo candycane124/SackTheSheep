@@ -234,7 +234,7 @@ def startLevel(level):
   smoke = Animate('smoke') #animate.
 
   #win/lose
-  winImg = pygame.image.load('assets/win.jpg')
+  winImg = pygame.image.load('assets/win.png')
   winImg = pygame.transform.scale(winImg, (width, height))
 
 
@@ -547,6 +547,8 @@ def startLevel(level):
         #quit game
         pygame.quit()
         sys.exit()
+      elif event.type == pygame.MOUSEBUTTONUP:
+        return level, True
     screen.blit(winImg, (0,0))
     genText("Score: " + str(score), (0,0,0), [400,250], "middle")
     match level:
@@ -589,8 +591,12 @@ def startLevel(level):
         #quit game
         pygame.quit()
         sys.exit()
+      elif event.type == pygame.MOUSEBUTTONUP:
+        return level, False
     screen.blit(loseImg, (0,0))
     genText("Score: " + str(score), (250,250,250), [250,400], "middle")
     pygame.display.update()
+
+
 
 # startLevel(3)
