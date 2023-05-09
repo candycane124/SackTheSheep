@@ -243,9 +243,18 @@ def startLevel(level):
   packSheepSound = sound.Sound('sheep')
   alarmSound = sound.Sound('alarm')
   alienSmoke = sound.Sound('alienSmoke')
+  hitSound = sound.Sound('hit')
   level1M = sound.Music('level1')
-  level1M.playMusic()
-
+  level2M = sound.Music('level2')
+  level3M = sound.Music('level3')
+  menuMusic = sound.Music('menu')
+  if level == 1:
+    level1M.playMusic()
+  if level == 2:
+    level2M.playMusic()
+  if level == 3:
+    level3M.playMusic()
+  # menuMusic.playMusic()
 
 
   #---------------------------------
@@ -271,6 +280,7 @@ def startLevel(level):
   while running:
     timer += 1
     clock.tick(100)
+
     #------------
     #INPUT
     #------------
@@ -475,6 +485,7 @@ def startLevel(level):
         sheep, x = reset(level)
         farmDie.resetIndex()
         if level == 3:
+
           nRI = 0
           timeSince = 0
           pygame.time.set_timer(alienEvent, 0)
