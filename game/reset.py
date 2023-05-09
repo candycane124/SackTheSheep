@@ -11,7 +11,7 @@ def reset():
         items = itemsFile.readlines()
     with open('main/shop_items.txt','w') as textFile:
         outText = ""
-        for i in stats:
+        for i in items:
             outText += i
         textFile.write(outText)
 
