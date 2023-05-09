@@ -41,9 +41,9 @@ class LevelSelect(tk.Frame):
                            command=lambda: controller.show_frame("Menu"))
         button.pack(side="bottom")
 
-        btn1 = tk.Button(self, text="Level 1", cursor="target", font=helv36, command=lambda: controller.minWindow(1)) #bring user to level 1
-        btn2 = tk.Button(self, text="Level 2", cursor="target", font=helv36, command=lambda: startLevel(2)) #bring user to level 2; should be locked
-        btn3 = tk.Button(self, text="Level 3", cursor="target", font=helv36, command=lambda: startLevel(3)) #bring user to level 3; should be locked
+        btn1 = tk.Button(self, text="Level 1", cursor="target", font=helv36, command=lambda: controller.minWindowPlay(1)) #bring user to level 1
+        btn2 = tk.Button(self, text="Level 2", cursor="target", font=helv36, command=lambda: controller.minWindowPlay(2)) #bring user to level 2; should be locked
+        btn3 = tk.Button(self, text="Level 3", cursor="target", font=helv36, command=lambda: controller.minWindowPlay(3)) #bring user to level 3; should be locked
 
         btn1.place(relx=0.25, rely=0.6, anchor="center")
         btn2.place(relx=0.5, rely=0.6, anchor="center")
@@ -51,6 +51,7 @@ class LevelSelect(tk.Frame):
 
         controller.changeOnHover(btn1, "green", "white")
         controller.changeOnHover(button, "green", "white")
+
 
         if levelComplete1 != True:
             self.lock(btn2)
