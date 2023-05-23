@@ -547,8 +547,9 @@ def startLevel(level):
         #quit game
         pygame.quit()
         sys.exit()
-      elif event.type == pygame.MOUSEBUTTONUP:
+      elif event.type == pygame.MOUSEBUTTONUP: 
         return level, True
+
     screen.blit(winImg, (0,0))
     genText("Score: " + str(score), (0,0,0), [400,250], "middle")
     match level:

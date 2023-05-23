@@ -71,11 +71,11 @@ with open('game/shop_items.txt','r') as textFile:
     itemData = i.split(",")
     shop.append(Item(itemData[0],itemData[1]=="True",(int(itemData[2]),int(itemData[3])),(int(itemData[4]),int(itemData[5])),int(itemData[6]),itemData[7],[int(itemData[8]),float(itemData[9])]))
    
-# shop = [
-#     Item("assets/shop/sack.png",False,(70,70),(120,210),3,"Better Sack: Carry up to 2 sheeps at a time!",[3,1]),
-#     Item("assets/shop/shoe.png",False,(78,64),(220,310),2,"Speedy Spurs: Increases your walking and running speed!",[1,0.1]),
-#     Item("assets/shop/temp_pot.png",True,(60,60),(410,230),2,"Magic Mana: Improve your sprint regeneration!",[4,0.5])
-# ]
+  # shop = [
+  #     Item("assets/shop/sack.png",False,(70,70),(120,210),3,"Better Sack: Carry up to 2 sheeps at a time!",[3,1]),
+  #     Item("assets/shop/shoe.png",False,(78,64),(220,310),2,"Speedy Spurs: Increases your walking and running speed!",[1,0.1]),
+  #     Item("assets/shop/temp_pot.png",True,(60,60),(410,230),2,"Magic Mana: Improve your sprint regeneration!",[4,0.5])
+  # ]
 
   #back
   backPos = 15
