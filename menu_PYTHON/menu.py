@@ -34,7 +34,7 @@ class Menu(tk.Frame):
         style = ttk.Style()
 
         btnStart = ttk.Button(self, image=start_btn, cursor="target", command=lambda: controller.show_frame("LevelSelect")) #needs to bring user to the next screen; levels or level 1 ; command=lambda:parent.switchFrame(LevelSelect)
-        btnShop = ttk.Button(self, image=shop_btn, cursor="target", command=lambda: controller.show_frame("Shop")) #shop
+        btnShop = ttk.Button(self, image=shop_btn, cursor="target", command=lambda: exec(open('game/shop.py').read())) #shop controller.show_frame("Shop")
         btnExit = ttk.Button(self, image=exit_btn,  cursor="target", command = exit) #exit
 
         btnStart.image = start_btn #keeping a reference

@@ -58,19 +58,19 @@ def shop():
   clock = pygame.time.Clock()
   pygame.display.set_caption('Pixel Perfect')
 
-  with open('main\stats.txt','r') as textFile:
+  with open('game/stats.txt','r') as textFile:
     file_content = textFile.readlines()
     info = list(map(float,file_content[0].split()))
 
-  shop = []
-  raw = []
-  with open('main/shop_items.txt','r') as textFile:
-    file_content = textFile.readlines()
-    for i in file_content:
-      raw.append(i)
-      itemData = i.split(",")
-      shop.append(Item(itemData[0],itemData[1]=="True",(int(itemData[2]),int(itemData[3])),(int(itemData[4]),int(itemData[5])),int(itemData[6]),itemData[7],[int(itemData[8]),float(itemData[9])]))
-    
+shop = []
+raw = []
+with open('game/shop_items.txt','r') as textFile:
+  file_content = textFile.readlines()
+  for i in file_content:
+    raw.append(i)
+    itemData = i.split(",")
+    shop.append(Item(itemData[0],itemData[1]=="True",(int(itemData[2]),int(itemData[3])),(int(itemData[4]),int(itemData[5])),int(itemData[6]),itemData[7],[int(itemData[8]),float(itemData[9])]))
+   
   # shop = [
   #     Item("assets/shop/sack.png",False,(70,70),(120,210),3,"Better Sack: Carry up to 2 sheeps at a time!",[3,1]),
   #     Item("assets/shop/shoe.png",False,(78,64),(220,310),2,"Speedy Spurs: Increases your walking and running speed!",[1,0.1]),
@@ -121,8 +121,8 @@ def shop():
             info[2] -= i.cost
             raw.pop(shop.index(i))
             shop.remove(i)
-            info[i.ability[0]] = i.ability[1]
-            with open('main\stats.txt','w') as outFile:
+            info[i.ability[0]] += i.ability[1]
+            with open('game\stats.txt','w') as outFile:
               newStats = ""
               for j in info:
                 newStats += str(j)
@@ -167,7 +167,9 @@ def shop():
     
     pygame.display.update()
 
-  with open('main/shop_items.txt','w') as outFile:
+
+with open('game/shop_items.txt','w') as outFile:
+    remainingItems = ""
     for i in raw:
       outFile.write(i)
 
