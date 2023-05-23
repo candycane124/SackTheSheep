@@ -49,8 +49,11 @@ https://opengameart.org/content/story-time
 Intro Track:
 https://opengameart.org/content/dodedo
 
-GameOver Track:
+GameOver Sound:
 https://opengameart.org/content/69-game-over-jingles-pack
+
+Win Sound:
+https://opengameart.org/content/win-sound-effect
 
 Warning Sound:
 https://opengameart.org/content/short-alarma

@@ -243,7 +243,9 @@ def startLevel(level):
   packSheepSound = sound.Sound('sheep')
   alarmSound = sound.Sound('alarm')
   alienSmoke = sound.Sound('alienSmoke')
-  hitSound = sound.Sound('hit')
+  hitSound = sound.Sound('wolfHit')
+  winSound = sound.Sound('win')
+  loseSound = sound.Sound('lose')
   level1M = sound.Music('level1')
   level2M = sound.Music('level2')
   level3M = sound.Music('level3')
@@ -383,7 +385,7 @@ def startLevel(level):
         screen.blit(sheepImage,(current[0],current[1]))
       #see if sheep have been sacked
       if current.colliderect(farmerRect) and sacked < sackMax:
-        packSheepSound.play()
+        packSheepSound.playSound()
         sheeps.remove(s)
         sacked += 1
         score += 50
@@ -413,6 +415,7 @@ def startLevel(level):
           w[0][0] -= 1
           wolfR.update()
         if wolfMaskHorz.overlap(userMask, (w[0][0]-user.getPos()[0],w[0][1]-user.getPos()[1])) and lifeStatus:
+          hitSound.playSound()
           user.changeHealth()
           lifeStatus = False
 
@@ -431,6 +434,7 @@ def startLevel(level):
           w[1]-= 1
           wolfB.update()
         if wolfMaskVert.overlap(userMask, (w[0]-user.getPos()[0],w[1]-user.getPos()[1])) and lifeStatus:
+          hitSound.playSound()
           user.changeHealth()
           lifeStatus = False
       
@@ -554,6 +558,7 @@ def startLevel(level):
         pygame.quit()
         sys.exit()
     screen.blit(winImg, (0,0))
+    winSound.playSound()
     genText(screen,"Score: " + str(score), (0,0,0), [400,250], "middle")
     match level:
       case 1:
@@ -596,6 +601,7 @@ def startLevel(level):
         pygame.quit()
         sys.exit()
     screen.blit(loseImg, (0,0))
+    loseSound.playSound()
     genText(screen,"Score: " + str(score), (250,250,250), [250,400], "middle")
     pygame.display.update()
 
