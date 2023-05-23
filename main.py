@@ -47,10 +47,9 @@ class SampleApp(tk.Tk):
         button.bind("<Enter>", func=lambda e: button.config(background=colourHover))
         button.bind("<Leave>", func=lambda e: button.config(background=colourLeave))
 
-    def minWindowPlay(self, level):
+    def minWindow(self):
         self.state(newstate='iconic') # minimize the menu
-        status = startLevel(level) # start the level; store in variable
-        return status
+        # return startLevel(level) # start the level
 
     def normalWindow(self):
         self.state(newstate='normal')
