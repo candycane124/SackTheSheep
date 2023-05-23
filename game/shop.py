@@ -121,7 +121,7 @@ def shop():
             info[2] -= i.cost
             raw.pop(shop.index(i))
             shop.remove(i)
-            info[i.ability[0]] += i.ability[1]
+            info[i.ability[0]] = i.ability[1]
             with open('main\stats.txt','w') as outFile:
               newStats = ""
               for j in info:

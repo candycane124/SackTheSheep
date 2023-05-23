@@ -8,7 +8,9 @@ class Sound():
             'sheep' : pygame.mixer.Sound('assets/sounds/sheep_baa.ogg'),
             'coin': pygame.mixer.Sound('assets/sounds/coin.mp3'),
             'alarm': pygame.mixer.Sound('assets/sounds/alarm.ogg'),
-            'alienSmoke' : pygame.mixer.Sound('assets/sounds/Hyper 1.wav')
+            'alienSmoke' : pygame.mixer.Sound('assets/sounds/Hyper 1.wav'),
+            'wolfHit': pygame.mixer.Sound('assets/sounds/dogbark.wav'),
+            
         }
         self.soundName = soundName
     def playSound(self):
@@ -20,8 +22,10 @@ class Music():
         pygame.mixer.init()
         self.musicVolume = 1
         self.music ={
+            'menu': 'assets/sounds/intro track.ogg',
             'level1': 'assets/sounds/backtrack.wav',
-            'level3': 'assets/sounds/alientrack.wav'
+            'level2': 'assets/sounds/Meadow Thoughts.ogg',
+            'level3': 'assets/sounds/story time.ogg'
          }
         self.musicName = musicName
     def playMusic(self):
