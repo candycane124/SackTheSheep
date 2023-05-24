@@ -56,7 +56,7 @@ def shop(controller):
   width, height = 500, 500
   screen = pygame.display.set_mode((width, height))
   clock = pygame.time.Clock()
-  pygame.display.set_caption('Pixel Perfect')
+  pygame.display.set_caption('STS Shop')
 
   with open('game/stats.txt','r') as textFile:
     file_content = textFile.readlines()
@@ -71,11 +71,11 @@ def shop(controller):
       itemData = i.split(",")
       shop.append(Item(itemData[0],itemData[1]=="True",(int(itemData[2]),int(itemData[3])),(int(itemData[4]),int(itemData[5])),int(itemData[6]),itemData[7],[int(itemData[8]),float(itemData[9])]))
     
-    # shop = [
-    #     Item("assets/shop/sack.png",False,(70,70),(120,210),3,"Better Sack: Carry up to 2 sheeps at a time!",[3,1]),
-    #     Item("assets/shop/shoe.png",False,(78,64),(220,310),2,"Speedy Spurs: Increases your walking and running speed!",[1,0.1]),
-    #     Item("assets/shop/temp_pot.png",True,(60,60),(410,230),2,"Magic Mana: Improve your sprint regeneration!",[4,0.5])
-    # ]
+  # shop = [
+  #     Item("assets/shop/sack.png",False,(70,70),(120,210),3,"Better Sack: Carry up to 2 sheeps at a time!",[3,1]),
+  #     Item("assets/shop/shoe.png",False,(78,64),(220,310),2,"Speedy Spurs: Increases your walking and running speed!",[1,0.1]),
+  #     Item("assets/shop/temp_pot.png",True,(60,60),(410,230),2,"Magic Mana: Improve your sprint regeneration!",[4,0.5])
+  # ]
 
     #back
     backPos = 15
@@ -121,7 +121,7 @@ def shop(controller):
               info[2] -= i.cost
               raw.pop(shop.index(i))
               shop.remove(i)
-              info[i.ability[0]] += i.ability[1]
+              info[i.ability[0]] = i.ability[1]
               with open('game\stats.txt','w') as outFile:
                 newStats = ""
                 for j in info:
@@ -168,10 +168,8 @@ def shop(controller):
       
       pygame.display.update()
 
-
   with open('game/shop_items.txt','w') as outFile:
-      remainingItems = ""
-      for i in raw:
-        outFile.write(i)
+    for i in raw:
+      outFile.write(i)
 
 # shop()

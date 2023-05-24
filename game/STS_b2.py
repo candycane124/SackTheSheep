@@ -235,7 +235,17 @@ def startLevel(level, controller):
   winImg = pygame.image.load('assets/win.png')
   winImg = pygame.transform.scale(winImg, (width, height))
 
-  loseImg = pygame.image.load('assets/gameover.jpg')
+
+  #---------------------------------
+  #              SOUND
+  #---------------------------------
+  coinSound = pygame.mixer.Sound('assets/sounds/coin.mp3')
+  coinSound.set_volume(0.2)
+  packSheepSound = pygame.mixer.Sound('assets/sounds/sheep_baa.ogg')
+  music = pygame.mixer.music.load('assets/sounds/backtrack.wav')
+  pygame.mixer.music.play(-1)
+  #coinSound = sound.SoundPlay('coin')
+  loseImg = pygame.image.load('assets/lose.png')
   loseImg = pygame.transform.scale(loseImg, (width, height))
 
   #---------------------------------
@@ -605,7 +615,7 @@ def startLevel(level, controller):
         controller.normalWindow() #pop up menu once more
         return level, False
     screen.blit(loseImg, (0,0))
-    genText(screen,"Score: " + str(score), (250,250,250), [250,400], "middle")
+    genText(screen,"Score: " + str(score), (250,250,250), [400,250], "middle")
     pygame.display.update()
 
 # startLevel(2)
