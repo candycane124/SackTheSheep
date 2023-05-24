@@ -245,7 +245,7 @@ def startLevel(level):
   music = pygame.mixer.music.load('assets/sounds/backtrack.wav')
   pygame.mixer.music.play(-1)
   #coinSound = sound.SoundPlay('coin')
-  loseImg = pygame.image.load('assets/lose.jpg')
+  loseImg = pygame.image.load('assets/lose.png')
   loseImg = pygame.transform.scale(loseImg, (width, height))
 
   #---------------------------------
@@ -611,7 +611,7 @@ def startLevel(level):
         pygame.quit()
         sys.exit()
     screen.blit(loseImg, (0,0))
-    genText(screen,"Score: " + str(score), (250,250,250), [250,400], "middle")
+    genText(screen,"Score: " + str(score), (250,250,250), [400,250], "middle")
     pygame.display.update()
 
 # startLevel(2)
