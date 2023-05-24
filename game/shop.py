@@ -56,15 +56,15 @@ def shop():
   width, height = 500, 500
   screen = pygame.display.set_mode((width, height))
   clock = pygame.time.Clock()
-  pygame.display.set_caption('Pixel Perfect')
+  pygame.display.set_caption('STS Shop')
 
-  with open('main\stats.txt','r') as textFile:
+  with open('game/stats.txt','r') as textFile:
     file_content = textFile.readlines()
     info = list(map(float,file_content[0].split()))
 
   shop = []
   raw = []
-  with open('main/shop_items.txt','r') as textFile:
+  with open('game/shop_items.txt','r') as textFile:
     file_content = textFile.readlines()
     for i in file_content:
       raw.append(i)
@@ -121,8 +121,8 @@ def shop():
             info[2] -= i.cost
             raw.pop(shop.index(i))
             shop.remove(i)
-            info[i.ability[0]] += i.ability[1]
-            with open('main\stats.txt','w') as outFile:
+            info[i.ability[0]] = i.ability[1]
+            with open('game\stats.txt','w') as outFile:
               newStats = ""
               for j in info:
                 newStats += str(j)
@@ -167,7 +167,7 @@ def shop():
     
     pygame.display.update()
 
-  with open('main/shop_items.txt','w') as outFile:
+  with open('game/shop_items.txt','w') as outFile:
     for i in raw:
       outFile.write(i)
 

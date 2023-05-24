@@ -247,7 +247,7 @@ def startLevel(level):
   music = pygame.mixer.music.load('assets/sounds/backtrack.wav')
   pygame.mixer.music.play(-1)
   #coinSound = sound.SoundPlay('coin')
-  loseImg = pygame.image.load('assets/gameover.jpg')
+  loseImg = pygame.image.load('assets/lose.jpg')
   loseImg = pygame.transform.scale(loseImg, (width, height))
 
 
