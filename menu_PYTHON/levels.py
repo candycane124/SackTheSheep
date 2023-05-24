@@ -1,8 +1,9 @@
 # level menu to the game Sack The Sheep
 import tkinter as tk
 import tkinter.font as tkFont
-from tkinter import ttk
 from PIL import ImageTk, Image
+
+from game.STS_b2 import *
 
 class LevelSelect(tk.Frame):
 
@@ -10,8 +11,8 @@ class LevelSelect(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        levelComplete1 = False #status of level 1 completion
-        levelComplete2 = False #status of level 2 completion
+        levelComplete1 = True #status of level 1 completion
+        levelComplete2 = True #status of level 2 completion
 
         helv36 = tkFont.Font(family='Helvetica', size=18, weight='bold')
 
@@ -35,9 +36,12 @@ class LevelSelect(tk.Frame):
                            command=lambda: controller.show_frame("Menu"))
         button.pack(side="bottom")
 
-        btn1 = tk.Button(self, text="Level 1", cursor="target", font=helv36) #bring user to level 1
-        btn2 = tk.Button(self, text="Level 2", cursor="target", font=helv36) #bring user to level 2; should be locked
-        btn3 = tk.Button(self, text="Level 3", cursor="target", font=helv36) #bring user to level 3; should be locked
+        # levelComplete1 = lambda: controller.minWindowPlay(1)
+        # play1 = startLevel(1)
+
+        btn1 = tk.Button(self, text="Level 1", cursor="target", font=helv36, command=lambda: [controller.minWindow(), startLevel(1)]) #bring user to level 1 + minimize current window
+        btn2 = tk.Button(self, text="Level 2", cursor="target", font=helv36, command=lambda: [controller.minWindow(), startLevel(2)]) #bring user to level 2 + minimize current window; should be locked
+        btn3 = tk.Button(self, text="Level 3", cursor="target", font=helv36, command=lambda: [controller.minWindow(), startLevel(3)]) #bring user to level 3 + minimize current window; should be locked
 
         btn1.place(relx=0.25, rely=0.6, anchor="center")
         btn2.place(relx=0.5, rely=0.6, anchor="center")
@@ -46,13 +50,15 @@ class LevelSelect(tk.Frame):
         controller.changeOnHover(btn1, "green", "white")
         controller.changeOnHover(button, "green", "white")
 
-        if levelComplete1 != True:
+        if levelComplete1 != True and levelComplete2 != True:
             self.lock(btn2)
             self.lock(btn3)
-        elif levelComplete2 != True:
+        
+        if levelComplete1 == True:
             self.lock(btn3)
             self.unlock(btn2)
-        else:
+
+        if levelComplete2 == True:
             self.unlock(btn3)
     
     def lock(self, btn):
@@ -62,5 +68,4 @@ class LevelSelect(tk.Frame):
     def unlock(self, btn):
         btn["state"] = "normal"
         self.controller.changeOnHover(btn, "green", "white")
-
         return

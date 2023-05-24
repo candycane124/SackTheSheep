@@ -2,9 +2,9 @@ import pygame, sys
 from pygame.locals import QUIT
 from pygame.locals import *
 import random
-import entity
-import animate
-import sound
+from game.entity import *
+from game.animate import Animate
+from game.sound import *
 
 #easier text generation
 def genText(screen, txt, colour, pos, posType):
@@ -12,6 +12,8 @@ def genText(screen, txt, colour, pos, posType):
   Blit's text to screen
   Parameters
   -----
+  screen : str
+    Surface for text to be displayed on
   txt : Str
     Text that will be displayed
   colour : int ( )
@@ -110,7 +112,7 @@ def startLevel(level):
   grass = pygame.transform.scale(grass, (width, height))
 
   #modifiable user data from text file
-  with open('main\stats.txt','r') as textFile:
+  with open('game\stats.txt','r') as textFile:
     file_content = textFile.readlines()
     info = list(map(float,file_content[0].split()))
     # level = info[0]
@@ -166,11 +168,11 @@ def startLevel(level):
   wolfY = 90
 
   #Horizontal Wolves
-  wolfR = animate.Animate('wolfR')
+  wolfR = Animate('wolfR')
 
   #Vertical Wolves
-  wolfF = animate.Animate('wolfF')
-  wolfB = animate.Animate('wolfB')
+  wolfF = Animate('wolfF')
+  wolfB = Animate('wolfB')
   if level == 2:
     wolfHorz = [
       [pygame.Rect(wolfX,wolfY,wolfW,wolfH),[wolfX,465]]
@@ -191,7 +193,7 @@ def startLevel(level):
 
   #coins
   coinSize = 20
-  coinAnimate = animate.Animate('coin')
+  coinAnimate = Animate('coin')
 
   sheeps, coins = reset(level)
   guiCoin = pygame.image.load('assets\coin.png')
@@ -207,11 +209,11 @@ def startLevel(level):
   sprintSpeed = 1
   spawnX = 50
   spawnY = 50
-  user = entity.Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,3,obstImages,obstacles)
+  user = Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,3,obstImages,obstacles)
   userMask = pygame.mask.from_surface(pygame.transform.scale(pygame.image.load("assets/farmerRun/Hobbit - run7.png"),(38,38)))
-  farmDie = animate.Animate('farmDie')
-  farmRun = animate.Animate('farmRun')
-  farmStop = animate.Animate('farmStop')
+  farmDie = Animate('farmDie')
+  farmRun = Animate('farmRun')
+  farmStop = Animate('farmStop')
 
   #home
   homeImg = pygame.image.load("assets/house.png")
@@ -227,7 +229,7 @@ def startLevel(level):
   #alien 
   smokeW = 50
   smokeH = 50
-  smoke = animate.Animate('smoke')
+  smoke = Animate('smoke')
 
   #win/lose
   winImg = pygame.image.load('assets/win.png')
@@ -239,17 +241,15 @@ def startLevel(level):
   #---------------------------------
   #          SOUND/MUSIC
   #---------------------------------
-  coinSound = sound.Sound('coin')
-  packSheepSound = sound.Sound('sheep')
-  alarmSound = sound.Sound('alarm')
-  alienSmoke = sound.Sound('alienSmoke')
-  hitSound = sound.Sound('wolfHit')
-  winSound = sound.Sound('win')
-  loseSound = sound.Sound('lose')
-  level1M = sound.Music('level1')
-  level2M = sound.Music('level2')
-  level3M = sound.Music('level3')
-  menuMusic = sound.Music('menu')
+  coinSound = Sound('coin')
+  packSheepSound = Sound('sheep')
+  alarmSound = Sound('alarm')
+  alienSmoke = Sound('alienSmoke')
+  hitSound = Sound('hit')
+  level1M = Music('level1')
+  level2M = Music('level2')
+  level3M = Music('level3')
+  menuMusic = Music('menu')
   if level == 1:
     level1M.playMusic()
   if level == 2:
@@ -415,7 +415,6 @@ def startLevel(level):
           w[0][0] -= 1
           wolfR.update()
         if wolfMaskHorz.overlap(userMask, (w[0][0]-user.getPos()[0],w[0][1]-user.getPos()[1])) and lifeStatus:
-          hitSound.playSound()
           user.changeHealth()
           lifeStatus = False
 
@@ -434,7 +433,6 @@ def startLevel(level):
           w[1]-= 1
           wolfB.update()
         if wolfMaskVert.overlap(userMask, (w[0]-user.getPos()[0],w[1]-user.getPos()[1])) and lifeStatus:
-          hitSound.playSound()
           user.changeHealth()
           lifeStatus = False
       
@@ -534,19 +532,19 @@ def startLevel(level):
   else:
     score = 0
   if win:
-    with open('main/stats.txt','r') as textFile:
+    with open('game/stats.txt','r') as textFile:
       file_content = textFile.readlines()
       infoLine = list(map(float,file_content[0].split()))
       infoLine[2] = money
       # if level != 3:
       #   infoLine[0] += 1
-    with open('main/stats.txt','w') as outFile:
+    with open('game/stats.txt','w') as outFile:
       outText = ""
       for i in infoLine:
         outText += str(i) + " "
       outText += "\nlevel walkSpeed money sackMax sprintGen"
       outFile.write(outText) 
-    with open('main/scores.txt','a') as outFile:
+    with open('game/scores.txt','a') as outFile:
       outText = f"{score} (level {level})\n"
       outFile.write(outText)
 
@@ -557,8 +555,10 @@ def startLevel(level):
         #quit game
         pygame.quit()
         sys.exit()
+      elif event.type == pygame.MOUSEBUTTONUP: 
+        return level, True
+
     screen.blit(winImg, (0,0))
-    winSound.playSound()
     genText(screen,"Score: " + str(score), (0,0,0), [400,250], "middle")
     match level:
       case 1:
@@ -601,8 +601,7 @@ def startLevel(level):
         pygame.quit()
         sys.exit()
     screen.blit(loseImg, (0,0))
-    loseSound.playSound()
     genText(screen,"Score: " + str(score), (250,250,250), [250,400], "middle")
     pygame.display.update()
 
-startLevel(2)
+# startLevel(2)
