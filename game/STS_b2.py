@@ -1,29 +1,19 @@
 import pygame, sys
+from pygame.locals import QUIT
 from pygame.locals import *
 import random
-# import entity
 from game.entity import *
-# import animate
 from game.animate import Animate
-# import sound
-from game.sound import Sound
+from game.sound import *
 
-#initial game/screen setup
-pygame.init()
-width = 500
-height = 500
-screen = pygame.display.set_mode((width, height))
-clock = pygame.time.Clock()
-pygame.display.set_caption('Sack The Sheep')
-  
 #easier text generation
-font = pygame.font.Font('freesansbold.ttf', 14)
-
-def genText(txt, colour, pos, posType):
+def genText(screen, txt, colour, pos, posType):
   '''
   Blit's text to screen
   Parameters
   -----
+  screen : str
+    Surface for text to be displayed on
   txt : Str
     Text that will be displayed
   colour : int ( )
@@ -33,6 +23,7 @@ def genText(txt, colour, pos, posType):
   posType : Str
     "top-right", "bottom-left", "bottom-right", "top-left", or "middle"
   '''
+  font = pygame.font.Font('freesansbold.ttf', 14)
   rendered = font.render(txt, True, colour)
   rendRect = rendered.get_rect()
   if posType == "top-right":
@@ -50,7 +41,6 @@ def genText(txt, colour, pos, posType):
   elif posType == "middle":
     rendRect.center = (pos[1], pos[0])
   screen.blit(rendered,rendRect)
-
 
 #reset level function
 def reset(level):
@@ -109,6 +99,14 @@ def abduct(n,raySize,maxMap):
     return areas
 
 def startLevel(level):
+  #initial game/screen setup
+  pygame.init()
+  width = 500
+  height = 500
+  screen = pygame.display.set_mode((width, height))
+  clock = pygame.time.Clock()
+  pygame.display.set_caption('Sack The Sheep')
+
   #grass
   grass = pygame.image.load('assets/grass-588.jpg')
   grass = pygame.transform.scale(grass, (width, height))
@@ -170,11 +168,11 @@ def startLevel(level):
   wolfY = 90
 
   #Horizontal Wolves
-  wolfR = Animate('wolfR') #animate.
+  wolfR = Animate('wolfR')
 
   #Vertical Wolves
-  wolfF = Animate('wolfF') #animate.
-  wolfB = Animate('wolfB') #animate.
+  wolfF = Animate('wolfF')
+  wolfB = Animate('wolfB')
   if level == 2:
     wolfHorz = [
       [pygame.Rect(wolfX,wolfY,wolfW,wolfH),[wolfX,465]]
@@ -195,7 +193,7 @@ def startLevel(level):
 
   #coins
   coinSize = 20
-  coinAnimate = Animate('coin') #animate.
+  coinAnimate = Animate('coin')
 
   sheeps, coins = reset(level)
   guiCoin = pygame.image.load('assets\coin.png')
@@ -211,11 +209,11 @@ def startLevel(level):
   sprintSpeed = 1
   spawnX = 50
   spawnY = 50
-  user = Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,3,obstImages,obstacles) #entity.
+  user = Player([spawnX,spawnY],defaultSpeed,[width,height],userSizeX,userSizeY,3,obstImages,obstacles)
   userMask = pygame.mask.from_surface(pygame.transform.scale(pygame.image.load("assets/farmerRun/Hobbit - run7.png"),(38,38)))
-  farmDie = Animate('farmDie') #animate.
-  farmRun = Animate('farmRun') #animate.
-  farmStop = Animate('farmStop') #animate.
+  farmDie = Animate('farmDie')
+  farmRun = Animate('farmRun')
+  farmStop = Animate('farmStop')
 
   #home
   homeImg = pygame.image.load("assets/house.png")
@@ -231,10 +229,10 @@ def startLevel(level):
   #alien 
   smokeW = 50
   smokeH = 50
-  smoke = Animate('smoke') #animate.
+  smoke = Animate('smoke')
 
   #win/lose
-  winImg = pygame.image.load('assets/win.jpg')
+  winImg = pygame.image.load('assets/win.png')
   winImg = pygame.transform.scale(winImg, (width, height))
 
 
@@ -250,8 +248,25 @@ def startLevel(level):
   loseImg = pygame.image.load('assets/lose.jpg')
   loseImg = pygame.transform.scale(loseImg, (width, height))
 
-
-
+  #---------------------------------
+  #          SOUND/MUSIC
+  #---------------------------------
+  coinSound = Sound('coin')
+  packSheepSound = Sound('sheep')
+  alarmSound = Sound('alarm')
+  alienSmoke = Sound('alienSmoke')
+  hitSound = Sound('hit')
+  level1M = Music('level1')
+  level2M = Music('level2')
+  level3M = Music('level3')
+  menuMusic = Music('menu')
+  if level == 1:
+    level1M.playMusic()
+  if level == 2:
+    level2M.playMusic()
+  if level == 3:
+    level3M.playMusic()
+  # menuMusic.playMusic()
 
 
   #---------------------------------
@@ -277,6 +292,7 @@ def startLevel(level):
   while running:
     timer += 1
     clock.tick(100)
+
     #------------
     #INPUT
     #------------
@@ -306,7 +322,7 @@ def startLevel(level):
                 rays = []
                 buildUp = []
             elif event.key == K_ESCAPE:
-              #send to pause screen
+              #send to pause or menu screen
               pass
         if level == 3 and event.type == alienEvent:
           buildUp = abduct(numRay,50,[width,height])
@@ -379,7 +395,7 @@ def startLevel(level):
         screen.blit(sheepImage,(current[0],current[1]))
       #see if sheep have been sacked
       if current.colliderect(farmerRect) and sacked < sackMax:
-        packSheepSound.play()
+        packSheepSound.playSound()
         sheeps.remove(s)
         sacked += 1
         score += 50
@@ -388,8 +404,7 @@ def startLevel(level):
       coinAnimate.draw(screen,c[0],c[1], coinSize, coinSize,False, False)
       coinAnimate.update()
       if c.colliderect(farmerRect):
-        coinSound.play()
-        #coinSound.playSound()
+        coinSound.playSound()
         coins.remove(c)
         money += 1
         score += 10
@@ -445,12 +460,14 @@ def startLevel(level):
     # RAYS
     for i in buildUp:
       screen.blit(buildImg, (i[0],i[1]))
+      alarmSound.playSound()
     for i in rays:
       smoke.draw(screen, i[0],i[1], smokeW, smokeH, False, False)
       smoke.update()
       if i.colliderect(farmerRect) and lifeStatus:
+        alienSmoke.playSound()
         user.changeHealth()
-        lifeStatus = False
+        lifeStatus = False        
     # CHARACTER
     if faceRight==True  and stop == False and lifeStatus == True:
       farmRun.draw(screen, user.getPos()[0],user.getPos()[1],userSizeX, userSizeY, False, False)
@@ -480,6 +497,7 @@ def startLevel(level):
         sheep, x = reset(level)
         farmDie.resetIndex()
         if level == 3:
+
           nRI = 0
           timeSince = 0
           pygame.time.set_timer(alienEvent, 0)
@@ -492,7 +510,7 @@ def startLevel(level):
           running = False
     # SPRINT
     pygame.draw.rect(screen,(40,40,40),(200,5,100,10))
-    pygame.draw.rect(screen,(20,100,250),(200,5,sprint/10,10))
+    pygame.draw.rect(screen,(140,100,250),(200,5,sprint/10,10))
     # HEALTH
     for i in range(user.getHealth()):
       screen.blit(healthImg, (220+i*22,20))
@@ -502,18 +520,18 @@ def startLevel(level):
     # ----
     #sheep
     screen.blit(guiSheep,(482,7))
-    genText(str(len(sheeps)), (40,40,40), [6,478], "top-right")
+    genText(screen,str(len(sheeps)), (40,40,40), [6,478], "top-right")
     #coin
     screen.blit(guiCoin, (482,30))
-    genText(str(money),(255,195,0), [31,478], "top-right")
+    genText(screen,str(money),(255,195,0), [31,478], "top-right")
     #sack
     screen.blit(guiSack, (482, 55))
-    genText(str(sacked) + "/" + str(sackMax), (0,0,0), [55,478], "top-right")
+    genText(screen,str(sacked) + "/" + str(sackMax), (0,0,0), [55,478], "top-right")
 
     # UPDATE DISPLAY
     pygame.display.update()
 
-  starImg = pygame.transform.scale(pygame.image.load("assets\star.png"),(20,20))
+  starImg = pygame.transform.scale(pygame.image.load("assets\star.png"),(30,30))
   score += user.getHealth()*100
   timePenalty = timer//100
   print(timePenalty)
@@ -527,7 +545,7 @@ def startLevel(level):
     with open('game/stats.txt','r') as textFile:
       file_content = textFile.readlines()
       infoLine = list(map(float,file_content[0].split()))
-      infoLine[3] = money
+      infoLine[2] = money
       # if level != 3:
       #   infoLine[0] += 1
     with open('game/stats.txt','w') as outFile:
@@ -547,8 +565,11 @@ def startLevel(level):
         #quit game
         pygame.quit()
         sys.exit()
+      elif event.type == pygame.MOUSEBUTTONUP: 
+        return level, True
+
     screen.blit(winImg, (0,0))
-    genText("Score: " + str(score), (0,0,0), [400,250], "middle")
+    genText(screen,"Score: " + str(score), (0,0,0), [400,250], "middle")
     match level:
       case 1:
         if score >= 442: # need to test values
@@ -579,7 +600,7 @@ def startLevel(level):
           stars = 0
     
     for i in range(stars):
-      screen.blit(starImg, (200+i*50,420))
+      screen.blit(starImg, (190+i*45,420))
     pygame.display.update()
     #send user to success page/choose levels page
 
@@ -590,7 +611,7 @@ def startLevel(level):
         pygame.quit()
         sys.exit()
     screen.blit(loseImg, (0,0))
-    genText("Score: " + str(score), (250,250,250), [250,400], "middle")
+    genText(screen,"Score: " + str(score), (250,250,250), [250,400], "middle")
     pygame.display.update()
 
-# startLevel(3)
+# startLevel(2)
