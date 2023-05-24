@@ -49,10 +49,9 @@ class SampleApp(tk.Tk):
 
     def minWindow(self):
         self.state(newstate='iconic') # minimize the menu
-        # return startLevel(level) # start the level
 
     def normalWindow(self):
-        self.state(newstate='normal')
+        self.state(newstate='normal') # return the menu to original size
 
 
 class Shop(tk.Frame):

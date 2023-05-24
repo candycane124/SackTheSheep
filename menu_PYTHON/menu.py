@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import ttk
 # loading Python Imaging Library
 from PIL import ImageTk, Image
+import pygame
+from game.shop import shop
 
 class Menu(tk.Frame):
 
@@ -34,7 +36,7 @@ class Menu(tk.Frame):
         style = ttk.Style()
 
         btnStart = ttk.Button(self, image=start_btn, cursor="target", command=lambda: controller.show_frame("LevelSelect")) #needs to bring user to the next screen; levels or level 1 ; command=lambda:parent.switchFrame(LevelSelect)
-        btnShop = ttk.Button(self, image=shop_btn, cursor="target", command=lambda: exec(open('game/shop.py').read())) #shop controller.show_frame("Shop")
+        btnShop = ttk.Button(self, image=shop_btn, cursor="target", command=lambda: [controller.minWindow(), shop(controller)]) #lambda: exec(open('game/shop.py').read())
         btnExit = ttk.Button(self, image=exit_btn,  cursor="target", command = exit) #exit
 
         btnStart.image = start_btn #keeping a reference

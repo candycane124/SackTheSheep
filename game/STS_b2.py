@@ -108,7 +108,7 @@ def abduct(n,raySize,maxMap):
         areas.append(pygame.Rect(nX*raySize,nY*raySize,raySize,raySize))
     return areas
 
-def startLevel(level):
+def startLevel(level, controller):
   #grass
   grass = pygame.image.load('assets/grass-588.jpg')
   grass = pygame.transform.scale(grass, (width, height))
@@ -548,6 +548,7 @@ def startLevel(level):
         pygame.quit()
         sys.exit()
       elif event.type == pygame.MOUSEBUTTONUP: 
+        controller.normalWindow() # pop up the menu/level screen once more
         return level, True
 
     screen.blit(winImg, (0,0))
@@ -593,6 +594,7 @@ def startLevel(level):
         pygame.quit()
         sys.exit()
       elif event.type == pygame.MOUSEBUTTONUP:
+        controller.normalWindow() #pop up menu once more
         return level, False
     screen.blit(loseImg, (0,0))
     genText("Score: " + str(score), (250,250,250), [250,400], "middle")
