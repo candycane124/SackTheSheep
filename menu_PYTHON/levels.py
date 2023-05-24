@@ -11,8 +11,8 @@ class LevelSelect(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        levelComplete1 = False #status of level 1 completion
-        levelComplete2 = False #status of level 2 completion
+        levelComplete1 = True #status of level 1 completion
+        levelComplete2 = True #status of level 2 completion
 
         helv36 = tkFont.Font(family='Helvetica', size=18, weight='bold')
 
