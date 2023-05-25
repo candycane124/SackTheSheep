@@ -567,7 +567,7 @@ def startLevel(level, controller):
         sys.exit()
       elif event.type == pygame.MOUSEBUTTONUP: 
         controller.normalWindow() # pop up the menu/level screen once more
-        return level, True
+        return
 
     screen.blit(winImg, (0,0))
     genText(screen,"Score: " + str(score), (0,0,0), [400,250], "middle")
@@ -613,7 +613,7 @@ def startLevel(level, controller):
         sys.exit()
       elif event.type == pygame.MOUSEBUTTONUP:
         controller.normalWindow() #pop up menu once more
-        return level, False
+        return
     screen.blit(loseImg, (0,0))
     genText(screen,"Score: " + str(score), (250,250,250), [400,250], "middle")
     pygame.display.update()
