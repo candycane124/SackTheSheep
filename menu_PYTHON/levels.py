@@ -55,7 +55,7 @@ class LevelSelect(tk.Frame):
         
         # if levelComplete1 == True:
         elif levelToPlay == 2.0:
-            # self.lock(btn3)
+            self.lock(btn3)
             self.unlock(btn2)
 
         # if levelComplete2 == True:

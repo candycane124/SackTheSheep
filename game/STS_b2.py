@@ -546,7 +546,7 @@ def startLevel(level, controller):
       file_content = textFile.readlines()
       infoLine = list(map(float,file_content[0].split()))
       infoLine[2] = money
-      if level != 3:
+      if infoLine[0] == level and infoLine != 3:
         infoLine[0] += 1
     with open('game/stats.txt','w') as outFile:
       outText = ""
@@ -558,6 +558,9 @@ def startLevel(level, controller):
       outText = f"{score} (level {level})\n"
       outFile.write(outText)
 
+  backButton = pygame.transform.scale(pygame.image.load("assets/back.png"),(96,44))
+  backRect = pygame.Rect(202,378,96,44)
+
   #level cleared
   while win:
     for event in pygame.event.get():
@@ -565,15 +568,15 @@ def startLevel(level, controller):
         #quit game
         pygame.quit()
         sys.exit()
-      elif event.type == pygame.MOUSEBUTTONUP: 
-        controller.normalWindow() # pop up the menu/level screen once more
+      elif event.type == pygame.MOUSEBUTTONUP and backRect.collidepoint(pygame.mouse.get_pos()): 
+        controller.normalWindow()
         return
 
     screen.blit(winImg, (0,0))
-    genText(screen,"Score: " + str(score), (0,0,0), [400,250], "middle")
+    genText(screen,"Score: " + str(score), (0,0,0), [300,250], "middle")
     match level:
       case 1:
-        if score >= 442: # need to test values
+        if score >= 442:
           stars = 3
         elif score >= 428:
           stars = 2
@@ -599,11 +602,11 @@ def startLevel(level, controller):
           stars = 1
         else:
           stars = 0
-    
     for i in range(stars):
-      screen.blit(starImg, (190+i*45,420))
+      screen.blit(starImg, (190+i*45,320))
+    screen.blit(backButton,backRect)
+
     pygame.display.update()
-    #send user to success page/choose levels page
 
   while not win:
     for event in pygame.event.get():
@@ -611,11 +614,12 @@ def startLevel(level, controller):
         #quit game
         pygame.quit()
         sys.exit()
-      elif event.type == pygame.MOUSEBUTTONUP:
-        controller.normalWindow() #pop up menu once more
+      elif event.type == pygame.MOUSEBUTTONUP and backRect.collidepoint(pygame.mouse.get_pos()):
+        controller.normalWindow()
         return
     screen.blit(loseImg, (0,0))
-    genText(screen,"Score: " + str(score), (250,250,250), [400,250], "middle")
+    genText(screen,"Score: " + str(score), (250,250,250), [300,250], "middle")
+    screen.blit(backButton,backRect)
     pygame.display.update()
 
 # startLevel(2)
