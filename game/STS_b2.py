@@ -546,8 +546,8 @@ def startLevel(level, controller):
       file_content = textFile.readlines()
       infoLine = list(map(float,file_content[0].split()))
       infoLine[2] = money
-      # if level != 3:
-      #   infoLine[0] += 1
+      if level != 3:
+        infoLine[0] += 1
     with open('game/stats.txt','w') as outFile:
       outText = ""
       for i in infoLine:
