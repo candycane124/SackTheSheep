@@ -1,6 +1,1 @@
 assets/shop/sack.png,False,70,70,120,220,4,Better Sack: Carry 2 sheeps at once!,3,2
-assets/shop/shoe_leather.png,False,60,60,110,308,1,Speedy Spurs: Slightly increases walking & running speed,1,0.55
-assets/shop/shoe_gold.png,False,60,60,260,308,2,Golden Clogs: Increases walking & running speed,1,0.65
-assets/shop/shoe_dia.png,False,60,60,220,382,3,Shiny Sneakers: Greatly increases walking & running speed,1,0.8
-assets/shop/pot_I.png,True,27,45,460,276,1,Magic Mana Potion I: Improves sprint regeneration,4,2
-assets/shop/pot_II.png,True,36,60,460,211,2,Magic Mana Potion II: Greatly improves sprint regeneration,4,3
