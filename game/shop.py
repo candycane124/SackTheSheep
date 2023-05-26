@@ -157,7 +157,7 @@ def shop(controller):
       screen.blit(backImg,(backPos,backPos))
       if pygame.mouse.get_pressed()[0] and backRect.collidepoint(pygame.mouse.get_pos()):
         running = False
-        controller.normalWindow() #open menu back up
+        controller.normalWindow("Menu") #open menu back up
 
       #coin
       screen.blit(guiCoin, (472,14))

@@ -569,7 +569,7 @@ def startLevel(level, controller):
         pygame.quit()
         sys.exit()
       elif event.type == pygame.MOUSEBUTTONUP and backRect.collidepoint(pygame.mouse.get_pos()): 
-        controller.normalWindow()
+        controller.normalWindow("LevelSelect")
         return
 
     screen.blit(winImg, (0,0))
@@ -615,7 +615,7 @@ def startLevel(level, controller):
         pygame.quit()
         sys.exit()
       elif event.type == pygame.MOUSEBUTTONUP and backRect.collidepoint(pygame.mouse.get_pos()):
-        controller.normalWindow()
+        controller.normalWindow("LevelSelect")
         return
     screen.blit(loseImg, (0,0))
     genText(screen,"Score: " + str(score), (250,250,250), [300,250], "middle")

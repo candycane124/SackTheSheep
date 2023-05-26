@@ -12,7 +12,7 @@ class LevelSelect(tk.Frame):
         self.controller = controller
         
         # grabbing the info of the newest level user has unlocked
-        levelToPlay = self.readLevel()
+        # levelToPlay = self.readLevel()
 
         # # run first time at once
         # self.update(controller)
@@ -46,16 +46,24 @@ class LevelSelect(tk.Frame):
         button.pack(side="bottom", anchor="w", padx=25, pady=15)
 
         btn1 = tk.Button(self, text="Level 1", cursor="target", font=helv36, command=lambda: [controller.minWindow(), startLevel(1, controller)]) #bring user to level 1 + minimize current window
-        btn2 = tk.Button(self, text="Level 2", cursor="target", font=helv36, command=lambda: [controller.minWindow(), startLevel(2, controller)]) #bring user to level 2 + minimize current window; should be locked
-        btn3 = tk.Button(self, text="Level 3", cursor="target", font=helv36, command=lambda: [controller.minWindow(), startLevel(3, controller)]) #bring user to level 3 + minimize current window; should be locked
+        
 
         btn1.place(relx=0.25, rely=0.6, anchor="center")
-        btn2.place(relx=0.5, rely=0.6, anchor="center")
-        btn3.place(relx=0.75, rely=0.6, anchor="center")
+        
 
         controller.changeOnHover(btn1, "green", "white")
         controller.changeOnHover(button, "green", "#A8D465")
-    
+
+        self.updateButtons(controller)
+
+    def updateButtons(self, controller):
+        levelToPlay = self.readLevel()
+
+        btn2 = tk.Button(self, text="Level 2", font=tkFont.Font(family='Helvetica', size=18, weight='bold'), cursor="target", command=lambda: [controller.minWindow(), startLevel(2, controller)]) #bring user to level 2 + minimize current window; should be locked; font=helv36
+        btn3 = tk.Button(self, text="Level 3", font=tkFont.Font(family='Helvetica', size=18, weight='bold'), cursor="target", command=lambda: [controller.minWindow(), startLevel(3, controller)]) #bring user to level 3 + minimize current window; should be locked; font=helv36
+
+        btn2.place(relx=0.5, rely=0.6, anchor="center")
+        btn3.place(relx=0.75, rely=0.6, anchor="center")
 
         #checking and changing button states based off of the level user already unlocked
         if levelToPlay == 1.0:

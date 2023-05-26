@@ -39,6 +39,7 @@ class SampleApp(tk.Tk):
         '''Show a frame for the given page name'''
         frame = self.frames[page_name]
         frame.tkraise()
+        return frame
 
     def exit(self):
         return self.destroy()
@@ -50,7 +51,11 @@ class SampleApp(tk.Tk):
     def minWindow(self):
         self.state(newstate='iconic') # minimize the menu
 
-    def normalWindow(self):
+    def normalWindow(self, page_name):
+        frame = self.show_frame(page_name)
+        # update the status of the buttons
+        if page_name == "LevelSelect": 
+            frame.updateButtons(self)
         self.state(newstate='normal') # return the menu to original size
 
     def update(self):
