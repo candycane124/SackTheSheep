@@ -23,7 +23,7 @@ class SampleApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (Menu, Shop, LevelSelect):
+        for F in (Menu, LevelSelect):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -53,22 +53,11 @@ class SampleApp(tk.Tk):
     def normalWindow(self):
         self.state(newstate='normal') # return the menu to original size
 
+    def update(self):
+        # add something here! Need to update levels page
+        app.after(10000, self.update)
 
-class Shop(tk.Frame):
-
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-        label = tk.Label(self, text="This is the store page", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-
-        button1 = tk.Button(self, text="Back", cursor="sb_left_arrow",
-                            command=lambda: controller.show_frame("Menu"))
-
-        button1.pack()
-        controller.changeOnHover(button1, "green", "white")
-
-if __name__ == "__main__":
+if __name__ == "__main__": #will run if the program is runned from main.py
     app = SampleApp()
     app.title("Sack The Sheep")
     # define window dimensions width and height
@@ -82,5 +71,7 @@ if __name__ == "__main__":
     position_right = int(screen_width / 2 - window_width/2)-8
     # to cover the pygame window
     app.geometry(f'{window_width}x{window_height}+{position_right}+{position_top}')
+
+    app.after(1000, app.update)
     # initialise the window
     app.mainloop()
