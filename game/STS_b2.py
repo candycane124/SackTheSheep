@@ -618,7 +618,7 @@ def startLevel(level, controller):
         pygame.quit()
         sys.exit()
       elif event.type == pygame.MOUSEBUTTONUP and backRect.collidepoint(pygame.mouse.get_pos()): 
-        controller.normalWindow()
+        controller.normalWindow("LevelSelect")
         return
     if backRect.collidepoint(pygame.mouse.get_pos()):
       pygame.mouse.set_cursor(*pygame.cursors.diamond)
@@ -667,7 +667,7 @@ def startLevel(level, controller):
         pygame.quit()
         sys.exit()
       elif event.type == pygame.MOUSEBUTTONUP and backRect.collidepoint(pygame.mouse.get_pos()):
-        controller.normalWindow()
+        controller.normalWindow("LevelSelect")
         return
     if backRect.collidepoint(pygame.mouse.get_pos()):
       pygame.mouse.set_cursor(*pygame.cursors.diamond)
