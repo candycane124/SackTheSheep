@@ -117,7 +117,7 @@ def startLevel(level, controller):
     info = list(map(float,file_content[0].split()))
     # level = info[0]
     walkSpeed = info[1]
-    sprintSpeed = walkSpeed*1.15
+    sprintSpeed = walkSpeed+0.06
     money = int(info[2])
     sackMax = int(info[3])
     sprintGen = info[4]
@@ -291,8 +291,8 @@ def startLevel(level, controller):
   pygame.mouse.set_visible(False)
   while running:
     timer += 1
-    clock.tick(100)
-
+    # clock.tick(60)
+    dt = clock.tick()
     #------------
     #INPUT
     #------------
@@ -322,8 +322,8 @@ def startLevel(level, controller):
                 rays = []
                 buildUp = []
             elif event.key == K_ESCAPE:
-              #send to pause or menu screen
-              pass
+              controller.normalWindow("LevelSelect")
+              return
         if level == 3 and event.type == alienEvent:
           buildUp = abduct(numRay,50,[width,height])
     # ----------
@@ -361,19 +361,19 @@ def startLevel(level, controller):
     if pressed[K_UP] or pressed[K_w]:
       stop= False
       user.moveUp()
-    if pressed[K_LSHIFT] and sprint > 10:
-      user.setSpeed(sprintSpeed)
+    if pressed[K_LSHIFT] and sprint > 0:
+      user.setSpeed(sprintSpeed*dt)
       sprint -= 5
       stop = False
     else:
-      user.setSpeed(walkSpeed)
+      user.setSpeed(walkSpeed*dt)
     if pressed[K_h]:
       user.setSpeed(2)
       sackMax = 3
     if not pressed[K_RIGHT] and not pressed[K_d] and not pressed[K_LEFT] and not pressed[K_a] and not pressed[K_DOWN] and not pressed[K_s] and not pressed[K_UP] and not pressed[K_w]:
       stop = True
     if sprint < 1000:
-      sprint += sprintGen
+      sprint += sprintGen*dt
 
     #win conditions
     if not sheeps and home:
@@ -546,7 +546,7 @@ def startLevel(level, controller):
       file_content = textFile.readlines()
       infoLine = list(map(float,file_content[0].split()))
       infoLine[2] = money
-      if infoLine[0] == level and infoLine != 3:
+      if infoLine[0] == level and infoLine[0] != 3:
         infoLine[0] += 1
     with open('game/stats.txt','w') as outFile:
       outText = ""
@@ -586,7 +586,7 @@ def startLevel(level, controller):
                 username = username[:-1]
               elif event.key == pygame.K_RETURN:
                 submitted = True
-              elif len(username) < 12:
+              elif len(username) < 12 and event.key != pygame.K_SPACE:
                 username += event.unicode
           screen.fill((180,180,180))
           screen.blit(crownImg, (225, 100))
@@ -674,7 +674,7 @@ def startLevel(level, controller):
     else:
       pygame.mouse.set_cursor(*pygame.cursors.arrow)
     screen.blit(loseImg, (0,0))
-    genText(screen,"Score: " + str(score), (250,250,250), [400,250], "middle")
+    genText(screen,"Score: " + str(score), (250,250,250), [380,250], "middle")
     screen.blit(backButton,backRect)
     pygame.display.update()
 

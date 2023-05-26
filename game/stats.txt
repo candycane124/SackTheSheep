@@ -1,2 +1,2 @@
-2.0 0.65 0 1.0 2.0 
+3.0 0.075 5 2.0 0.05 
 level walkSpeed money sackMax sprintGen
