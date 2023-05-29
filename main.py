@@ -9,7 +9,7 @@ from game.STS_b2 import *
 
 class App(tk.Tk):
     '''
-    An class that creates the base for the menu screen, able to switch between frames easier
+    A class that creates the base for the menu screen, able to switch between frames easier
 
     Methods
     -------
