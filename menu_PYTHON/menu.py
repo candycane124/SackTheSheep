@@ -13,6 +13,13 @@ class Menu(tk.Frame):
     def __init__(self, parent, controller):
         '''
         Constructor used to build the frame. Initializes the menu screen onto the display window.
+        
+        Attributes
+        ----------
+        parent: widget
+            The essential starting frame everything is being built off of.
+        controller: widget
+            The base all the frames are placed on top of; where all the shared functions are
         '''
         tk.Frame.__init__(self, parent)
         self.controller = controller

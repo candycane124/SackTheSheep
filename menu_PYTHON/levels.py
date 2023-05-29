@@ -7,16 +7,35 @@ from game.STS_b2 import *
 from game.scores import *
 
 class LevelSelect(tk.Frame):
-
+    '''
+    A class that holds all the components for the level select screen.
+    '''
     def __init__(self, parent, controller):
+        '''
+        Constructor used to build the frame of level select. Initializes the level select screen/frame.
+        
+        Attributes
+        ----------
+        parent: widget
+            The essential starting frame everything is being built off of.
+        controller: widget
+            The base all the frames are placed on top of; where all the shared functions are
+
+        Methods
+        -------
+        resizeImage()
+            Returns the resized image
+        updateButtons()
+            Updates the status of the buttons
+        lock()
+            Display the desired button as being locked; cannot be clicked on
+        unlock()
+            Display the desired button as being unlocked; can be clicked on
+        readLevel() -> float
+            Returns the player's level completion status as a float
+        '''
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        
-        # grabbing the info of the newest level user has unlocked
-        # levelToPlay = self.readLevel()
-
-        # # run first time at once
-        # self.update(controller)
 
         helv36 = tkFont.Font(family='Helvetica', size=18, weight='bold')
 
@@ -73,6 +92,23 @@ class LevelSelect(tk.Frame):
         self.updateButtons(controller)
     
     def resizeImage(self, img, newWidth, newHeight):
+        '''
+        Resizes the image
+
+        Parameters
+        ----------
+        img: image
+            The image to be resized
+        newWidth: int
+            The new desired width
+        newHeight: int
+            The new desired height
+        
+        Return
+        ------
+        newPhotoImage: image
+            The new adjusted image
+        '''
         oldWidth = img.width()
         oldHeight = img.height()
         newPhotoImage = tk.PhotoImage(width=newWidth, height=newHeight)
@@ -85,6 +121,15 @@ class LevelSelect(tk.Frame):
         return newPhotoImage
 
     def updateButtons(self, controller):
+        '''
+        Updates the status of the buttons (level)
+
+        Parameters
+        ----------
+        controller: widget
+            The base all the frames are placed on top of; where all the shared functions are
+        
+        '''
         levelToPlay = self.readLevel()
 
         btn2 = tk.Button(self, text="Level 2", font=tkFont.Font(family='Helvetica', size=18, weight='bold'), cursor="target", command=lambda: [controller.minWindow(), startLevel(2, controller)]) #bring user to level 2 + minimize current window; should be locked; font=helv36
@@ -107,15 +152,39 @@ class LevelSelect(tk.Frame):
             self.unlock(btn3)
 
     def lock(self, btn):
+        '''
+        Display the button desired as being locked
+
+        Parameters
+        ----------
+        btn: widget
+            The button hoping to appear locked
+        '''
         btn["state"] = "disabled"
         return
     
     def unlock(self, btn):
+        '''
+        Display the button desired as being unlocked
+
+        Parameters
+        ----------
+        btn: widget
+            The button hoping to appear unlocked
+        '''
         btn["state"] = "normal"
         self.controller.changeOnHover(btn, "green", "white")
         return
     
     def readLevel(self):
+        '''
+        Reads the level status of the player
+
+        Return
+        ------
+        levelToPlay: float
+            A number signifying the level the user should have unlocked
+        '''
         with open('game\stats.txt','r') as textFile:
             file_content = textFile.readlines()
             info = list(map(float,file_content[0].split()))
