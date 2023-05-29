@@ -29,6 +29,7 @@ class LevelSelect(tk.Frame):
 
         #Title image
         title = ImageTk.PhotoImage(Image.open('menu_PYTHON/menuAssets/LevelTemp.png'))
+        # title = ImageTk.PhotoImage(Image.open('menu_PYTHON/menuAssets/LevelSelectV2.png'))
         labelTitle = tk.Label(self, image=title)
 
         labelTitle.image = title #keeping a reference, so the iamge shows up
@@ -43,18 +44,43 @@ class LevelSelect(tk.Frame):
 
         button = tk.Button(self, image=backButton, background="#A8D465", cursor="sb_left_arrow",
                            command=lambda: controller.show_frame("Menu"))
-        button.pack(side="bottom", anchor="w", padx=25, pady=15)
+        
+
+        hiScoreButton = tk.PhotoImage(file = 'assets/highscore.png')
+        # hiScoreButton = self.resizeImage(hiScoreButton, 60, 28)
+        # hiScoreButton = initialHiScoreButton.zoom(3, 3)
+        # hiScoreButton = hiScoreButton.subsample(4,4)
+        hiScoreButtonTitle = tk.Label(self, image=hiScoreButton)
+
+        hiScoreButtonTitle.image = hiScoreButton #keeping a reference, so the iamge shows up
+        # labelTitle.pack()
+
+        hiButton = tk.Button(self, image=hiScoreButton, background="#A8D465", cursor="target",
+                           command=lambda: controller.show_frame("Menu")) #change the destination
+        
+        button.place(anchor="s", relx=0.15, rely=0.95)
+        hiButton.place(anchor="s", relx=0.85, rely=0.95)
 
         btn1 = tk.Button(self, text="Level 1", cursor="target", font=helv36, command=lambda: [controller.minWindow(), startLevel(1, controller)]) #bring user to level 1 + minimize current window
-        
-
         btn1.place(relx=0.25, rely=0.6, anchor="center")
         
-
         controller.changeOnHover(btn1, "green", "white")
         controller.changeOnHover(button, "green", "#A8D465")
+        controller.changeOnHover(hiButton, "green", "#A8D465")
 
         self.updateButtons(controller)
+    
+    def resizeImage(self, img, newWidth, newHeight):
+        oldWidth = img.width()
+        oldHeight = img.height()
+        newPhotoImage = tk.PhotoImage(width=newWidth, height=newHeight)
+        for x in range(newWidth):
+            for y in range(newHeight):
+                xOld = int(x*oldWidth/newWidth)
+                yOld = int(y*oldHeight/newHeight)
+                rgb = '#%02x%02x%02x' % img.get(xOld, yOld)
+                newPhotoImage.put(rgb, (x, y))
+        return newPhotoImage
 
     def updateButtons(self, controller):
         levelToPlay = self.readLevel()
@@ -94,8 +120,3 @@ class LevelSelect(tk.Frame):
             levelToPlay = info[0]
 
         return levelToPlay
-    
-    # def update(self, controller):
-    #     self.readLevel()
-    #     # run itself again after 1000 ms
-    #     controller.after(1000, self.update(controller)) 
