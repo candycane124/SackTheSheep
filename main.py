@@ -8,7 +8,6 @@ from game.STS_b2 import *
 # from main.shop import shop
 
 class SampleApp(tk.Tk):
-
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         self.wm_geometry("500x500")
@@ -65,7 +64,8 @@ class SampleApp(tk.Tk):
 
 if __name__ == "__main__": #will run if the program is runned from main.py
     app = SampleApp()
-    app.title("Sack The Sheep")
+    app.title("Sack The Sheep") #adding a title to the window
+    app.resizable(0, 0) #disable maximizing window - keeps the window to be 500x500
     # define window dimensions width and height
     window_width = 500
     window_height = 500
