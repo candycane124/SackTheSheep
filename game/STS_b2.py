@@ -580,20 +580,20 @@ def startLevel(level, controller):
                 active = True
               else:
                 active = False
-              boxCol = (140,180,220) if active else (170,170,170)
+              boxCol = (40,80,120) if active else (170,170,170)
             if event.type == pygame.KEYDOWN and active:
               if event.key == pygame.K_BACKSPACE:
                 username = username[:-1]
               elif event.key == pygame.K_RETURN:
                 submitted = True
-              elif len(username) < 12 and event.key != pygame.K_SPACE:
+              elif len(username) < 8 and event.key != pygame.K_SPACE:
                 username += event.unicode
-          screen.fill((180,180,180))
+          screen.fill((200,200,180))
           screen.blit(crownImg, (225, 100))
           txtSurface = font.render(username, True, boxCol)
           screen.blit(txtSurface, (inputBox.x+5, inputBox.y+5))
           pygame.draw.rect(screen, boxCol, inputBox, 2)
-          genText(screen,"New Top Score!",(230,230,130),(180,250),"middle",40)
+          genText(screen,"New Top Score!",(240,200,80),(180,250),"middle",40)
           genText(screen,"Username:",(30,30,30),(220,250),"middle")
           pygame.display.update()
         if username.strip() == "":

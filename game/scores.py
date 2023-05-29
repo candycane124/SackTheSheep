@@ -1,7 +1,7 @@
 import pygame, sys
 from pygame.locals import *
 
-def genText(screen, txt, colour, pos, posType, size=14):
+def genText(screen, txt, colour, pos, posType, size=16):
   '''
   Blit's text to screen
   Parameters
@@ -17,7 +17,8 @@ def genText(screen, txt, colour, pos, posType, size=14):
   posType : Str
     "top-right", "bottom-left", "bottom-right", "top-left", or "middle"
   '''
-  font = pygame.font.Font('freesansbold.ttf', size)
+  font = pygame.font.SysFont("monospace", size)
+  # font = pygame.font.Font('freesansbold.ttf', size)
   rendered = font.render(txt, True, colour)
   rendRect = rendered.get_rect()
   if posType == "top-right":
@@ -43,7 +44,7 @@ def highScore(controller):
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('STS High Scores')
 
-    scores = []
+    highScores = []
 
     files = ["game/scores/lvl1.txt","game/scores/lvl2.txt","game/scores/lvl3.txt"]
     for f in files:
@@ -52,10 +53,14 @@ def highScore(controller):
             info = textFile.readlines()
             scores = info[0].split()
             names = info[1].split()
-        for i in names:
-            currentScores.append(f"{scores[names.index(i)]} {i}")
-        scores.append(currentScores)
+        for i in range(3):
+            currentScores.append(f"{scores[i]} {names[i]}")
+        highScores.append(currentScores)
 
+    background = pygame.transform.scale(pygame.image.load("assets/background.jpg"),(896,504))
+
+    white = (250,250,250)
+    gray = (20,100,20)
     running = True
     while running:
         for event in pygame.event.get():
@@ -66,11 +71,18 @@ def highScore(controller):
             elif event.type == pygame.MOUSEBUTTONUP:
                 controller.normalWindow("LevelSelect")
                 return
-        screen.fill((180,180,180))
-        for level in range(len(scores)):
-            genText(screen,"LEVEL " + str(level),(20,20,20),(50,100+100*level),"middle")
-            for score in scores[level]:
-                genText(screen,score,(20,20,20),(50+50*scores[level].index(score),100+10*level),"middle",10)
+        # screen.fill((180,180,180))
+        screen.blit(background,(-100,0))
+        pygame.draw.rect(screen,gray,(15,80,150,350))
+        pygame.draw.rect(screen,gray,(175,80,150,350))
+        pygame.draw.rect(screen,gray,(335,80,150,350))
+        genText(screen,"Level 1",white,(115,90),"middle",20)
+        genText(screen,"Level 2",white,(115,250),"middle",20)
+        genText(screen,"Level 3",white,(115,410),"middle",20)
+        for i in highScores:
+           for j in i:
+              genText(screen,j.split()[0],white,(150+50*i.index(j),30+160*highScores.index(i)),"top-left")
+              genText(screen,j.split()[1],white,(150+50*i.index(j),150+160*highScores.index(i)),"top-right")
         pygame.display.update()
 
 
