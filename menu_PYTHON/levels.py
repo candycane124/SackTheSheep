@@ -44,7 +44,7 @@ class LevelSelect(tk.Frame):
         # labelTitle.pack()
 
         button = tk.Button(self, image=backButton, background="#A8D465", cursor="sb_left_arrow",
-                           command=lambda: controller.show_frame("Menu"))
+                           command=lambda: controller.showFrame("Menu"))
         
 
         hiScoreButton = tk.PhotoImage(file = 'assets/highscore.png')
