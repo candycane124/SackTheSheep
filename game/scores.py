@@ -37,7 +37,7 @@ def genText(screen, txt, colour, pos, posType, size=16):
     rendRect.center = (pos[1], pos[0])
   screen.blit(rendered,rendRect)
 
-def highScore():
+def highScore(controller):
     pygame.init()
     width = 500
     height = 500
@@ -68,6 +68,9 @@ def highScore():
                 #quit game
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.MOUSEBUTTONUP:
+                controller.normalWindow("LevelSelect")
+                return
         # screen.fill((180,180,180))
         screen.blit(background,(-100,0))
         pygame.draw.rect(screen,gray,(15,80,150,350))
@@ -82,4 +85,5 @@ def highScore():
               genText(screen,j.split()[1],white,(150+50*i.index(j),150+160*highScores.index(i)),"top-right")
         pygame.display.update()
 
-highScore()
+
+# highScore()
