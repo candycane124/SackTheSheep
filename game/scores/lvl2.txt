@@ -1,2 +1,2 @@
-360 315 0
-urdad WWEDAwrd -
+360 317 315
+urdad bamboo WWEDAwrd
