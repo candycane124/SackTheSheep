@@ -4,6 +4,7 @@ import tkinter.font as tkFont
 from PIL import ImageTk, Image
 
 from game.STS_b2 import *
+from game.scores import *
 
 class LevelSelect(tk.Frame):
 
@@ -56,7 +57,8 @@ class LevelSelect(tk.Frame):
         # labelTitle.pack()
 
         hiButton = tk.Button(self, image=hiScoreButton, background="#A8D465", cursor="target",
-                           command=lambda: controller.show_frame("Menu")) #change the destination
+                           command=lambda: [controller.minWindow(), highScore(controller)]) #change the destination
+        
         
         button.place(anchor="s", relx=0.15, rely=0.95)
         hiButton.place(anchor="s", relx=0.85, rely=0.95)

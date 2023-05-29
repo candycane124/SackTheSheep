@@ -4,6 +4,7 @@ from tkinter import font as tkfont
 from menu_PYTHON.levels import LevelSelect
 from menu_PYTHON.menu import Menu
 from game.STS_b2 import *
+
 # from main.shop import shop
 
 class SampleApp(tk.Tk):
