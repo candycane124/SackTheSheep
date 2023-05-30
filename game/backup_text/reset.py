@@ -1,4 +1,4 @@
-def reset():
+def reset(x):
     with open('game/backup_text/stats_backup.txt','r') as statsFile:
         stats = statsFile.readlines()
     with open('game/stats.txt','w') as textFile:
@@ -15,6 +15,12 @@ def reset():
             outText += i
         textFile.write(outText)
 
-    with open('game/scores.txt','w') as textFile:
-        textFile.write("")
-reset()
+    if x:
+        blankScores = "0 0 0 0 0\n- - - - -"
+        with open('game/scores/lvl1.txt','w') as textFile:
+            textFile.write(blankScores)
+        with open('game/scores/lvl2.txt','w') as textFile:
+            textFile.write(blankScores)
+        with open('game/scores/lvl3.txt','w') as textFile:
+            textFile.write(blankScores)
+reset(True)
