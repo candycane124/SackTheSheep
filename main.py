@@ -7,65 +7,117 @@ from game.STS_b2 import *
 
 # from main.shop import shop
 
-class SampleApp(tk.Tk):
+class App(tk.Tk):
+    '''
+    A class that creates the base for the menu screen, able to switch between frames easier
 
-    def __init__(self, *args, **kwargs):
-        tk.Tk.__init__(self, *args, **kwargs)
+    Methods
+    -------
+    showFrame() -> widget
+        Returns the widget/frame being raised to the top
+    exit()
+        Closes/exits the program
+    changeOnHover()
+        Change the color of the button based on its status (hovering or not)
+    minWindow()
+        Minimizes the window
+    normalWindow()
+        Opens the desired minimized window
+    '''
+    def __init__(self):
+        '''
+        Constructor used to build this object. 
+        Initializes the display window.
+        '''
+        tk.Tk.__init__(self)
         self.wm_geometry("500x500")
 
         self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
 
-        # the container is where we'll stack a bunch of frames
-        # on top of each other, then the one we want visible
-        # will be raised above the others
+        # the container is where the frames are going to be stacked on top
+        # This will be necessary for the showFrame function
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
+        #initializing the different pages to be called as a frame
         for F in (Menu, LevelSelect):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
 
-            # put all of the pages in the same location;
-            # the one on the top of the stacking order
-            # will be the one that is visible.
+            # all of the pages are in the same location
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame("Menu")
+        self.showFrame("Menu")
 
-    def show_frame(self, page_name):
-        '''Show a frame for the given page name'''
-        frame = self.frames[page_name]
+    def showFrame(self, pageName):
+        '''
+        Show a frame for the given page name
+
+        Parameters
+        ----------
+        pageName: string
+            The page name of the frame that will be stacked on top
+        
+        Return
+        ------
+        frame: widget
+            The frame currently being raised to the top
+        '''
+        frame = self.frames[pageName]
         frame.tkraise()
         return frame
 
     def exit(self):
+        '''
+        Closes the program
+        '''
         return self.destroy()
 
     def changeOnHover(self, button, colourHover, colourLeave):
+        '''
+        Changes the background colour of buttons based on their current status; hovered or not
+
+        Parameters
+        ----------
+        button: widget
+            The button this color change is applying to
+        colourHover: string
+            The colour to display while the button is being hovered
+        colourLeave: string
+            The colour to display while the button is not being interacted with
+        '''
         button.bind("<Enter>", func=lambda e: button.config(background=colourHover))
         button.bind("<Leave>", func=lambda e: button.config(background=colourLeave))
 
     def minWindow(self):
+        '''
+        Minimizes the desired window
+        '''
         self.state(newstate='iconic') # minimize the menu
 
-    def normalWindow(self, page_name):
-        frame = self.show_frame(page_name)
+    def normalWindow(self, pageName):
+        '''
+        Grabs the window wishing to be reopened and opens it
+
+        Parameters
+        ----------
+        pageName: string
+            The name of the page wanting to be raised
+        '''
+        frame = self.showFrame(pageName)
         # update the status of the buttons
-        if page_name == "LevelSelect": 
+        if pageName == "LevelSelect": 
             frame.updateButtons(self)
         self.state(newstate='normal') # return the menu to original size
 
-    def update(self):
-        # add something here! Need to update levels page
-        app.after(10000, self.update)
-
 if __name__ == "__main__": #will run if the program is runned from main.py
-    app = SampleApp()
-    app.title("Sack The Sheep")
+    app = App()
+    app.title("Sack The Sheep") #adding a title to the window
+    app.resizable(0, 0) #disable maximizing window - keeps the window to be 500x500
     # define window dimensions width and height
     window_width = 500
     window_height = 500
