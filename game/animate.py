@@ -92,7 +92,7 @@ class Animate():
         self.imageList = self.imageDict[self.key]
         self.imageIndex = 0
         self.animationTimer = 0
-        self.animationSpeed = 40 #slightly adjusted for Snow's laptop (initial was 10)
+        self.animationSpeed = 30 #slightly adjusted for Snow's laptop (initial was 10)
     def update(self):
         self.animationTimer +=1
         if self.animationTimer >= self.animationSpeed:
