@@ -53,11 +53,13 @@ def highScore(controller):
             info = textFile.readlines()
             scores = info[0].split()
             names = info[1].split()
-        for i in range(3):
+        for i in range(5):
             currentScores.append(f"{scores[i]} {names[i]}")
         highScores.append(currentScores)
 
     background = pygame.transform.scale(pygame.image.load("assets/background.jpg"),(896,504))
+    backBtn = pygame.transform.scale(pygame.image.load("assets/back.png"),(48,22))
+    backRect = pygame.Rect(226,439,48,22)
 
     white = (250,250,250)
     gray = (20,100,20)
@@ -68,22 +70,22 @@ def highScore(controller):
                 #quit game
                 pygame.quit()
                 sys.exit()
-            elif event.type == pygame.MOUSEBUTTONUP:
+            elif event.type == pygame.MOUSEBUTTONUP and backRect.collidepoint(pygame.mouse.get_pos()):
                 controller.normalWindow("LevelSelect")
                 return
-        # screen.fill((180,180,180))
         screen.blit(background,(-100,0))
-        pygame.draw.rect(screen,gray,(15,80,150,350))
-        pygame.draw.rect(screen,gray,(175,80,150,350))
-        pygame.draw.rect(screen,gray,(335,80,150,350))
+        pygame.draw.rect(screen,gray,(15,80,150,320))
+        pygame.draw.rect(screen,gray,(175,80,150,320))
+        pygame.draw.rect(screen,gray,(335,80,150,320))
         genText(screen,"Level 1",white,(115,90),"middle",20)
         genText(screen,"Level 2",white,(115,250),"middle",20)
         genText(screen,"Level 3",white,(115,410),"middle",20)
-        for i in highScores:
-           for j in i:
-              genText(screen,j.split()[0],white,(150+50*i.index(j),30+160*highScores.index(i)),"top-left")
-              genText(screen,j.split()[1],white,(150+50*i.index(j),150+160*highScores.index(i)),"top-right")
+        for i in range(len(highScores)):
+           for j in range(len(highScores[i])):
+              genText(screen,highScores[i][j].split()[0],white,(150+50*j,30+160*i),"top-left")
+              genText(screen,highScores[i][j].split()[1],white,(150+50*j,150+160*i),"top-right")
+        screen.blit(backBtn,(226,439))
         pygame.display.update()
 
 
-# highScore()
+# highScore("")

@@ -16,11 +16,11 @@ def reset(x):
         textFile.write(outText)
 
     if x:
-        blankScores = "0 0 0\n- - -"
+        blankScores = "0 0 0 0 0\n- - - - -"
         with open('game/scores/lvl1.txt','w') as textFile:
             textFile.write(blankScores)
         with open('game/scores/lvl2.txt','w') as textFile:
             textFile.write(blankScores)
         with open('game/scores/lvl3.txt','w') as textFile:
             textFile.write(blankScores)
-reset(False)
+reset(True)

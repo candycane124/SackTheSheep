@@ -604,7 +604,7 @@ def startLevel(level, controller):
         topNames.pop()
         break
     with open(scoreLoc,'w') as outFile:
-      outFile.write(f"{topScores[0]} {topScores[1]} {topScores[2]}\n{topNames[0]} {topNames[1]} {topNames[2]}")
+      outFile.write(f"{topScores[0]} {topScores[1]} {topScores[2]} {topScores[3]} {topScores[4]}\n{topNames[0]} {topNames[1]} {topNames[2]} {topNames[3]} {topNames[4]}")
 
   backButton = pygame.transform.scale(pygame.image.load("assets/back.png"),(96,44))
   backRect = pygame.Rect(202,398,96,44)
