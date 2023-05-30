@@ -307,7 +307,6 @@ def startLevel(level, controller):
               #'r' to reset
               user.setPos([spawnX,spawnY])
               score = 0
-              money = 0
               sacked = 0
               sprint = 1000
               timer = 0
