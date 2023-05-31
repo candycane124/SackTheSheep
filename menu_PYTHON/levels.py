@@ -40,7 +40,7 @@ class LevelSelect(tk.Frame):
         helv36 = tkFont.Font(family='Helvetica', size=18, weight='bold')
 
         #Background
-        img = ImageTk.PhotoImage(Image.open('assets/grass-588.jpg'))
+        img = ImageTk.PhotoImage(Image.open('menu_PYTHON/menuAssets/background-grass.png'))
         lbl = tk.Label(self, image=img)
         
         lbl.image = img #keeping a reference, so the image will appear properly
@@ -48,7 +48,7 @@ class LevelSelect(tk.Frame):
         lbl.place(relx=0.5, rely=0.5, anchor="center")  # Place label in center of parent.
 
         #Title image
-        title = ImageTk.PhotoImage(Image.open('menu_PYTHON/menuAssets/LevelTemp.png'))
+        title = ImageTk.PhotoImage(Image.open('menu_PYTHON/menuAssets/screen-level.png'))
         # title = ImageTk.PhotoImage(Image.open('menu_PYTHON/menuAssets/LevelSelectV2.png'))
         labelTitle = tk.Label(self, image=title)
 

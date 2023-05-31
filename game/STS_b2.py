@@ -627,27 +627,27 @@ def startLevel(level, controller):
     genText(screen,"Score: " + str(score), (0,0,0), [300,250], "middle")
     match level:
       case 1:
-        if score >= 442:
+        if score >= 450:
           stars = 3
-        elif score >= 428:
+        elif score >= 400:
           stars = 2
-        elif score >= 410:
+        elif score >= 350:
           stars = 1
         else:
           stars = 0
       case 2:
-        if score >= 500:
+        if score >= 400:
           stars = 3
-        elif score >= 390:
+        elif score >= 350:
           stars = 2
-        elif score >= 290:
+        elif score >= 300:
           stars = 1
         else:
           stars = 0
       case 3:
-        if score >= 500:
+        if score >= 450:
           stars = 3
-        elif score >= 350:
+        elif score >= 325:
           stars = 2
         elif score >= 250:
           stars = 1
