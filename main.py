@@ -5,8 +5,6 @@ from menu_PYTHON.levels import LevelSelect
 from menu_PYTHON.menu import Menu
 from game.STS_b2 import *
 
-# from main.shop import shop
-
 class App(tk.Tk):
     '''
     A class that creates the base for the menu screen, able to switch between frames easier
