@@ -31,4 +31,4 @@ def reset(x):
             textFile.write(blankScores)
         with open('game/scores/lvl3.txt','w') as textFile:
             textFile.write(blankScores)
-reset(True)
+reset(False)

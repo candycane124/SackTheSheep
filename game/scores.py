@@ -64,6 +64,8 @@ def highScore(controller):
     white = (250,250,250)
     gray = (20,100,20)
     running = True
+    pygame.mouse.set_visible(True)
+    pygame.mouse.set_cursor(*pygame.cursors.arrow)
     while running:
         for event in pygame.event.get():
             if event.type == QUIT:

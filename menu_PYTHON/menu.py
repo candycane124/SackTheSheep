@@ -25,7 +25,7 @@ class Menu(tk.Frame):
         self.controller = controller
         
         #Background
-        img = ImageTk.PhotoImage(Image.open('assets/grass-588.jpg'))
+        img = ImageTk.PhotoImage(Image.open('menu_PYTHON/menuAssets/background-grass.png'))
         lbl = tk.Label(self, image=img)
         
         lbl.image = img #keeping a reference, so the image will appear properly
@@ -33,7 +33,7 @@ class Menu(tk.Frame):
         lbl.place(relx=0.5, rely=0.5, anchor="center")  # Place label in center of parent.
 
         #Title image
-        title = ImageTk.PhotoImage(Image.open('menu_PYTHON/menuAssets/titlePot.png'))
+        title = ImageTk.PhotoImage(Image.open('menu_PYTHON/menuAssets/screen-title.png'))
         labelTitle = tk.Label(self, image=title)
 
         labelTitle.image = title #keeping a reference, so the iamge shows up
@@ -41,9 +41,9 @@ class Menu(tk.Frame):
         labelTitle.place(bordermode="inside", anchor="n", relx=0.5)
 
         # Add Images to buttons
-        start_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/potentialStart.png") #220 pi x 60 pi
-        shop_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/settingsPot.png")
-        exit_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/exitPot.png")
+        start_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/button-play.png") #220 pi x 60 pi
+        shop_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/button-shop.png")
+        exit_btn = tk.PhotoImage(file = "menu_PYTHON/menuAssets/button-exit.png")
 
         style = ttk.Style()
 
