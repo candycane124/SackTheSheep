@@ -15,7 +15,7 @@ Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player ga
 
 ## Controls
 + Use **W, A, S, D** or the **arrow keys** to move your character within the game.
-+ Sprinting:
++ ==Sprinting:==
   + Hold **LSHIFT** to sprint
   + The purple bar located at the top of the screen represents your sprint bar.
   + If the sprint bar is empty, you will not be able to sprint. Keep an eye on it!
