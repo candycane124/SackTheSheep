@@ -6,7 +6,7 @@ Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player ga
 ### Objective
 + Collect the escaped sheep and bring them back to your house!
 + Dodge obstacles & avoid dying
-+ Collect coins🪙 & upgrade your character👨‍🌾stats in the shop!
++ Collect coins🪙& upgrade your character👨‍🌾stats in the shop!
 
 ### Features
 + 3 levels of increasing difficulty
@@ -15,17 +15,17 @@ Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player ga
 
 ## Controls 🎮
 + Use **W, A, S, D** or the **arrow keys** to move your character within the game.
-+ Sprinting:
++ **Sprinting:**
   + Hold **LSHIFT** to sprint
   + The purple bar located at the top of the screen represents your sprint bar.
   + If the sprint bar is empty, you will not be able to sprint. Keep an eye on it!
-+ Level Reset and Exit:
++ **Level Reset and Exit:**
   + Press **R** key to reset the level you are currently playing
   + If you wish to exit to the levels screen, press the **ESC** key
-+ Interacting with Items:
++ **Interacting with Items:**
   + To interact with items outside of the game, click on them
   + This will allow you to perform actions or access additional features
-+ Collecting Objects:
++ **Collecting Objects:**
   + To collect objects, simply collide your character with the collectable object
   + When the collision occurs, the object will be added to your inventory or provide you with a certain outcome
 ## Project Info
