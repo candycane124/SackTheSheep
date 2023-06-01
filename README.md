@@ -24,7 +24,9 @@ Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player ga
 Built with python using pygame and tkinter.
 
 ### Installation
-?
++ Install Pygame:
+++ Make sure you have Python installed on your system. If not, download and install the latest version from the official Python website (https://www.python.org).
+
 
 ## Credits
 Developed by: Angela Huang, Alina Huan, Snow Shi
