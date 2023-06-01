@@ -111,13 +111,13 @@ def shop(controller):
           currentCursor = grabImg
           genText(screen,str(i.cost) + " coin(s) | " + i.description,black,(490,10),"bottom-left",12)
           if pygame.mouse.get_pressed()[0]:
-            if str(i) == "Golden Clogs: Increases walking & running speed, costs 2 and results in [1, 0.055]" and str(shop[1]) == "Speedy Spurs: Slightly increases walking & running speed, costs 1 and results in [1, 0.04]":
+            if str(i) == "Golden Clogs: Increases walking & running speed, costs 2 and results in [1, 0.055]" and (str(shop[1]) == "Speedy Spurs: Slightly increases walking & running speed, costs 1 and results in [1, 0.04]" or str(shop[0]) == "Speedy Spurs: Slightly increases walking & running speed, costs 1 and results in [1, 0.04]"):
                 genText(screen, "Purchase Speedy Spurs first!",black,(150,250),"middle",24)
-            elif str(i) == "Shiny Sneakers: Greatly increases walking & running speed, costs 3 and results in [1, 0.075]" and str(shop[1]) == "Speedy Spurs: Slightly increases walking & running speed, costs 1 and results in [1, 0.04]":
+            elif str(i) == "Shiny Sneakers: Greatly increases walking & running speed, costs 3 and results in [1, 0.075]" and (str(shop[1]) == "Speedy Spurs: Slightly increases walking & running speed, costs 1 and results in [1, 0.04]" or str(shop[0]) == "Speedy Spurs: Slightly increases walking & running speed, costs 1 and results in [1, 0.04]"):
                 genText(screen, "Purchase Speedy Spurs first!",black,(150,250),"middle",24)
-            elif str(i) == "Shiny Sneakers: Greatly increases walking & running speed, costs 3 and results in [1, 0.075]" and str(shop[1]) == "Golden Clogs: Increases walking & running speed, costs 2 and results in [1, 0.055]":
+            elif str(i) == "Shiny Sneakers: Greatly increases walking & running speed, costs 3 and results in [1, 0.075]" and (str(shop[1]) == "Golden Clogs: Increases walking & running speed, costs 2 and results in [1, 0.055]" or str(shop[0]) == "Golden Clogs: Increases walking & running speed, costs 2 and results in [1, 0.055]"):
                 genText(screen, "Purchase Golden Clogs first!",black,(150,250),"middle",24)
-            elif str(i) == "Magic Mana Potion II: Greatly improves sprint regeneration, costs 2 and results in [4, 0.15]" and str(shop[4]) == "Magic Mana Potion I: Improves sprint regeneration, costs 1 and results in [4, 0.1]":
+            elif str(i) == "Magic Mana Potion II: Greatly improves sprint regeneration, costs 2 and results in [4, 0.15]" and str(shop[-2]) == "Magic Mana Potion I: Improves sprint regeneration, costs 1 and results in [4, 0.1]":
                 genText(screen, "Purchase Magic Mana Potion I first!",black,(150,250),"middle",24)
             elif info[2] >= i.cost: 
                 info[2] -= i.cost
