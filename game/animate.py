@@ -2,6 +2,22 @@ import pygame
 
 class Animate():
     def __init__(self, key):
+        """
+    Initializes an instance of the Animate class.
+
+    Parameters:
+    ----------
+    - key (str): The key to access the image dictionary for a specific animation.
+
+    Attributes:
+    -----------
+    - imageDict (dict): A dictionary containing animation keys and corresponding image paths.
+    - key (str): The key to access the desired animation from the image dictionary.
+    - imageList (list): A list of image paths for the current animation.
+    - imageIndex (int): The index of the current image being displayed.
+    - animationTimer (int): A counter to control the timing of the animation.
+    - animationSpeed (int): The speed at which the animation should play.
+    """
         self.imageDict = {
             'wolfF':['assets/wolfForward/wolfFront1.png',
                      'assets/wolfForward/wolfFront2.png',
@@ -94,6 +110,13 @@ class Animate():
         self.animationTimer = 0
         self.animationSpeed = 40 #slightly adjusted for Snow's laptop (initial was 10)
     def update(self):
+        """
+        Updates the animation state.
+
+        Increments the animation timer and updates the image index
+        to display the next image in the animation sequence. If the end of the
+        sequence is reached, it wraps around to the beginning.
+        """
         self.animationTimer +=1
         if self.animationTimer >= self.animationSpeed:
             self.animationTimer = 0 
@@ -101,13 +124,35 @@ class Animate():
             if self.imageIndex > len(self.imageList)-1:
                 self.imageIndex = 0
     def draw(self,screen,x, y, width, height, flipX, flipY):
+        """
+        Draws the current image of the animation on the screen.
+
+        Parameters:
+        -----------
+        - screen (pygame.Surface): The surface to draw the image on.
+        - x (int): The x-coordinate of the top-left corner of the image.
+        - y (int): The y-coordinate of the top-left corner of the image.
+        - width (int): The width of the image.
+        - height (int): The height of the image.
+        - flipX (bool): Whether to flip the image horizontally.
+        - flipY (bool): Whether to flip the image vertically.
+        """
         image = self.imageList[self.imageIndex]
         image = pygame.transform.scale(pygame.image.load(image),(width, height))
         image = pygame.transform.flip(image, flipX, flipY)
         screen.blit(image,(x,y))
     def getIndex(self):
+        """
+        Returns the index of the current image being displayed.
+
+        Returns:
+        - imageIndex (int): The index of the current image.
+        """
         return self.imageIndex
     def resetIndex(self):
+        """
+        Resets the image index to the beginning of the animation sequence.
+        """
         self.imageIndex = 0 
 
 

@@ -38,6 +38,14 @@ def genText(screen, txt, colour, pos, posType, size=16):
   screen.blit(rendered,rendRect)
 
 def highScore(controller):
+    """
+    Displays high scores for different levels in a Pygame window.
+
+    Parameters:
+    -----------
+    controller: The game controller object.
+
+    """
     pygame.init()
     width = 500
     height = 500
@@ -45,8 +53,9 @@ def highScore(controller):
     pygame.display.set_caption('STS High Scores')
 
     highScores = []
-
+    #File paths for level score files
     files = ["game/scores/lvl1.txt","game/scores/lvl2.txt","game/scores/lvl3.txt"]
+    #Read scores from each file and store them in highScores list
     for f in files:
         currentScores = []
         with open(f,"r") as textFile:
@@ -56,7 +65,7 @@ def highScore(controller):
         for i in range(5):
             currentScores.append(f"{scores[i]} {names[i]}")
         highScores.append(currentScores)
-
+    #Load images
     background = pygame.transform.scale(pygame.image.load("assets/background.jpg"),(896,504))
     backBtn = pygame.transform.scale(pygame.image.load("assets/back.png"),(48,22))
     backRect = pygame.Rect(226,439,48,22)
@@ -71,8 +80,9 @@ def highScore(controller):
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONUP and backRect.collidepoint(pygame.mouse.get_pos()):
-                controller.normalWindow("LevelSelect")
-                return
+              controller.normalWindow("LevelSelect")
+              return
+        #Draw elements on screen
         screen.blit(background,(-100,0))
         pygame.draw.rect(screen,gray,(15,80,150,320))
         pygame.draw.rect(screen,gray,(175,80,150,320))

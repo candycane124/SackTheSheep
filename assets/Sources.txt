@@ -26,6 +26,12 @@ angela
 smoke puff:
 https://nyknck.itch.io/fx062
 
+Coin Image:
+https://totuslotus.itch.io/pixel-coins
+
+Ad Inspo:
+https://free-game-assets.itch.io/free-billboards-and-advertising-pixel-art
+
 originals (made by us):
 win.png, star.png, sheep.png, sack.png, house.png, heart.png, coin.png, caution1.png
 All images used in the shop (pot_I,pot_II,sack,shoe_dia,shoe_gold,shoe_leather) (shoes inspired by minecraft textures)
@@ -63,4 +69,6 @@ https://opengameart.org/content/theremin-laser-sfx
 
 Wolf Hit Sound:
 https://opengameart.org/content/dog-bark
+
+
 
