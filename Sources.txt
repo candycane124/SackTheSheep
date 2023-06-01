@@ -1,6 +1,13 @@
 REFERENCES
 https://www.pygame.org/docs/
 
+Menu GUI:
+https://www.gitfaqs.com/question/how-do-i-reinitialize-a-frame-in-tkinter
+https://www.geeksforgeeks.org/how-to-bind-multiple-commands-to-tkinter-button/
+https://stackoverflow.com/questions/3352918/how-to-center-a-window-on-the-screen-in-tkinter
+https://smarttechways.com/2021/10/13/python-tkinter-minimize-or-maximize-the-windows/
+https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter
+
 
 IMAGES
 grass-588.jpg:
