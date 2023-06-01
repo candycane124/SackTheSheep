@@ -1,4 +1,4 @@
-# SackTheSheep
+# SackTheSheep 🐑
 Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player game. 
 
 ## Game Overview
@@ -6,14 +6,14 @@ Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player ga
 ### Objective
 + Collect the escaped sheep and bring them back to your house!
 + Dodge obstacles & avoid dying
-+ Collect coins & upgrade your character stats in the shop!
++ Collect coins🪙 & upgrade your character👨‍🌾stats in the shop!
 
 ### Features
 + 3 levels of increasing difficulty
 + Shop to upgrade your character stats
-+ A high score system
++ A high score system ⭐
 
-## Controls
+## Controls 🎮
 + Use **W, A, S, D** or the **arrow keys** to move your character within the game.
 + Sprinting:
   + Hold **LSHIFT** to sprint
@@ -30,8 +30,8 @@ Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player ga
   + When the collision occurs, the object will be added to your inventory or provide you with a certain outcome
 ## Project Info
 Built with python using pygame and tkinter.
-
-### Installation
+ 
+### Installation 🖥️
 + Install Pygame 🐍:
   + Make sure you have Python installed on your system. If not, download and install the latest version from the official Python website (https://www.python.org).
   + Open a command prompt or terminal window.
