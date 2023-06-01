@@ -24,8 +24,23 @@ Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player ga
 Built with python using pygame and tkinter.
 
 ### Installation
-?
++ Install Pygame:
+  + Make sure you have Python installed on your system. If not, download and install the latest version from the official Python website (https://www.python.org).
+  + Open a command prompt or terminal window.
+  + Type the following command and press Enter to install Pygame:
+    + `pip install pygame`
++ Install Pillow:
+  + Ensure you have downloaded Pillow on your system as our game utilizes this image processor
+  + Open a command prompt or terminal window.
+  + Type the following command and press Enter to install Pillow:
+    + `-m pip install --upgrade pip`
+    + `-m pip install --upgrade Pillow`
++ Launch the Software:
+  + 
+
+
 
 ## Credits
 Developed by: Angela Huang, Alina Huan, Snow Shi
+
 Last Updated: 30 May 2023

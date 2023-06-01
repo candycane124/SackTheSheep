@@ -1,0 +1,65 @@
+REFERENCES
+https://www.pygame.org/docs/
+
+Menu GUI:
+https://www.gitfaqs.com/question/how-do-i-reinitialize-a-frame-in-tkinter
+https://www.geeksforgeeks.org/how-to-bind-multiple-commands-to-tkinter-button/
+https://stackoverflow.com/questions/3352918/how-to-center-a-window-on-the-screen-in-tkinter
+https://smarttechways.com/2021/10/13/python-tkinter-minimize-or-maximize-the-windows/
+https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter
+
+
+IMAGES
+grass-588.jpg:
+https://s3.amazonaws.com/spoonflower/public/design_thumbnails/0424/5908/1431605648965_shop_thumb.png
+
+background.jpg:
+https://i.ytimg.com/vi/9TlmBmMonIc/maxresdefault.jpg
+
+character frames:
+https://oisougabo.itch.io/gap-i
+
+wolf frames:
+https://finalbossblues.itch.io/wolf-pack
+
+explosion frames:
+https://nyknck.itch.io/fx062
+
+win, star, sheep, sack, lose, house, highscore, heart, crown, coin, caution1, back, all shop images, and all menu screen images:
+orginal assets created using https://www.piskelapp.com/p/create/sprite
+
+
+SOUNDS
+Coin Collection:
+https://opengameart.org/content/10-8bit-coin-sounds
+
+Sheep Collection:
+https://opengameart.org/content/sheep-baa
+
+Level 1 Backtrack:
+https://tallbeard.itch.io/music-loop-bundle
+
+Level 2 Backtrack:
+https://opengameart.org/content/meadow-thoughts
+
+Level 3 Backtrack:
+https://opengameart.org/content/story-time
+
+Intro Track:
+https://opengameart.org/content/dodedo
+
+Gameover:
+https://opengameart.org/content/69-game-over-jingles-pack
+
+Win:
+https://opengameart.org/content/win-sound-effect
+
+Warning:
+https://opengameart.org/content/short-alarma
+
+Laser:
+https://opengameart.org/content/theremin-laser-sfx
+
+Wolf Hit:
+https://opengameart.org/content/dog-bark
+

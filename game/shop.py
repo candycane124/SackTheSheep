@@ -70,12 +70,6 @@ def shop(controller):
       raw.append(i)
       itemData = i.split(",")
       shop.append(Item(itemData[0],itemData[1]=="True",(int(itemData[2]),int(itemData[3])),(int(itemData[4]),int(itemData[5])),int(itemData[6]),itemData[7],[int(itemData[8]),float(itemData[9])]))
-    
-  # shop = [
-  #     Item("assets/shop/sack.png",False,(70,70),(120,210),3,"Better Sack: Carry up to 2 sheeps at a time!",[3,1]),
-  #     Item("assets/shop/shoe.png",False,(78,64),(220,310),2,"Speedy Spurs: Increases your walking and running speed!",[1,0.1]),
-  #     Item("assets/shop/temp_pot.png",True,(60,60),(410,230),2,"Magic Mana: Improve your sprint regeneration!",[4,0.5])
-  # ]
 
     #back
     backPos = 15
@@ -117,20 +111,28 @@ def shop(controller):
           currentCursor = grabImg
           genText(screen,str(i.cost) + " coin(s) | " + i.description,black,(490,10),"bottom-left",12)
           if pygame.mouse.get_pressed()[0]:
-            if info[2] >= i.cost:
-              info[2] -= i.cost
-              raw.pop(shop.index(i))
-              shop.remove(i)
-              info[i.ability[0]] = i.ability[1]
-              with open('game\stats.txt','w') as outFile:
-                newStats = ""
-                for j in info:
-                  newStats += str(j)
-                  # if j != info[-1]:
-                  newStats += " "
-                newStats += "\nlevel walkSpeed money sackMax sprintGen"
-                outFile.write(newStats)
-              buyTimer = True
+            if str(i) == "Golden Clogs: Increases walking & running speed, costs 2 and results in [1, 0.055]" and str(shop[1]) == "Speedy Spurs: Slightly increases walking & running speed, costs 1 and results in [1, 0.04]":
+                genText(screen, "Purchase Speedy Spurs first!",black,(150,250),"middle",24)
+            elif str(i) == "Shiny Sneakers: Greatly increases walking & running speed, costs 3 and results in [1, 0.075]" and str(shop[1]) == "Speedy Spurs: Slightly increases walking & running speed, costs 1 and results in [1, 0.04]":
+                genText(screen, "Purchase Speedy Spurs first!",black,(150,250),"middle",24)
+            elif str(i) == "Shiny Sneakers: Greatly increases walking & running speed, costs 3 and results in [1, 0.075]" and str(shop[1]) == "Golden Clogs: Increases walking & running speed, costs 2 and results in [1, 0.055]":
+                genText(screen, "Purchase Golden Clogs first!",black,(150,250),"middle",24)
+            elif str(i) == "Magic Mana Potion II: Greatly improves sprint regeneration, costs 2 and results in [4, 0.15]" and str(shop[4]) == "Magic Mana Potion I: Improves sprint regeneration, costs 1 and results in [4, 0.1]":
+                genText(screen, "Purchase Magic Mana Potion I first!",black,(150,250),"middle",24)
+            elif info[2] >= i.cost: 
+                info[2] -= i.cost
+                raw.pop(shop.index(i))
+                shop.remove(i)
+                info[i.ability[0]] = i.ability[1]
+                with open('game\stats.txt','w') as outFile:
+                    newStats = ""
+                    for j in info:
+                        newStats += str(j)
+                        # if j != info[-1]:
+                        newStats += " "
+                    newStats += "\nlevel walkSpeed money sackMax sprintGen"
+                    outFile.write(newStats)
+                buyTimer = True
             else:
               errTimer = True
         screen.blit(i.image, i.rect)

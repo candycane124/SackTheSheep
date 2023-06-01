@@ -30,5 +30,4 @@ def reset(x):
             textFile.write(blankScores)
         with open('game/scores/lvl3.txt','w') as textFile:
             textFile.write(blankScores)
-# Reset the game with score reset
-reset(True)
+reset(False)
