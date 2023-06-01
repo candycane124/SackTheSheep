@@ -13,6 +13,7 @@ class Item():
           self.ability = ability
       def __str__(self):
           return f"{self.description}, costs {self.cost} and results in {self.ability}"
+      
 
 def genText(screen, txt, colour, pos, posType, fontSize=12):
     '''
@@ -61,7 +62,8 @@ def shop(controller):
   with open('game/stats.txt','r') as textFile:
     file_content = textFile.readlines()
     info = list(map(float,file_content[0].split()))
-
+  
+  item = []
   shop = []
   raw = []
   with open('game/shop_items.txt','r') as textFile:
@@ -70,6 +72,7 @@ def shop(controller):
       raw.append(i)
       itemData = i.split(",")
       shop.append(Item(itemData[0],itemData[1]=="True",(int(itemData[2]),int(itemData[3])),(int(itemData[4]),int(itemData[5])),int(itemData[6]),itemData[7],[int(itemData[8]),float(itemData[9])]))
+      item.append(itemData[7])
 
     #back
     backPos = 15
@@ -111,18 +114,17 @@ def shop(controller):
           currentCursor = grabImg
           genText(screen,str(i.cost) + " coin(s) | " + i.description,black,(490,10),"bottom-left",12)
           if pygame.mouse.get_pressed()[0]:
-            if str(i) == "Golden Clogs: Increases walking & running speed, costs 2 and results in [1, 0.055]" and (str(shop[1]) == "Speedy Spurs: Slightly increases walking & running speed, costs 1 and results in [1, 0.04]" or str(shop[0]) == "Speedy Spurs: Slightly increases walking & running speed, costs 1 and results in [1, 0.04]"):
+            if (i.description == "Golden Clogs: Increases walking & running speed") and checkItem("Speedy Spurs: Slightly increases walking & running speed", item) == True:
                 genText(screen, "Purchase Speedy Spurs first!",black,(150,250),"middle",24)
-            elif str(i) == "Shiny Sneakers: Greatly increases walking & running speed, costs 3 and results in [1, 0.075]" and (str(shop[1]) == "Speedy Spurs: Slightly increases walking & running speed, costs 1 and results in [1, 0.04]" or str(shop[0]) == "Speedy Spurs: Slightly increases walking & running speed, costs 1 and results in [1, 0.04]"):
-                genText(screen, "Purchase Speedy Spurs first!",black,(150,250),"middle",24)
-            elif str(i) == "Shiny Sneakers: Greatly increases walking & running speed, costs 3 and results in [1, 0.075]" and (str(shop[1]) == "Golden Clogs: Increases walking & running speed, costs 2 and results in [1, 0.055]" or str(shop[0]) == "Golden Clogs: Increases walking & running speed, costs 2 and results in [1, 0.055]"):
+            elif i.description == "Shiny Sneakers: Greatly increases walking & running speed" and checkItem("Golden Clogs: Increases walking & running speed", item) == True:
                 genText(screen, "Purchase Golden Clogs first!",black,(150,250),"middle",24)
-            elif str(i) == "Magic Mana Potion II: Greatly improves sprint regeneration, costs 2 and results in [4, 0.15]" and str(shop[-2]) == "Magic Mana Potion I: Improves sprint regeneration, costs 1 and results in [4, 0.1]":
+            elif i.description == "Magic Mana Potion II: Greatly improves sprint regeneration" and checkItem("Magic Mana Potion I: Improves sprint regeneration", item) == True:
                 genText(screen, "Purchase Magic Mana Potion I first!",black,(150,250),"middle",24)
             elif info[2] >= i.cost: 
                 info[2] -= i.cost
                 raw.pop(shop.index(i))
                 shop.remove(i)
+                item.remove(i.description)
                 info[i.ability[0]] = i.ability[1]
                 with open('game\stats.txt','w') as outFile:
                     newStats = ""
@@ -133,6 +135,7 @@ def shop(controller):
                     newStats += "\nlevel walkSpeed money sackMax sprintGen"
                     outFile.write(newStats)
                 buyTimer = True
+                
             else:
               errTimer = True
         screen.blit(i.image, i.rect)
@@ -173,5 +176,10 @@ def shop(controller):
   with open('game/shop_items.txt','w') as outFile:
     for i in raw:
       outFile.write(i)
+
+def checkItem(description, item):
+  if description in item:
+    return True
+  return False
 
 # shop()
