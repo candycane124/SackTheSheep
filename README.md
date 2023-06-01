@@ -29,6 +29,14 @@ Built with python using pygame and tkinter.
   + Open a command prompt or terminal window.
   + Type the following command and press Enter to install Pygame:
     + _pip install pygame_ 
++ Install Pillow:
+  + Ensure you have downloaded Pillow on your system as our game utilizes this image processor
+  + Open a command prompt or terminal window.
+  + Type the following command and press Enter to install Pillow:
+    + -m pip install --upgrade pip
+    + -m pip install --upgrade Pillow
++ Launch the Software:
+  + 
 
 
 
