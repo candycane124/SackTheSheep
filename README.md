@@ -36,11 +36,16 @@ Built with python using pygame and tkinter.
     + `-m pip install --upgrade pip`
     + `-m pip install --upgrade Pillow`
 + Launch the Software:
-  + 
+  + Open a command prompt or terminal window.
+  + Run the main script by executing the following command:
+    + `python main.py`
+  + The software should now launch, and you can start enjoying it!
+ 
++ Note: Please ensure that your system meets the software's minimum requirements, as specified in the software's accompanying documentation.
 
 
 
 ## Credits
 Developed by: Angela Huang, Alina Huan, Snow Shi
 
-Last Updated: 30 May 2023
+Last Updated: 01 June 2023
