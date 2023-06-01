@@ -26,6 +26,10 @@ Built with python using pygame and tkinter.
 ### Installation
 + Install Pygame:
   + Make sure you have Python installed on your system. If not, download and install the latest version from the official Python website (https://www.python.org).
+  + Open a command prompt or terminal window.
+  + Type the following command and press Enter to install Pygame:
+    + _pip install pygame_ 
+
 
 
 ## Credits
