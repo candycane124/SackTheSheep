@@ -34,4 +34,5 @@ Built with python using pygame and tkinter.
 
 ## Credits
 Developed by: Angela Huang, Alina Huan, Snow Shi
+
 Last Updated: 30 May 2023

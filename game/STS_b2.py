@@ -307,7 +307,6 @@ def startLevel(level, controller):
               #'r' to reset
               user.setPos([spawnX,spawnY])
               score = 0
-              money = 0
               sacked = 0
               sprint = 1000
               timer = 0
@@ -347,33 +346,34 @@ def startLevel(level, controller):
     # CHARACTER MOVEMENT
     # ------------------
     pressed = pygame.key.get_pressed()
-    if pressed[K_RIGHT] or pressed[K_d]:
-      faceRight = True
-      stop = False
-      user.moveRight()
-    if pressed[K_LEFT] or pressed[K_a]:
-      faceRight = False
-      stop = False
-      user.moveLeft()
-    if pressed[K_DOWN] or pressed[K_s]:
-      stop = False
-      user.moveDown()
-    if pressed[K_UP] or pressed[K_w]:
-      stop= False
-      user.moveUp()
-    if pressed[K_LSHIFT] and sprint > 0:
-      user.setSpeed(sprintSpeed*dt)
-      sprint -= 5
-      stop = False
-    else:
-      user.setSpeed(walkSpeed*dt)
-    if pressed[K_h]:
-      user.setSpeed(2)
-      sackMax = 3
-    if not pressed[K_RIGHT] and not pressed[K_d] and not pressed[K_LEFT] and not pressed[K_a] and not pressed[K_DOWN] and not pressed[K_s] and not pressed[K_UP] and not pressed[K_w]:
-      stop = True
-    if sprint < 1000:
-      sprint += sprintGen*dt
+    if lifeStatus != False:
+      if pressed[K_RIGHT] or pressed[K_d]:
+        faceRight = True
+        stop = False
+        user.moveRight()
+      if pressed[K_LEFT] or pressed[K_a]:
+        faceRight = False
+        stop = False
+        user.moveLeft()
+      if pressed[K_DOWN] or pressed[K_s]:
+        stop = False
+        user.moveDown()
+      if pressed[K_UP] or pressed[K_w]:
+        stop= False
+        user.moveUp()
+      if pressed[K_LSHIFT] and sprint > 0:
+        user.setSpeed(sprintSpeed*dt)
+        sprint -= 5
+        stop = False
+      else:
+        user.setSpeed(walkSpeed*dt)
+      if pressed[K_h]:
+        user.setSpeed(2)
+        sackMax = 3
+      if not pressed[K_RIGHT] and not pressed[K_d] and not pressed[K_LEFT] and not pressed[K_a] and not pressed[K_DOWN] and not pressed[K_s] and not pressed[K_UP] and not pressed[K_w]:
+        stop = True
+      if sprint < 1000:
+        sprint += sprintGen*dt
 
     #win conditions
     if not sheeps and home:
@@ -628,27 +628,27 @@ def startLevel(level, controller):
     genText(screen,"Score: " + str(score), (0,0,0), [300,250], "middle")
     match level:
       case 1:
-        if score >= 442:
+        if score >= 450:
           stars = 3
-        elif score >= 428:
+        elif score >= 400:
           stars = 2
-        elif score >= 410:
+        elif score >= 350:
           stars = 1
         else:
           stars = 0
       case 2:
-        if score >= 500:
+        if score >= 400:
           stars = 3
-        elif score >= 390:
+        elif score >= 350:
           stars = 2
-        elif score >= 290:
+        elif score >= 300:
           stars = 1
         else:
           stars = 0
       case 3:
-        if score >= 500:
+        if score >= 450:
           stars = 3
-        elif score >= 350:
+        elif score >= 325:
           stars = 2
         elif score >= 250:
           stars = 1
