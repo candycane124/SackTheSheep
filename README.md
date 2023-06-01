@@ -14,8 +14,9 @@ Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player ga
 + A high score system
 
 ## Controls
+```diff
 + Use **W, A, S, D** or the **arrow keys** to move your character within the game.
-+ ==Sprinting:==
++ Sprinting:
   + Hold **LSHIFT** to sprint
   + The purple bar located at the top of the screen represents your sprint bar.
   + If the sprint bar is empty, you will not be able to sprint. Keep an eye on it!
@@ -28,7 +29,7 @@ Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player ga
 + Collecting Objects:
   + To collect objects, simply collide your character with the collectable object
   + When the collision occurs, the object will be added to your inventory or provide you with a certain outcome
-
+ ```
 ## Project Info
 Built with python using pygame and tkinter.
 
