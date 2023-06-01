@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter import ttk
 # loading Python Imaging Library
 from PIL import ImageTk, Image
-import pygame
 from game.shop import shop
 
 class Menu(tk.Frame):
