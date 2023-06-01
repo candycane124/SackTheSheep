@@ -114,7 +114,7 @@ def shop(controller):
           currentCursor = grabImg
           genText(screen,str(i.cost) + " coin(s) | " + i.description,black,(490,10),"bottom-left",12)
           if pygame.mouse.get_pressed()[0]:
-            if (i.description == "Golden Clogs: Increases walking & running speed") and checkItem("Speedy Spurs: Slightly increases walking & running speed", item) == True:
+            if (i.description == "Golden Clogs: Increases walking & running speed" or i.description == "Shiny Sneakers: Greatly increases walking & running speed") and checkItem("Speedy Spurs: Slightly increases walking & running speed", item) == True:
                 genText(screen, "Purchase Speedy Spurs first!",black,(150,250),"middle",24)
             elif i.description == "Shiny Sneakers: Greatly increases walking & running speed" and checkItem("Golden Clogs: Increases walking & running speed", item) == True:
                 genText(screen, "Purchase Golden Clogs first!",black,(150,250),"middle",24)
