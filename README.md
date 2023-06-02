@@ -25,9 +25,13 @@ Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player ga
 + **Interacting with Items:**
   + To interact with items outside of the game, click on them
   + This will allow you to perform actions or access additional features
+  + Items in the shop cost coins (your coins will be indicated in the top right, either in-game or on the shop page)
 + **Collecting Objects:**
   + To collect objects, simply collide your character with the collectable object
   + When the collision occurs, the object will be added to your inventory or provide you with a certain outcome
+  + You will be unable to collect more sheep if your sack (indicated in the top right) is full, until you return home to release the sheep
+
+
 ## Project Info
 Built with python using pygame and tkinter.
  
@@ -56,4 +60,4 @@ Built with python using pygame and tkinter.
 ## Credits
 Developed by: Angela Huang, Alina Huan, Snow Shi
 
-Last Updated: 01 June 2023
+Last Updated: 02 June 2023
