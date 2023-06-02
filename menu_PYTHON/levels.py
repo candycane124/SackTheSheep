@@ -23,8 +23,6 @@ class LevelSelect(tk.Frame):
 
         Methods
         -------
-        resizeImage()
-            Returns the resized image
         updateButtons()
             Updates the status of the buttons
         lock()
@@ -90,35 +88,6 @@ class LevelSelect(tk.Frame):
         controller.changeOnHover(hiButton, "green", "#A8D465")
 
         self.updateButtons(controller)
-    
-    def resizeImage(self, img, newWidth, newHeight):
-        '''
-        Resizes the image
-
-        Parameters
-        ----------
-        img: image
-            The image to be resized
-        newWidth: int
-            The new desired width
-        newHeight: int
-            The new desired height
-        
-        Return
-        ------
-        newPhotoImage: image
-            The new adjusted image
-        '''
-        oldWidth = img.width()
-        oldHeight = img.height()
-        newPhotoImage = tk.PhotoImage(width=newWidth, height=newHeight)
-        for x in range(newWidth):
-            for y in range(newHeight):
-                xOld = int(x*oldWidth/newWidth)
-                yOld = int(y*oldHeight/newHeight)
-                rgb = '#%02x%02x%02x' % img.get(xOld, yOld)
-                newPhotoImage.put(rgb, (x, y))
-        return newPhotoImage
 
     def updateButtons(self, controller):
         '''
