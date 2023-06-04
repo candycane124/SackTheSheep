@@ -1,4 +1,12 @@
 def reset(x):
+    '''
+    Resets all information to initial condition.
+
+    Parameters
+    ----------
+    x: boolean
+        True or False; Run if true
+    '''
     with open('game/backup_text/stats_backup.txt','r') as statsFile:
         stats = statsFile.readlines()
     with open('game/stats.txt','w') as textFile:
