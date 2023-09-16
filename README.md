@@ -1,19 +1,19 @@
-# SackTheSheep 🐑
-Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player game. 
+# Sack The Sheep 🐑
+Hello! Welcome to our game, **Sack the Sheep**, a fun 2D top-down single-player game -- built using Python (Pygame, Tkinter & Pillow).
 
 ## Game Overview
 
 ### Objective
 + Collect the escaped sheep and bring them back to your house!
-+ Dodge obstacles & avoid dying
-+ Collect coins🪙& upgrade your character👨‍🌾stats in the shop!
++ Dodge obstacles to avoid dying
++ Collect 🪙coins & upgrade your 👨‍🌾character stats in the shop
 
 ### Features
 + 3 levels of increasing difficulty
 + Shop to upgrade your character stats
 + A high score system ⭐
 
-## Controls 🎮
+### Controls 🎮
 + Use **W, A, S, D** or the **arrow keys** to move your character within the game.
 + **Sprinting:**
   + Hold **LSHIFT** to sprint
@@ -30,12 +30,8 @@ Hello! Welcome to our game, **Sack the Sheep**, a fun, top-down single player ga
   + To collect objects, simply collide your character with the collectable object
   + When the collision occurs, the object will be added to your inventory or provide you with a certain outcome
   + You will be unable to collect more sheep if your sack (indicated in the top right) is full, until you return home to release the sheep
-
-
-## Project Info
-Built with python using pygame and tkinter.
  
-### Installation 🖥️
+## Installation 🖥️
 + **Install Pygame 🐍:**
   + Make sure you have Python installed on your system. If not, download and install the latest version from the official Python website (https://www.python.org).
   + Open a command prompt or terminal window.
@@ -55,9 +51,7 @@ Built with python using pygame and tkinter.
  
 + Note: Please ensure that your system meets the software's minimum requirements, as specified in the software's accompanying documentation.
 
-
-
 ## Credits
-Developed by: Angela Huang, Alina Huan, Snow Shi
+Developed by: Angela Huang, Alina Huan, & Snow Shi
 
 Last Updated: 02 June 2023
