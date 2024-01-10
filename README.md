@@ -1,6 +1,9 @@
 # Sack The Sheep 🐑
 Hello! Welcome to our game, **Sack the Sheep**, a fun 2D top-down single-player game -- built using Python (Pygame, Tkinter & Pillow).
 
+<img width="284" alt="STS_title" src="https://github.com/candycane124/SackTheSheep/assets/93748376/5a09b8d0-265b-47f7-9360-7101064d9215">
+<img width="284" alt="STS_level" src="https://github.com/candycane124/SackTheSheep/assets/93748376/7c645829-2b8b-43b9-b341-8b4bd4ca0084">
+
 ## Game Overview
 
 ### Objective
